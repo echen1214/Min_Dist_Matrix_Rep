@@ -29,6 +29,7 @@ Calculates distance matrices for a set of structures and run analyses that class
 
 Features
 --------
+-Gets PDBs
 
 * TODO
 
