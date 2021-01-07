@@ -176,12 +176,13 @@ def find_medoid(feats: np.ndarray, ind_map: list):
         from medoid to furthest from medoid
 
     """
-    if len(feats.shape) == 2:
+
+    if len(feats.shape) == 1:
         return ind_map
     d_mat = feat_dist_matrix(feats)
     ## rank by closeness to medoid
     med_ind = np.argmin(d_mat.sum(axis=0))
-    print(med_ind)
+    print("med_ind", med_ind)
     sort_ind = np.argsort(d_mat[med_ind])
     return ([ind_map[x] for x in sort_ind])
 
@@ -470,7 +471,7 @@ def color_text(res: str, res_num: int):
     for i,reg in enumerate(region_list):
         if res_num in reg:
             return(fg("%s"%color_list[i])+res+str(res_num)+attr(0))
-    return(res+str(res_num))
+    return res+str(res_num)
 
 def plot_zscore(cluster1, cluster2, feats, min_dist, zscore, res_list, uniprot_seq, top=10, \
                 xcutoff=3.5, ycutoff=5):
