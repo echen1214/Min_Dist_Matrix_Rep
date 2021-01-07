@@ -1,9 +1,11 @@
 from io import BytesIO
-from ftplib import FTP, all_errors
+# from ftplib import FTP, all_errors
 import gzip
 import json
 import xml.etree.ElementTree as ET
 import warnings
+from urllib.request import urlopen
+from urllib.error import URLError
 from Bio.PDB import PDBParser, Select, PDBIO
 from Bio.PDB.PDBExceptions import PDBConstructionWarning
 from numpy import all
@@ -76,13 +78,14 @@ class Dry_Apo_PDB(Select):
             return 0
 
 class PDB_Processer:
-    def __init__(self, NCAA:list = [], check_SIFTs:bool=True, ftp_url:str='ftp.ebi.ac.uk', \
+    def __init__(self, NCAA:list = [], check_SIFTs:bool=True, ftp_url:str='ftp.ebi.ac.uk/pub/databases/msd/sifts/xml', \
                  filter_warnings = True
                 ):
         self.check_SIFTs=check_SIFTs
-        if self.check_SIFTs:
-            self.ftp = FTP(ftp_url)
-            self.ftp.login()
+        # if self.check_SIFTs:
+        #     self.ftp = FTP(ftp_url)
+        #     self.ftp.login()
+        #     self.ftp.set_debuglevel(2)
         if filter_warnings:
             warnings.filterwarnings("ignore", category=PDBConstructionWarning)
         self.select = Dry_Apo_PDB(*NCAA)
@@ -234,13 +237,11 @@ class PDB_Processer:
 
         return out
 ## make the FTP login part of the initialization of the class
-    def _get_xml_str(self, pdb: str, num_attempts: int = 3):
+    def _get_xml_str(self, pdb: str, num_attempts: int = 3, ftp_url:str='ftp.ebi.ac.uk',):
         """ Using the PDBe ftp to download to local memory and unzip the XML file
         encoding the specified PDB residues numbering to the SIFTs database.
 
-        Todo
-        ----
-        implement this file as a class and include the ftp login in the class initialization
+        todo: find a way to only login once
 
         Parameters
         ----------
@@ -256,21 +257,23 @@ class PDB_Processer:
 
         """
         pdb = pdb.lower()
-        # ftp = FTP(ftp_url)
-        # ftp.login()
-        #
-        # BIO = BytesIO()
         total_attempts = 0
         while (total_attempts <= num_attempts):
             try:
-                with BytesIO() as bytesio:
-                    self.ftp.retrbinary("RETR /pub/databases/msd/sifts/xml/%s.xml.gz"%pdb, callback=bytesio.write)
-                    bytesio.seek(0) # Go back to the start
-                    with gzip.GzipFile(fileobj=bytesio) as zippy:
+                with urlopen('ftp://ftp.ebi.ac.uk/pub/databases/msd/sifts/xml/%s.xml.gz'%pdb) as gz_file:
+                    with gzip.GzipFile(fileobj=gz_file) as zippy:
                         data = zippy.read()
                         return data
-            except all_errors as e:
+                # with bytesio as BytesIO():
+                #     self.ftp.retrbinary("RETR /%s.xml.gz"%pdb, callback=bytesio.write)
+                #     bytesio.seek(0)
+                #     with gzip.GzipFile(fileobj=bytesio) as zippy
+                #         data = zippy.read()
+            except URLError as e:
                 print ("%s, retrying: #%i" % (e,total_attempts))
+            # except all_errors as e:
+            #     print ("%s, retrying: #%i" % (e,total_attempts))
+
             total_attempts += 1
 
 

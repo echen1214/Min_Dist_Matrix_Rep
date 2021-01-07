@@ -141,8 +141,8 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:ndarray, residues2:
 
     if not isinstance(residues1, ndarray):
         raise TypeError('residues1 must be an array')
-    if not isinstance(residues1[0], Residue):
-        raise TypeError('array must contain Residue objects')
+    # if not isinstance(residues1[0], Residue):
+    #     raise TypeError('array must contain Residue objects')
     if residues2 is None:
         symmetric = True
         residues2 = residues1
@@ -151,8 +151,8 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:ndarray, residues2:
         symmetric = False
         if not isinstance(residues2, ndarray):
             raise TypeError('residues2 must be an array')
-        if not isinstance(residues2[0], Residue):
-            raise TypeError('array must contain Residue objects')
+        # if not isinstance(residues2[0], Residue):
+        #     raise TypeError('array must contain Residue objects')
 
     atomcoords1 = np.array([x.getCoords() if isinstance(x,Residue) else None for x in residues1], dtype=ndarray)
     atomcoords2 = np.array([x.getCoords() if isinstance(x,Residue) else None for x in residues2], dtype=ndarray)
