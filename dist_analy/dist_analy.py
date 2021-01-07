@@ -282,10 +282,12 @@ def get_shortest_dist_matrix(file: str, res_list: list, chain: str,
     """
     structure= pdbfile.parsePDB(file, chain=chain)
     hv = structure.getHierView()
+    obj = hv[chain]
     res_obj = np.empty(len(res_list), dtype=Residue)
     for i,res in enumerate(res_list):
-        if obj.getResidue(res):
-            res_obj[i] = obj.getResidue(res)
+        temp_obj = obj.getResidue(res)
+        if temp_obj:
+            res_obj[i] = temp_obj
     # res_obj= np.array(hv[chain], dtype=Residue)[res_list]
     dist_matrix = build_shortest_dist_matrix(res_obj, res_list, min_dist=min_dist, \
                                             no_adj=no_adj)
