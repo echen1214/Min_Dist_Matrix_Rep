@@ -22,12 +22,12 @@ MISSING = [37,38,39,40,41,42]
 def test_get_ca_dist_matrix(res_list):
     """Tests get_ca_dist_matrix
     """
-    file = './datafiles/pdb_files/4EOQ.pdb'
+    file = './datafiles/pdb_files/testing/4EOQ.pdb'
     chain = 'A'
     mat = dist_analy.get_ca_dist_matrix(file, res_list, chain)
     dist_mat = np.around(mat, 5)
 
-    KI_npy_file = './datafiles/npy_files/4EOQ.pdb_KI.npy'
+    KI_npy_file = './datafiles/npy_files/ref/4EOQ.pdb_KI.npy'
     KI = np.around(np.load(KI_npy_file), 5)
 
     assert len(dist_mat) == len(KI)
@@ -50,7 +50,7 @@ def res_obj(res_list):
         List of residue objects
 
     """
-    file = './datafiles/pdb_files/4EOQ.pdb'
+    file = './datafiles/pdb_files/testing/4EOQ.pdb'
     chain = 'A'
     structure= pdbfile.parsePDB(file, chain=chain)
     hv = structure.getHierView()
@@ -68,7 +68,7 @@ def res_obj(res_list):
 
 @pytest.mark.parametrize('res_list', [range(3,25)])
 def test_flags(res_obj, res_list):
-    print(dist_analy.build_shortest_dist_matrix(res_obj, res_list))
+    # print(dist_analy.build_shortest_dist_matrix(res_obj, res_list))
     assert np.any(dist_analy.build_shortest_dist_matrix(res_obj, res_list, no_adj = True) != \
         dist_analy.build_shortest_dist_matrix(res_obj, res_list, no_adj = False))
 
@@ -89,8 +89,8 @@ def test_compare_to_chimera(res_obj, res_list):
         residue list
 
     """
-    KI_sd_npy_file = './datafiles/npy_files/4EOQ.pdb_KI_sd.npy'
-    KI_sd_noadj_npy_file = './datafiles/npy_files/4EOQ.pdb_KI_sd_noadj.npy'
+    KI_sd_npy_file = './datafiles/npy_files/ref/4EOQ.pdb_KI_sd.npy'
+    KI_sd_noadj_npy_file = './datafiles/npy_files/ref/4EOQ.pdb_KI_sd_noadj.npy'
 
     KI_sd = np.around(np.load(KI_sd_npy_file),5)
     KI_sd_noadj = np.around(np.load(KI_sd_noadj_npy_file), 5)
@@ -139,7 +139,7 @@ def test_missing_residues(res_obj, res_list):
 def test_get_shortest_dist_matrix(res_list):
     """Tests get_shortest_dist_matrix
     """
-    file = './datafiles/pdb_files/4EOQ.pdb'
+    file = './datafiles/pdb_files/testing/4EOQ.pdb'
     chain = 'A'
     dist_analy.get_shortest_dist_matrix(file, res_list, chain)
     dist_analy.get_shortest_dist_matrix(file, res_list, chain, min_dist = 2.2)

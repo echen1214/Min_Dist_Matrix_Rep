@@ -24,13 +24,14 @@ def test_remove_missing():
 def test_run_unsym():
     res_list = [7,8,9,10]
     with pytest.raises(ValueError) as e:
-        dist_analy.pca.run(SMALL_DIST_MAT_1, res_list)
+        dist_analy.pca.run(SMALL_DIST_MAT_1, res_list, 4)
     assert str(e.value) == 'PCA calculates symetric distance matrices'
 
 @pytest.mark.parametrize("feats", [np.array([[1,1], [2.2,2], [2.3,1], [1.5,1.5]])])
 @pytest.mark.parametrize("ans", [[3,0,1,2]])
 def test_find_medoid(feats, ans):
-    assert dist_analy.pca.find_medoid(feats,np.arange(0,4)) == ans
+    print(np.equal(dist_analy.pca.find_medoid(feats,np.arange(0,4)), ans))
+    assert np.equal(dist_analy.pca.find_medoid(feats,np.arange(0,4)), ans).all()
 
 @pytest.mark.parametrize("feats", [SMALL_DIST_MAT])
 def test_triu_flatten(feats):

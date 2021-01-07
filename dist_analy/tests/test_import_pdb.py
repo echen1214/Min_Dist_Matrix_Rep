@@ -112,17 +112,17 @@ def test_process_pdb_2(pdb_fn, uniprot):
         assert all(res_list_comp == res_list_ref)
 
 
-def test_dry_apo_pdb():
-    filename = '4EOQ.pdb'
-    pdb = '4EOQ'
-    chain = 'A'
-    parse = PDBParser()
-    structure = parse.get_structure(pdb, file=PDB_DIR+filename)[0]
-    NCAA = ('TPO', 'ASD')
-
-    io = PDBIO()
-    io.set_structure(structure[chain])
-    io.save("%s/%s_%s.pdb"%(OUTPATH,pdb,chain), select=dry_apo_pdb(*NCAA))
+# def test_dry_apo_pdb():
+#     filename = '4EOQ.pdb'
+#     pdb = '4EOQ'
+#     chain = 'A'
+#     parse = PDBParser()
+#     structure = parse.get_structure(pdb, file=PDB_DIR+filename)[0]
+#     NCAA = ('TPO', 'ASD')
+#
+#     io = PDBIO()
+#     io.set_structure(structure[chain])
+#     io.save("%s/%s_%s.pdb"%(OUTPATH,pdb,chain), select=dry_apo_pdb(*NCAA))
 
 
 # @pytest.mark.parametrize("pdb_fn, res, value", zip(TEST_PDB_LIST+MISNUMBERED_PDB, \
