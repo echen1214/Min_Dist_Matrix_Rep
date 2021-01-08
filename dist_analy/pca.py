@@ -80,6 +80,33 @@ def remove_missing_(dist_mats: np.ndarray, res_list: list):
         dist_mats_cons.append(mat[np.ix_(ind_cons, ind_cons)])
     return(np.array(dist_mats_cons), res_cons, ind_cons)
 
+def replace_zeros(feats: np.ndarray, method:str ='mean'):
+    """Replaces the zeros of list of distance matrix with either the mean or
+    median of that particular distance
+
+    Parameters
+    ----------
+    feats : np.ndarray
+        array of features (2D: PDB * features) or distance matrices (3D: PDB *
+        res_list * res_list). axis 0 must be the array of structures
+    method : str
+        string 'mean' or 'median'
+
+    Returns
+    -------
+    np.ndarray
+        features or distance matrices where the 0s are replaced by the 'mean' or
+        'median' value along axis = 0.
+        if distance matrices are given, then the 0s along the diagonal will be
+        replaced by a nan
+
+    """
+    if method == 'mean':
+        new_feats = np.where(feats==0.0, np.nanmean(np.where(feats==0.0, np.nan, feats), axis = 0), feats)
+    if method == 'median':
+        new_feats = np.where(feats==0.0, np.nanmedian(np.where(feats==0.0, np.nan, feats), axis = 0), feats)
+    return new_feats
+
 def triu_flatten(dist_mats: np.ndarray, res_list: list):
     """ Return an array of flattened 1D upper triangular values (features) of each
     residue-residue distance matrix. These values include all those above the
@@ -497,7 +524,9 @@ def plot_zscore(cluster1, cluster2, feats, min_dist, zscore, res_list, uniprot_s
                 top_ind -= 1
     print(feat_idx)
 
-def run(dist_mats: np.ndarray, res_list: list, k: int, remove_missing: bool = True):
+
+def run(dist_mats: np.ndarray, res_list: list, k: int, remove_missing: bool = True,
+        replace_zeros: str = None):
     """ Pass in a list of the distance matrices and the corresponding residue
     lists and perform the hierarchical clustering and principcal component
     analysis
@@ -513,15 +542,26 @@ def run(dist_mats: np.ndarray, res_list: list, k: int, remove_missing: bool = Tr
     remove_missing : bool
         bool whether or not to determine the subset of residues that are present
         in every distance matrix
+    replace_zeros : str
+        changes all of the zeros to the 'mean' or 'median' of that distance
 
     """
     if dist_mats.shape[1] != dist_mats.shape[2]:
         raise ValueError('PCA calculates symetric distance matrices')
 
+    if remove_missing and replace_zeros:
+        raise ValueError('Cannot have flags remove_missing and replaces zeros at the same time')
+
     if remove_missing:
+        print("removing residues not available in every structure")
         dist_mats, res_list, ind_list = remove_missing_(dist_mats, res_list)
 
     feats_list = triu_flatten(dist_mats, res_list)
+
+    if replace_zeros:
+        print("replacing missing data with the %s distance"%replace_zeros)
+        feats_list = replace_zeros(feats_list, method=replace_zeros)
+
     print("PCA")
     npy_pca = decomposition.PCA()
     npy_pca.fit(feats_list)
