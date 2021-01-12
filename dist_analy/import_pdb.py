@@ -1,4 +1,4 @@
-from io import BytesIO
+# from io import BytesIO
 # from ftplib import FTP, all_errors
 import gzip
 import json
@@ -8,9 +8,11 @@ from urllib.request import urlopen
 from urllib.error import URLError
 from Bio.PDB import PDBParser, Select, PDBIO
 from Bio.PDB.PDBExceptions import PDBConstructionWarning
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
 from numpy import all
 import prody.atomic.chain
-from dist_analy.util import http_requests
+from dist_analy.util import pdb_info
 
 """
 Things that need to be done:
@@ -78,7 +80,7 @@ class Dry_Apo_PDB(Select):
             return 0
 
 class PDB_Processer:
-    def __init__(self, NCAA:list = [], check_SIFTs:bool=True, ftp_url:str='ftp.ebi.ac.uk/pub/databases/msd/sifts/xml', \
+    def __init__(self, NCAA:list = [], check_SIFTs:bool=True,  \
                  filter_warnings = True
                 ):
         self.check_SIFTs=check_SIFTs
@@ -90,9 +92,9 @@ class PDB_Processer:
             warnings.filterwarnings("ignore", category=PDBConstructionWarning)
         self.select = Dry_Apo_PDB(*NCAA)
         self.io = PDBIO()
-
         self.parse = PDBParser()
         # create setters to change this?
+        self.ftp_url = 'ftp://ftp.ebi.ac.uk/pub/databases/msd/sifts/xml/'
         self.info_root_url = 'https://data.rcsb.org/rest/v1/core/entry/'
         self.uniprot_root_url = 'https://data.rcsb.org/rest/v1/core/uniprot/'
         self.entity_root_url = 'https://data.rcsb.org/rest/v1/core/polymer_entity/'
@@ -131,12 +133,12 @@ class PDB_Processer:
         structure = self.parse.get_structure(pdb, file=path+filename)[0]
         # print(structure.header.keys())
 
-        info = self._get_any_info(pdb, self.info_root_url)
+        info = pdb_info.get_any_info(self.info_root_url, pdb)
         entry_all = []
 
         for entry_id in info['rcsb_entry_container_identifiers']['polymer_entity_ids']:
             try:
-                uniprot_query = self._get_any_info(pdb, self.uniprot_root_url, str(entry_id))[0]\
+                uniprot_query = pdb_info.get_any_info(self.uniprot_root_url, pdb, str(entry_id))[0]\
                     ['rcsb_uniprot_container_identifiers']['uniprot_id']
                 if not uniprot_query:
                     raise RuntimeError('Unable to find UNIPROT associated with %s'%pdb)
@@ -152,7 +154,7 @@ class PDB_Processer:
             return False
 
         for entry in entry_all:
-            chain_info = self._get_any_info(pdb, self.entity_root_url, entry)
+            chain_info = pdb_info.get_any_info(self.entity_root_url, pdb, entry)
             chain_all.append(chain_info['entity_poly']['pdbx_strand_id'].split(','))
 
         chain_all = [item for sublist in chain_all for item in sublist]
@@ -165,7 +167,7 @@ class PDB_Processer:
         #     raise RuntimeError('%s is not associated with uniprot id %s'%(pdb,uniprot))
         #     return False
         if self.check_SIFTs:
-            xml_str = self._get_xml_str(pdb)
+            xml_str = self._get_xml_str(pdb, ftp_url=self.ftp_url)
 
         process_pdb_list = []
         for chain in chain_all:
@@ -186,62 +188,16 @@ class PDB_Processer:
 
         return process_pdb_list
 
-    @staticmethod
-    def _get_any_info(pdb: str, url_root: str, *args):
-        """ Code adapted from williamgilpin at https://github.com/williamgilpin/pypdb
-        under the MIT License
+    # def find_uniprot_seq
 
-        Uniprot url_root: 'https://data.rcsb.org/rest/v1/core/uniprot/'
-        SIFTS url_root: 'https://www.ebi.ac.uk/pdbe/api/mappings/'
-
-        can maybe move to utils
-
-        Parameters
-        ----------
-        pdb : str
-            Description of parameter `pdb`.
-        url_root : str
-            Description of parameter `url_root`.
-        *args : type
-            Description of parameter `*args`.
-
-        Returns
-        -------
-        type
-            Description of returned object.
-
-        Examples
-        --------
-        get_any_info('4eoq', 'https://data.rcsb.org/rest/v1/core/uniprot/', '1')
-        would request the uniprot information from entity 1 of 4eoq at the url:
-        https://data.rcsb.org/rest/v1/core/uniprot/4eoq/1
-
-        """
-
-        url = url_root + pdb + "/"
-        """ does this work with inputting a json dictionary?"""
-
-        for arg in args:
-            url += str(arg)
-
-        response = http_requests.request_limited(url)
-
-        if response and response.status_code == 200:
-            pass
-        else:
-            raise ValueError("json retrieval failed, returning None")
-            return None
-
-        result  = str(response.text)
-        out = json.loads(result)
-
-        return out
 ## make the FTP login part of the initialization of the class
-    def _get_xml_str(self, pdb: str, num_attempts: int = 3, ftp_url:str='ftp.ebi.ac.uk',):
+    @staticmethod
+    def _get_xml_str(pdb: str, num_attempts: int = 3, ftp_url:str='ftp://ftp.ebi.ac.uk/pub/databases/msd/sifts/xml/'):
         """ Using the PDBe ftp to download to local memory and unzip the XML file
         encoding the specified PDB residues numbering to the SIFTs database.
 
         todo: find a way to only login once
+        suppress output of urllib
 
         Parameters
         ----------
@@ -260,7 +216,7 @@ class PDB_Processer:
         total_attempts = 0
         while (total_attempts <= num_attempts):
             try:
-                with urlopen('ftp://ftp.ebi.ac.uk/pub/databases/msd/sifts/xml/%s.xml.gz'%pdb) as gz_file:
+                with urlopen(ftp_url+'%s.xml.gz'%pdb) as gz_file:
                     with gzip.GzipFile(fileobj=gz_file) as zippy:
                         data = zippy.read()
                         return data

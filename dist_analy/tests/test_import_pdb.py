@@ -5,7 +5,7 @@ from numpy import all
 import pytest
 from Bio.PDB import PDBParser, PDBIO
 from dist_analy import import_pdb
-
+from dist_analy.util import pdb_info
 
 """ List of things to test
 - test for multiple chains (reading 1 pdb file with 2 chains of the uniprot protein
@@ -18,12 +18,14 @@ PDB_DIR = './datafiles/pdb_files/testing/'
 OUTPATH = './datafiles/pdb_files/processed_pdb/'
 CHECKPATH = './datafiles/pdb_files/check_pdb/'
 TEST_PDB_LIST = ['2VU3.pdb', '5OO0.pdb']
+TEST_CHAIN = ['A', 'A']
 MISNUMBERED_PDB = ['4JRV.pdb'] # egfr1
 # MULTIPLE_OCCU_PDB = ['2R3J.pdb', '2R3I.pdb', '2R3Q.pdb']
 # SET_MULTIPLE_OCCU = [(32, 115, 177, 200, 212, 232, 233), \
 #         (32, 53, 115, 126, 131, 177, 200, 212, 217, 232, 233, 264, 265, 501), \
 #         (89, 126, 131, 177, 200, 212, 217, 232, 233, 264, 265, 501)]
 MULTIPLE_CHAIN_PDB = ['2WPA.pdb','4EOQ.pdb', '6GUE.pdb']
+MULTIPLE_CHAIN = ['A,C', 'A,C', 'A']
 UNIPROT_SEQ = ["MENFQKVEKIGEGTYGVVYKARNKLTGEVVALKKIRLDTETEGVPSTAIREISLLKELNH\
     PNIVKLLDVIHTENKLYLVFEFLHQDLKKFMDASALTGIPLPLIKSYLFQLLQGLAFCHS\
     HRVLHRDLKPQNLLINTEGAIKLADFGLARAFGVPVRTYTHEVVTLWYRAPEILLGCKYY\
@@ -32,13 +34,13 @@ UNIPROT_SEQ = ["MENFQKVEKIGEGTYGVVYKARNKLTGEVVALKKIRLDTETEGVPSTAIREISLLKELNH\
 UNIPROT_CDK2 = ['P24941']
 UNIPROT_EGFR1 = ['P00533']
 
-@pytest.mark.parametrize("pdb_fn",TEST_PDB_LIST+MULTIPLE_CHAIN_PDB)
-def test_get_chain_uniprot(pdb_fn):
-    pdb_proc = import_pdb.PDB_Processer(['TPO'])
-    pdb = pdb_fn.split('.')[0]
-    uniprot_url = 'https://data.rcsb.org/rest/v1/core/uniprot/'
-    assert pdb_proc._get_any_info(pdb, uniprot_url, str(1))[0]['rcsb_uniprot_container_identifiers']['uniprot_id'] == 'P24941'
-
+# @pytest.mark.parametrize("pdb_fn, chain",zip(TEST_PDB_LIST+MULTIPLE_CHAIN_PDB, TEST_CHAIN+MULTIPLE_CHAIN))
+# def test_get_any_info_1(pdb_fn, chain):
+#     pdb = pdb_fn.split('.')[0]
+#     uniprot_url = 'https://data.rcsb.org/rest/v1/core/uniprot/'
+#     entity_url = 'https://data.rcsb.org/rest/v1/core/polymer_entity/'
+#     assert pdb_info.get_any_info(uniprot_url, pdb, str(1))[0]['rcsb_uniprot_container_identifiers']['uniprot_id'] == 'P24941'
+#     assert pdb_info.get_any_info(entity_url, pdb, str(1))['entity_poly']['pdbx_strand_id'] == chain
 
 def chain_obj(pdb_fn, chain):
     pdb = pdb_fn.split('.')[0]
