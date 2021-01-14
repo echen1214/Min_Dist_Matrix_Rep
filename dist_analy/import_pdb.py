@@ -4,6 +4,7 @@ import gzip
 import json
 import xml.etree.ElementTree as ET
 import warnings
+from pathlib import Path
 from urllib.request import urlopen
 from urllib.error import URLError
 from Bio.PDB import PDBParser, Select, PDBIO
@@ -129,6 +130,9 @@ class PDB_Processer:
         - make it easy to import noncanonical amino acids. add in kwargs that allow
           the inclusion of NCAA
         '''
+
+        Path(outpath).mkdir(parents=True, exist_ok=True)
+
         pdb = filename.split('.')[0]
         structure = self.parse.get_structure(pdb, file=path+filename)[0]
         # print(structure.header.keys())
@@ -282,6 +286,10 @@ class PDB_Processer:
     @staticmethod
     def _replace_with_dict(chain_object: prody.atomic.chain, replace_dict: dict):
         """ Reassign residue numbering of chain object by the replace dictionary
+        An error may occur when renumbering the residues of the chain object to
+        a residue number that has already been assigned. To circumvent this,
+        the function first attempts shifting the residues forward. If that fail
+        it attempts to shift the residues backwards.
 
         Parameters
         ----------
@@ -294,11 +302,21 @@ class PDB_Processer:
         -------
 
         """
-        for residue in reversed(list(chain_object.get_residues())):
-            res_id = list(residue.id)
-            if str(res_id[1]) in replace_dict:
-                repl_id = replace_dict[str(res_id[1])]
-                if repl_id == -999:
-                    continue
-                res_id[1] = int(repl_id)
-                residue.id = tuple(res_id)
+        try:
+            for residue in reversed(list(chain_object.get_residues())):
+                res_id = list(residue.id)
+                if str(res_id[1]) in replace_dict:
+                    repl_id = replace_dict[str(res_id[1])]
+                    if repl_id == -999:
+                        continue
+                    res_id[1] = int(repl_id)
+                    residue.id = tuple(res_id)
+        except ValueError:
+            for residue in list(chain_object.get_residues()):
+                res_id = list(residue.id)
+                if str(res_id[1]) in replace_dict:
+                    repl_id = replace_dict[str(res_id[1])]
+                    if repl_id == -999:
+                        continue
+                    res_id[1] = int(repl_id)
+                    residue.id = tuple(res_id)
