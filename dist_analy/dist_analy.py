@@ -207,8 +207,7 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:ndarray, residues2:
 
                     temp_dist = []
                     for atom1 in res1_t:
-                        for atom2 in res2:
-                            temp_dist.append(getDistance(atom1, atom2, unitcell))
+                        temp_dist.append(getDistance(atom1, res2, unitcell))
                     value = np.min(temp_dist)
 
                     if min_dist and value < min_dist:
