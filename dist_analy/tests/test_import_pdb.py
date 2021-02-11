@@ -19,7 +19,7 @@ OUTPATH = './datafiles/pdb_files/processed_pdb/'
 CHECKPATH = './datafiles/pdb_files/check_pdb/'
 TEST_PDB_LIST = ['2VU3.pdb', '5OO0.pdb']
 TEST_CHAIN = ['A', 'A']
-MISNUMBERED_PDB = ['4JRV.pdb'] # egfr1
+MISNUMBERED_PDB = ['4JRV.pdb', '2ABL.pdb' ] # egfr1/ abl
 # MULTIPLE_OCCU_PDB = ['2R3J.pdb', '2R3I.pdb', '2R3Q.pdb']
 # SET_MULTIPLE_OCCU = [(32, 115, 177, 200, 212, 232, 233), \
 #         (32, 53, 115, 126, 131, 177, 200, 212, 217, 232, 233, 264, 265, 501), \
@@ -33,6 +33,7 @@ UNIPROT_SEQ = ["MENFQKVEKIGEGTYGVVYKARNKLTGEVVALKKIRLDTETEGVPSTAIREISLLKELNH\
     PKWARQDFSKVVPPLDEDGRSLLSQMLHYDPNKRISAKAALAHPFFQDVTKPVPHLRL"]
 UNIPROT_CDK2 = ['P24941']
 UNIPROT_EGFR1 = ['P00533']
+UNIPROT_ABL = ['P00519']
 
 # @pytest.mark.parametrize("pdb_fn, chain",zip(TEST_PDB_LIST+MULTIPLE_CHAIN_PDB, TEST_CHAIN+MULTIPLE_CHAIN))
 # def test_get_any_info_1(pdb_fn, chain):
@@ -73,17 +74,18 @@ def xml_str(pdb_fn):
     ftp.quit()
     return uncompressed
 
-@pytest.mark.parametrize("pdb_fn, answer", zip(MISNUMBERED_PDB+TEST_PDB_LIST, [False,True,True]))
+@pytest.mark.parametrize("pdb_fn, answer", zip(MISNUMBERED_PDB+TEST_PDB_LIST, [False,False,True,True]))
 def test_xml_replace_dict(xml_str, answer):
     pdb_proc = import_pdb.PDB_Processer()
     repl_dict = pdb_proc._xml_replace_dict(xml_str, 'A')
     truthy = []
+    print(repl_dict)
     for key in repl_dict.keys():
         truthy.append(key == repl_dict[key])
     assert all(truthy) == answer
 
-@pytest.mark.parametrize("pdb_fn, uniprot",zip(MISNUMBERED_PDB, UNIPROT_EGFR1))
-def test_process_pdb(pdb_fn, uniprot):
+@pytest.mark.parametrize("pdb_fn, uniprot",zip(MISNUMBERED_PDB, UNIPROT_EGFR1+UNIPROT_ABL))
+def test_process_pdb_1(pdb_fn, uniprot):
     pdb_proc = import_pdb.PDB_Processer(['TPO'])
     chain = 'A'
     pdb = pdb_fn.split('.')[0]

@@ -27,16 +27,13 @@ Things that need to be done:
 - x prepare files to be read for dist_analy
 - test for insertions
 - create excel file of list of PDB files and their binders
-- create flag for checking SIFTs, uniprot checking,
+x create flag for checking SIFTs, uniprot checking,
 - check dry_apo_pdb when creating a class for import_pdb. will there only be one
   dry_apo_pdb instance and the append res_check list continue to build for each
   function call of dry_apo_pdb(*NCAA) or will there be multiple instances
-
-create a class that opens the FTP login and keeps it open until done processing
-all of the PDB structures?
-
-temporarily the pypdb files are copied here until it has been further
-developed
+- suppress urllib output
+- xrl_repl_dict implement conversion to any other residue numbering system
+- add flag to process NMR structures
 """
 CANON = {'ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLU', 'GLN', 'GLY', 'HIS', 'ILE',\
     'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL'}
@@ -100,7 +97,9 @@ class PDB_Processer:
         self.uniprot_root_url = 'https://data.rcsb.org/rest/v1/core/uniprot/'
         self.entity_root_url = 'https://data.rcsb.org/rest/v1/core/polymer_entity/'
 
-    def process_pdb(self, filename: str, path: str, outpath: str, uniprot: str):
+    def process_pdb(self, filename: str, path: str, outpath: str, uniprot: str
+
+                    ):
         """ Accepts a PDB file and finds the protein chain(s) that matches the
         desired UNIPROT ID and creates a new PDB at the desired output path.
         It also checks the numbering of the protein chain to the SIFTS database.
@@ -127,13 +126,14 @@ class PDB_Processer:
         ''' to do
         importing pdb from structure. if no pdb file then search for it
         - how to handle insertions -> look at yuwei's package
-        - make it easy to import noncanonical amino acids. add in kwargs that allow
-          the inclusion of NCAA
         '''
 
         Path(outpath).mkdir(parents=True, exist_ok=True)
 
         pdb = filename.split('.')[0]
+        # print(len(self.parse.get_structure(pdb, file=path+filename)))
+        ## to implement assess of NMR need to interate over all of the models
+        ## this is just the first NMR model
         structure = self.parse.get_structure(pdb, file=path+filename)[0]
         # print(structure.header.keys())
 
@@ -178,6 +178,7 @@ class PDB_Processer:
             # print(chain, len(list(structure[chain].get_residues())))
             prot = structure[chain]
             if self.check_SIFTs:
+                print(chain)
                 repl_dict = self._xml_replace_dict(xml_str, chain)
                 truthy = []
                 for key in repl_dict.keys():
@@ -233,14 +234,21 @@ class PDB_Processer:
                 print ("%s, retrying: #%i" % (e,total_attempts))
             # except all_errors as e:
             #     print ("%s, retrying: #%i" % (e,total_attempts))
+                total_attempts += 1
 
-            total_attempts += 1
+        warnings.warn("Too many failures to get %s.xml.gz. Return none and exit..."%pdb)
+        return None
 
 
     @staticmethod
     def _xml_replace_dict(xml_string: str, chain: str):
         """ Reads in the XML string to create a dictionary of the corresponding PDB
-        residue numbering to the SIFTs residue numbering
+        residue numbering to the UNIPROT residue numbering via the SIFTs database.
+        Any residues that don't have a corresponding UNIPROT numbering will be
+        ignored and given IDs starting from -999
+
+        todo:
+            implement conversion to any other residue numbering system
 
         Parameters
         ----------
@@ -262,7 +270,9 @@ class PDB_Processer:
         dict_repl = {}
         excl = ['Cloning artifact', 'Not_Observed', 'Expression tag']
         for entity in root.iter('%sentity'%pre):
+            # print(entity.attrib)
             if entity.attrib['entityId']==chain:
+                ignore_count = 0
                 for res in entity.iter('%sresidue'%pre):
                     skip = False
                     for detail in res.iter('%sresidueDetail'%pre):
@@ -271,17 +281,14 @@ class PDB_Processer:
                             continue
                     if skip:
                         continue
-                    pdb_id, unip_id = -999, -999 # default values to ignore
-                    for crossref in res.iter('%scrossRefDb'%pre):
-                #         print(crossref.keys())
-                        if crossref.attrib['dbSource']=="PDB":
-                            pdb_id = crossref.attrib['dbResNum']
-                #             print(pdb_id)
-                        if crossref.attrib['dbSource']=="UniProt":
-                            unip_id = crossref.attrib['dbResNum']
-                #             print(unip_id)
+                    pdb_id = res.find(".//%scrossRefDb[@dbSource='PDB']"%pre).attrib['dbResNum']
+                    try:
+                        unip_id = res.find(".//%scrossRefDb[@dbSource='UniProt']"%pre).attrib['dbResNum']
+                    except AttributeError:
+                        unip_id = -999 + ignore_count
+                        ignore_count += 1
                     dict_repl[pdb_id] = unip_id
-            return dict_repl
+        return dict_repl
 
     @staticmethod
     def _replace_with_dict(chain_object: prody.atomic.chain, replace_dict: dict):
@@ -303,20 +310,18 @@ class PDB_Processer:
 
         """
         try:
+            count = 0
             for residue in reversed(list(chain_object.get_residues())):
                 res_id = list(residue.id)
                 if str(res_id[1]) in replace_dict:
                     repl_id = replace_dict[str(res_id[1])]
-                    if repl_id == -999:
-                        continue
                     res_id[1] = int(repl_id)
                     residue.id = tuple(res_id)
         except ValueError:
+            count = 0
             for residue in list(chain_object.get_residues()):
                 res_id = list(residue.id)
                 if str(res_id[1]) in replace_dict:
                     repl_id = replace_dict[str(res_id[1])]
-                    if repl_id == -999:
-                        continue
                     res_id[1] = int(repl_id)
                     residue.id = tuple(res_id)
