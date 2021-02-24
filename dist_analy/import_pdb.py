@@ -128,13 +128,18 @@ class PDB_Processer:
         - how to handle insertions -> look at yuwei's package
         '''
 
+        check_SIFTs_ = self.check_SIFTs
         Path(outpath).mkdir(parents=True, exist_ok=True)
 
         pdb = filename.split('.')[0]
         # print(len(self.parse.get_structure(pdb, file=path+filename)))
         ## to implement assess of NMR need to interate over all of the models
         ## this is just the first NMR model
-        structure = self.parse.get_structure(pdb, file=path+filename)[0]
+        structure = self.parse.get_structure(pdb, file=path+filename)
+        # if len(structure) == 1:
+        #     structure = [structure[0]
+        ## if nmr make structure into a list
+
         # print(structure.header.keys())
 
         info = pdb_info.get_any_info(self.info_root_url, pdb)
@@ -162,6 +167,7 @@ class PDB_Processer:
             chain_all.append(chain_info['entity_poly']['pdbx_strand_id'].split(','))
 
         chain_all = [item for sublist in chain_all for item in sublist]
+        ## if nmr turn it into a list and output all of the models
 
         if not chain_all:
             raise RuntimeError('Unable to find appropriate chains in %s'%(pdb))
@@ -170,26 +176,35 @@ class PDB_Processer:
         # if not chain_all:
         #     raise RuntimeError('%s is not associated with uniprot id %s'%(pdb,uniprot))
         #     return False
-        if self.check_SIFTs:
+        if check_SIFTs_:
             xml_str = self._get_xml_str(pdb, ftp_url=self.ftp_url)
+            if not xml_str:
+                warnings.warn("%s: unable to get SIFTs residues, skipping residue numbering check"%pdb)
+                check_SIFTs_ = False
 
         process_pdb_list = []
         for chain in chain_all:
             # print(chain, len(list(structure[chain].get_residues())))
-            prot = structure[chain]
-            if self.check_SIFTs:
-                print(chain)
-                repl_dict = self._xml_replace_dict(xml_str, chain)
-                truthy = []
-                for key in repl_dict.keys():
-                    truthy.append(key == repl_dict[key])
+            for i,struct in enumerate(structure):
+                prot = struct[chain]
+                if check_SIFTs_:
+                    print(chain)
+                    repl_dict = self._xml_replace_dict(xml_str, chain)
+                    truthy = []
+                    for key in repl_dict.keys():
+                        truthy.append(key == repl_dict[key])
 
-                if all(truthy) == False:
-                    self._replace_with_dict(prot, repl_dict)
+                    if all(truthy) == False:
+                        self._replace_with_dict(prot, repl_dict)
 
-            self.io.set_structure(structure[chain])
-            self.io.save("%s/%s_%s.pdb"%(outpath,pdb,chain), select=self.select)
-            process_pdb_list.append("%s_%s.pdb"%(pdb,chain))
+                self.io.set_structure(struct[chain])
+                if len(structure) > 1:
+                    outf = "%s_%s_%i.pdb"%(pdb,chain,i)
+                else:
+                    outf = "%s_%s.pdb"%(pdb,chain)
+                self.io.save("%s/%s"%(outpath,outf), select=self.select)
+                process_pdb_list.append(outf)
+
 
         return process_pdb_list
 
