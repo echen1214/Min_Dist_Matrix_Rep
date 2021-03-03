@@ -28,24 +28,22 @@ Things that need to be done:
 - test for insertions
 - create excel file of list of PDB files and their binders
 x create flag for checking SIFTs, uniprot checking,
-- check dry_apo_pdb when creating a class for import_pdb. will there only be one
+x check dry_apo_pdb when creating a class for import_pdb. will there only be one
   dry_apo_pdb instance and the append res_check list continue to build for each
   function call of dry_apo_pdb(*NCAA) or will there be multiple instances
 - suppress urllib output
 - xrl_repl_dict implement conversion to any other residue numbering system
 - add flag to process NMR structures
+- use prody instead of biopython to read in pdb files.
 """
 CANON = {'ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLU', 'GLN', 'GLY', 'HIS', 'ILE',\
     'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL'}
 # NONCANON = ['TPO'] ##
 # if amino acid then return (add a parameter to include any noncanonical amino acids)
 class Dry_Apo_PDB(Select):
-    """ https://biopython.org/docs/1.75/api/Bio.PDB.PDBIO.html
+    """
     Bio.PDB.Select class for removing water molecules, ligands, and retaining
     the canonical residues and any 3-letter noncanonical residues passed in
-
-    - TODO: investigate about how
-    make close after running
 
     Parameters
     ----------
@@ -62,6 +60,11 @@ class Dry_Apo_PDB(Select):
     Example
     -------
     dry_apo_pdb('TPO', 'ASD')
+
+    Notes
+    -----
+    https://biopython.org/docs/1.75/api/Bio.PDB.PDBIO.html
+    
     """
     def __init__(self, *args):
         super().__init__()
@@ -78,10 +81,28 @@ class Dry_Apo_PDB(Select):
             return 0
 
 class PDB_Processer:
-    def __init__(self, NCAA:list = [], check_SIFTs:bool=True,  \
-                 filter_warnings = True
-                ):
+    def __init__(self, NCAA:list = [], check_SIFTs:bool=True,
+                 check_database:bool = True, filter_warnings:bool = True):
+        """ PDB_Processer class constructor
+
+        Parameters
+        ----------
+        NCAA : list, optional
+            list of three letter non-canonical amino acid codes to exclude from
+            being parsed
+        check_SIFTs : bool, default: True
+            flag to check the SIFTs database and create a repl_dict
+        check_database : bool, default: True
+            flag to check the RCSB database to match protein chains to UniProt accesion numbers
+        filter_warnings : bool, default: True
+            flag to filter PDBConstructionWarnings
+
+        Returns
+        -------
+
+        """
         self.check_SIFTs=check_SIFTs
+        self.check_database=check_database
         # if self.check_SIFTs:
         #     self.ftp = FTP(ftp_url)
         #     self.ftp.login()
@@ -97,11 +118,62 @@ class PDB_Processer:
         self.uniprot_root_url = 'https://data.rcsb.org/rest/v1/core/uniprot/'
         self.entity_root_url = 'https://data.rcsb.org/rest/v1/core/polymer_entity/'
 
-    def process_pdb(self, filename: str, path: str, outpath: str, uniprot: str
+    def get_database_info(self, pdb: str, uniprot: str):
+        """ process_pdb helper function that searches the RCSB database for
+        which chain in the given PDB file matches the given UniProt accession
+        number. It can then check the SIFTs databases to create a dictionary to
+        map the PDB residue IDs to the UniProt residue numbering.
 
+        Parameters
+        ----------
+        pdb : str
+            PDB id
+        uniprot : str
+            UniProt accession number
+
+        Returns
+        -------
+        list
+            list of PDB chain IDs corresponding to the UniProt accession number
+
+        """
+        info = pdb_info.get_any_info(self.info_root_url, pdb)
+        entry_all = []
+
+        for entry_id in info['rcsb_entry_container_identifiers']['polymer_entity_ids']:
+            try:
+                uniprot_query = pdb_info.get_any_info(self.uniprot_root_url, pdb, str(entry_id))[0]\
+                    ['rcsb_uniprot_container_identifiers']['uniprot_id']
+                if not uniprot_query:
+                    raise RuntimeError('Unable to find UniProt associated with %s'%pdb)
+                if uniprot_query == uniprot:
+                    entry_all.append(int(entry_id))
+            except ValueError:
+                print("unable to find data with %s entity #%s, skipping"%(pdb,entry_id))
+                pass
+        chain_all = []
+
+        if not entry_all:
+            raise RuntimeError('%s is not associated with uniprot id %s'%(pdb,uniprot))
+            return None
+
+        for entry in entry_all:
+            chain_info = pdb_info.get_any_info(self.entity_root_url, pdb, entry)
+            chain_all.append(chain_info['entity_poly']['pdbx_strand_id'].split(','))
+
+        chain_all = [item for sublist in chain_all for item in sublist]
+
+        if not chain_all:
+            raise RuntimeError('Unable to find appropriate chains in %s'%(pdb))
+            return None
+
+        return chain_all
+
+    def process_pdb(self, filename: str, path: str, outpath: str, uniprot: str = '',
+                    chain_all: list = [], repl_dict: dict = {}
                     ):
         """ Accepts a PDB file and finds the protein chain(s) that matches the
-        desired UNIPROT ID and creates a new PDB at the desired output path.
+        desired UniProt ID and creates a new PDB at the desired output path.
         It also checks the numbering of the protein chain to the SIFTS database.
 
         Parameters
@@ -112,19 +184,26 @@ class PDB_Processer:
             path to the PDB file
         outpath : str
             Desired path to output
-        uniprot : str
-            UNIPROT ID of the protein
-        *NCAA : tuple
-            list of noncanonical amino acids that should not be processed out
+        UniProt : str, optional
+            UniProt accession number of the protein
+        chain_all: list, optional
+            list of chains that represent the desired protein
+        repl_dict: dict, optional
+            dictionary mapping the pdb residue ID to the desired residue ID
+
 
         Returns
         -------
-        bool
-            If successful process, then returns True. If not returns false
+        list
+            returns list of processed pdb files
 
         """
         ''' to do
-        importing pdb from structure. if no pdb file then search for it
+        - importing pdb from structure. if no pdb file then search for it
+        - importing structure from pdb file (not from rcsb: think md simulation frame)
+         and renumber the residues based on uniprot sequence
+        - do not write out processed pdb file, just store on disk (unsure if this is possible)
+        - delete the original file flag
         - how to handle insertions -> look at yuwei's package
         '''
 
@@ -132,50 +211,16 @@ class PDB_Processer:
         Path(outpath).mkdir(parents=True, exist_ok=True)
 
         pdb = filename.split('.')[0]
-        # print(len(self.parse.get_structure(pdb, file=path+filename)))
-        ## to implement assess of NMR need to interate over all of the models
-        ## this is just the first NMR model
         structure = self.parse.get_structure(pdb, file=path+filename)
-        # if len(structure) == 1:
-        #     structure = [structure[0]
-        ## if nmr make structure into a list
 
-        # print(structure.header.keys())
+        if self.check_database:
+            if not uniprot:
+                raise ValueError("To check the databases need to pass in a UniProt accession number")
+            else:
+                chain_all = self.get_database_info(pdb, uniprot)
+        if not self.check_database and not chain_all:
+            raise ValueError("If not check_database, must pass in a list of chains to chain_all")
 
-        info = pdb_info.get_any_info(self.info_root_url, pdb)
-        entry_all = []
-
-        for entry_id in info['rcsb_entry_container_identifiers']['polymer_entity_ids']:
-            try:
-                uniprot_query = pdb_info.get_any_info(self.uniprot_root_url, pdb, str(entry_id))[0]\
-                    ['rcsb_uniprot_container_identifiers']['uniprot_id']
-                if not uniprot_query:
-                    raise RuntimeError('Unable to find UNIPROT associated with %s'%pdb)
-                if uniprot_query == uniprot:
-                    entry_all.append(int(entry_id))
-            except ValueError:
-                print("unable to find data with %s entity #%s, skipping"%(pdb,entry_id))
-                pass
-        chain_all = []
-
-        if not entry_all:
-            raise RuntimeError('%s is not associated with uniprot id %s'%(pdb,uniprot))
-            return False
-
-        for entry in entry_all:
-            chain_info = pdb_info.get_any_info(self.entity_root_url, pdb, entry)
-            chain_all.append(chain_info['entity_poly']['pdbx_strand_id'].split(','))
-
-        chain_all = [item for sublist in chain_all for item in sublist]
-        ## if nmr turn it into a list and output all of the models
-
-        if not chain_all:
-            raise RuntimeError('Unable to find appropriate chains in %s'%(pdb))
-            return False
-        # # print(chain_all)
-        # if not chain_all:
-        #     raise RuntimeError('%s is not associated with uniprot id %s'%(pdb,uniprot))
-        #     return False
         if check_SIFTs_:
             xml_str = self._get_xml_str(pdb, ftp_url=self.ftp_url)
             if not xml_str:
@@ -189,22 +234,24 @@ class PDB_Processer:
                 prot = struct[chain]
                 if check_SIFTs_:
                     print(chain)
-                    repl_dict = self._xml_replace_dict(xml_str, chain)
+                    if not repl_dict:
+                        repl_dict = self._xml_replace_dict(xml_str, chain)
+                if repl_dict:
                     truthy = []
                     for key in repl_dict.keys():
                         truthy.append(key == repl_dict[key])
 
                     if all(truthy) == False:
+                        print(repl_dict)
                         self._replace_with_dict(prot, repl_dict)
 
-                self.io.set_structure(struct[chain])
+                self.io.set_structure(prot)
                 if len(structure) > 1:
                     outf = "%s_%s_%i.pdb"%(pdb,chain,i)
                 else:
                     outf = "%s_%s.pdb"%(pdb,chain)
                 self.io.save("%s/%s"%(outpath,outf), select=self.select)
                 process_pdb_list.append(outf)
-
 
         return process_pdb_list
 
@@ -222,8 +269,10 @@ class PDB_Processer:
         Parameters
         ----------
         pdb : str
-            pdb id
-        ftp_url : str
+            PDB id
+        num_attemps: int, default: 3
+            number of attempts to access ftp_url
+        ftp_url : str, default: ftp://ftp.ebi.ac.uk/pub/databases/msd/sifts/xml/
             ftp url to pdbe
 
         Returns
@@ -258,8 +307,8 @@ class PDB_Processer:
     @staticmethod
     def _xml_replace_dict(xml_string: str, chain: str):
         """ Reads in the XML string to create a dictionary of the corresponding PDB
-        residue numbering to the UNIPROT residue numbering via the SIFTs database.
-        Any residues that don't have a corresponding UNIPROT numbering will be
+        residue numbering to the UniProt residue numbering via the SIFTs database.
+        Any residues that don't have a corresponding UniProt numbering will be
         ignored and given IDs starting from -999
 
         todo:
