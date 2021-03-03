@@ -1,11 +1,12 @@
 """Main module."""
 
 import numpy as np
-from numpy import zeros, array, ndarray, empty, any
+from numpy import zeros, array, ndarray, empty, any, save
 from prody.atomic import Atomic, Residue, Atom, AtomGroup
 from prody.proteins import pdbfile
 from prody.measure import measure
 from prody.utilities import getDistance
+from pathlib import Path
 
 """ TODO
     - x separate the pdb files into multiple models (multiple pdb files for
@@ -18,7 +19,7 @@ from prody.utilities import getDistance
 
 DISTMAT_FORMATS = set(['mat', 'rcd', 'arr'])
 
-def get_ca_dist_matrix(file: str, res_list: list, chain: str):
+def get_ca_dist_matrix(file: str, res_list: list, chain: str, save_dir: str = None):
     """ Using prody functions to generate carbon alpha distance matrix
 
     Parameters
@@ -27,6 +28,10 @@ def get_ca_dist_matrix(file: str, res_list: list, chain: str):
         filename
     res_list : list
         list of residues to calculate distance matrix with
+    chain: str
+        chain ID
+    save_dir: str, optional
+        directory to save distance matrices to a binary file in NumPy .npy format
 
     Returns
     -------
@@ -67,6 +72,11 @@ def get_ca_dist_matrix(file: str, res_list: list, chain: str):
         for j,val in enumerate(row):
             dist_matrix[reindex[i]][reindex[j]] = val
     # print(dist_matrix)
+    if save_dir:
+        Path(save_dir).mkdir(parents=True, exist_ok=True)
+        fn = file.split('/')[-1].split('.')[0]
+        np.save(save_dir+fn, dist_matrix)
+
     return dist_matrix
 
 def get_shortest_dist(res1: ndarray, res2: ndarray, unitcell:ndarray=None, min_dist: int = None):
@@ -79,9 +89,9 @@ def get_shortest_dist(res1: ndarray, res2: ndarray, unitcell:ndarray=None, min_d
         array of atomic coordinates
     res2 : ndarray
         array of atomic coordinates
-    unitcell : ndarray
+    unitcell : numpy.ndarray, optional
         orthorhombic unitcell dimension array with shape ``(3,)``
-    min_dist : int
+    min_dist : int, optional
         if true the minimum residue-residue distance is set to min_dist
 
     Returns
@@ -117,17 +127,17 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:ndarray, residues2:
     ----------
     residues1 : prody.atomic.Residue objects in np.ndarray
         residue or coordinate data
-    residues2 : prody.atomic.Residue objects in np.ndarray
+    residues2 : prody.atomic.Residue objects in np.ndarray, optional
         residue or coordinate data
-    unitcell : :class: `numpy.ndarray`
+    unitcell : numpy.ndarray, optional
         orthorhombic unitcell dimension array with shape ``(3,)``
-    format : bool
+    format : bool, default: 'mat'
         format of the resulting array, one of ``'mat'`` (matrix,
         default), ``'rcd'`` (arrays of row indices, column indices, and
         distances), or ``'arr'`` (only array of distances)
-    no_adj : bool
+    no_adj : bool, default: True
         if true excludes backbone-backbone distances from neighboring residues
-    min_dist : int
+    min_dist : int, optional
         if true the minimum residue-residue distance is set to min_dist
 
     Returns
@@ -267,7 +277,8 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:ndarray, residues2:
 
 
 def get_shortest_dist_matrix(file: str, res_list: list, chain: str,
-                             min_dist: int = None, no_adj: bool = True):
+                             min_dist: int = None, no_adj: bool = True,
+                             save_dir: str = None):
     """ Generate shortest-distance distance matrix.
 
     Parameters
@@ -276,11 +287,15 @@ def get_shortest_dist_matrix(file: str, res_list: list, chain: str,
         file name
     res_list : list
         list of residues to calculate distance matrix with
-    no_adj : bool
+    chain: str
+        chain ID
+    no_adj : bool, default: True
         if true does not calculate distance between adjacent backbone atoms
-    min_dist : int
+    min_dist : int, optional
         if calculated distance is less than this value, set distance to this
         value.
+    save_dir: str, optional
+        directory to save distance matrices to a binary file in NumPy .npy format
 
     Returns
     -------
@@ -299,4 +314,8 @@ def get_shortest_dist_matrix(file: str, res_list: list, chain: str,
     # res_obj= np.array(hv[chain], dtype=Residue)[res_list]
     dist_matrix = build_shortest_dist_matrix(res_obj, res_list, min_dist=min_dist, \
                                             no_adj=no_adj)
+    if save_dir:
+        Path(save_dir).mkdir(parents=True, exist_ok=True)
+        fn = file.split('/')[-1].split('.')[0]
+        np.save(save_dir+fn, dist_matrix)
     return dist_matrix
