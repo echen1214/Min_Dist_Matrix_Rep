@@ -440,12 +440,14 @@ def triu_getXY(i: int, m: int, k:int):
         y = (i%l)+(x+k)
     return(x, y)
 
-def calc_cluster_zscore(cluster1_inds: list, cluster2_inds: list, feats: np.ndarray, \
-                        norm: int = 1.5):
-    """Calculate the Z-score of the pairwise residue-residue distances (features)
+def calc_cluster_smd(cluster1_inds: list, cluster2_inds: list, feats: np.ndarray, \
+                        norm: int = 1.5, std: str = "SMD"):
+    """Calculate the standardized mean difference (SMD) or the strictly standardized
+    mean difference (SSMD) of the pairwise residue-residue distances (features)
     between two clusters.
 
-    Z-score = average(cluster 1 features) - average(cluster 2 features) / (sqrt (std(cluster 1 features) * std(cluster 2 features)))
+    SMD = average(cluster 1 features) - average(cluster 2 features) / (sqrt (std(cluster 1 features) * std(cluster 2 features)))
+    SSMD = average(cluster 1 features) - average(cluster 2 features) / (sqrt (std(cluster 1 features)^2 + std(cluster 2 features)^2))
     This value is then biased by dividing by (minimum feature value - 1.5)
 
     Parameters
@@ -457,39 +459,52 @@ def calc_cluster_zscore(cluster1_inds: list, cluster2_inds: list, feats: np.ndar
     feats : np.ndarray
         array of 1D flattened distance matrices
     norm : int, default: 1.5
-        z-score is normalized by dividing by (min_dist - norm). If your dataset
+        SMD is normalized by dividing by (min_dist - norm). If your dataset
         contains hydrogen atoms set norm to 0
+    std : str, default: 'SMD'
+        'SMD' or 'SSMD' string reflecting the choice of denominator
 
     Returns
     -------
     tuple
-        the biased z-score value, minimum distance list
+        the biased SMD value, minimum distance list
 
     """
     ''' include different normalization functions '''
+
+    if std not in ['SMD', 'SSMD']:
+        raise ValueError('std must be either standardized mean difference `SMD` or \
+                          or strictly standardized mean difference `SSMD`')
     mean_feats_c1 = np.average(feats[cluster1_inds], axis=0)
     mean_feats_c2 = np.average(feats[cluster2_inds], axis=0)
 
     std_feats_c1 = np.std(feats[cluster1_inds], axis=0)
     std_feats_c2 = np.std(feats[cluster2_inds], axis=0)
 
-    std_feats_c1= np.where(std_feats_c1==0, std_feats_c1, 1)
-    std_feats_c2= np.where(std_feats_c2==0, std_feats_c1, 1)
-
-    zscore_diff_c1c2 = np.divide(np.subtract(mean_feats_c1, mean_feats_c2), \
-                                 np.sqrt(np.multiply(std_feats_c1, std_feats_c2)))
+    num = np.subtract(mean_feats_c1, mean_feats_c2)
+    print(num)
+    if std == 'SSMD':
+        denom = np.sqrt(np.add(np.square(std_feats_c1),np.square(std_feats_c2)))
+    if std == 'SMD':
+        std_feats_c1= np.where(std_feats_c1!=0, std_feats_c1, 1)
+        std_feats_c2= np.where(std_feats_c2!=0, std_feats_c2, 1)
+        denom = np.sqrt(np.multiply(std_feats_c1,std_feats_c2))
+    print(denom)
+    smd_diff_c1c2 = np.divide(num, denom)
     # zscore_diff_c1c2_idx = np.argsort(zscore_diff_c1c2)[::-1]
 
     concat_ind = cluster1_inds + cluster2_inds
     min_dist = np.amin([feats[x] for x in concat_ind], axis=0)
-    zscore_new = np.divide(zscore_diff_c1c2, (np.subtract(min_dist,norm))) #np.divide(np.log(min_dist), np.log(5)))
-    return (zscore_new, min_dist)
+    smd_new = np.divide(smd_diff_c1c2, (np.subtract(min_dist,norm))) #np.divide(np.log(min_dist), np.log(5)))
+    return (smd_new, min_dist)
 
-def plot_zscore_distrib(cluster1: int, cluster2: int, feats: np.ndarray, \
-                        zscore: np.ndarray, xcutoff: int=3.5, ycutoff: int=5, \
-                        norm: int = 1.5):
-    """Plots the distribution of Z-scores vs minimum distance. Each data point
+def plot_smd_distrib(cluster1: int, cluster2: int, feats: np.ndarray, \
+                        smd: np.ndarray, xcutoff: int=3.5, ycutoff: int=5, \
+                        norm: int = 1.5, std: str = "SMD"):
+    """Plots the distribution of SMD vs minimum distance. Each data point
     represented one distance pair
+
+    Can also plot distribution of SSMD vs minimum distance.
 
     Parameters
     ----------
@@ -499,24 +514,25 @@ def plot_zscore_distrib(cluster1: int, cluster2: int, feats: np.ndarray, \
         cluster index number
     feats : np.ndarray
         array of 1D flattened distance matrices
-    zscore : np.ndarray
-        array of Z-score values for each distance pair
+    smd : np.ndarray
+        array of SMD/SSMD values for each distance pair
     xcutoff : int
         distance cutoff value
     ycutoff : int
-        Z-score cutoff value
+        SMD cutoff value
     norm : int, default: 1.5
-        z-score is normalized by dividing by (min_dist - norm). If your dataset
+        SMD is normalized by dividing by (min_dist - norm). If your dataset
         contains hydrogen atoms set norm to 0
-
+    std : str, default: 'SMD'
+        'SMD' or 'SSMD' string reflecting the choice of denominator
     """
     min_feats = np.amin(feats, axis=0)
     # min_feats_idx = np.argsort(min_feats)
-    min_zscore = np.stack((min_feats,zscore),axis=1)
+    min_smd= np.stack((min_feats,smd),axis=1)
     plt.figure()
-    plt.scatter(min_zscore[:,0],min_zscore[:,1])
+    plt.scatter(min_smd[:,0],min_smd[:,1])
     plt.xlabel("minimum distance along distance pair between the two clusters")
-    plt.ylabel("Z-score difference between %i and %i/(min_dist-%.2f)"%(cluster1+1, cluster2+1, norm))
+    plt.ylabel("%s between %i and %i/(min_dist-%.2f)"%(std, cluster1+1, cluster2+1, norm))
     plt.axvline(x=xcutoff, color="red")
     plt.axhline(y=0, color='black')
     plt.axhline(y=ycutoff, color='red', linestyle='dashed')
@@ -559,14 +575,17 @@ def color_text(res: str, res_num: int):
             return(fg("%s"%color_list[i])+res+str(res_num)+attr(0))
     return res+str(res_num)
 
-def plot_zscore(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarray, \
-                zscore: np.ndarray, res_list: list, uniprot_seq: str, \
-                top: int = 10, xcutoff:int = 3.5, ycutoff:int = 5, norm: int = 1.5):
-    """ Plots Z-score vs minimum distance. Returns the residue–residue ID of the top z-score ranking distance pairs
-    given a minimum distance cutoff (xcutoff) and a minimum absolute z-score
+def plot_smd(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarray, \
+                smd: np.ndarray, res_list: list, uniprot_seq: str, \
+                top: int = 10, xcutoff:int = 3.5, ycutoff:int = 5, norm: int = 1.5, \
+                std: str = 'SMD'):
+    """ Plots SMD vs minimum distance. Returns the residue–residue ID of the top SMD ranking distance pairs
+    given a minimum distance cutoff (xcutoff) and a minimum absolute SMD
     value (ycutoff).
 
-    Z-score is normalized by dividing by (min_dist - norm)
+    Can also plot SSMD vs minimum distance
+
+    SMD is normalized by dividing by (min_dist - norm)
 
     Parameters
     ----------
@@ -578,8 +597,8 @@ def plot_zscore(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.nd
         array of 1D flattened distance matrices
     min_dist : np.ndarray
         array of minimum distance for each residue–residue pair
-    zscore : np.ndarray
-        array of Z-score values for each distance pair
+    smd : np.ndarray
+        array of smd values for each distance pair
     res_list : list
         list of residues corresponding one axis of the distance matrix
     uniprot_seq : str
@@ -588,27 +607,33 @@ def plot_zscore(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.nd
     xcutoff : int
         distance cutoff value
     ycutoff : int
-        Z-score cutoff value
+        smd cutoff value
     norm : int, default: 1.5
-        z-score is normalized by dividing by (min_dist - norm). If your dataset
+        smd is normalized by dividing by (min_dist - norm). If your dataset
         contains hydrogen atoms set norm to 0
-
+    std : str, default: 'SMD'
+        'SMD' or 'SSMD' string reflecting the choice of denominator
+        
     Returns
     -------
     list
         list of tuples containing the x index, y index, feature index, minimum
-        distance, and z-score of the top distance pairs
+        distance, and SMD of the top distance pairs
 
     """
     # zscore_new_idx = np.argsort(zscore)[::-1]
-    plot_zscore_distrib(cluster1, cluster2, feats, zscore, \
-                        xcutoff=xcutoff, ycutoff=ycutoff, norm=norm)
+    if std not in ['SMD', 'SSMD']:
+        raise ValueError('std must be either standardized mean difference `SMD` or \
+                          or strictly standardized mean difference `SSMD`')
+
+    plot_smd_distrib(cluster1, cluster2, feats, smd, \
+                        xcutoff=xcutoff, ycutoff=ycutoff, norm=norm, std=std)
 
     # top_ind = 0
     feat_idx = []
-    filter = (abs(zscore) > ycutoff) & (min_dist < xcutoff)
+    filter = (abs(smd) > ycutoff) & (min_dist < xcutoff)
     filter_idx = np.where(filter == True)[0]
-    filter_z = zscore[filter]
+    filter_z = smd[filter]
     filter_dist = min_dist[filter]
 
     z_pos = filter_z > 0
@@ -619,17 +644,17 @@ def plot_zscore(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.nd
         idx_sort = filter_idx[z_rank][z_sort_idx]
         dist_sort = filter_dist[z_rank][z_sort_idx]
         z_sort = filter_z[z_rank][z_sort_idx]
-        for i, (idx, min_dist, zscore) in enumerate(zip(idx_sort, dist_sort, z_sort)):
+        for i, (idx, min_dist, smd_val) in enumerate(zip(idx_sort, dist_sort, z_sort)):
             if i > top:
                 break
             x,y=triu_getXY(idx,m=len(res_list),k=1)
-            feat_idx.append((x,y,idx,min_dist,zscore))
+            feat_idx.append((x,y,idx,min_dist,smd_val))
             r1 = uniprot_seq[res_list[x]-1]
             r1_id = res_list[x]
             r2 = uniprot_seq[res_list[y]-1]
             r2_id = res_list[y]
-            print("%s-%s: %.3f, %.3f\n"%(color_text(r1,r1_id), color_text(r2,r2_id),min_dist,zscore))
-            if np.isinf(zscore):
+            print("%s-%s: %.3f, %.3f"%(color_text(r1,r1_id), color_text(r2,r2_id),min_dist,smd_val))
+            if np.isinf(smd_val):
                 print("Warning: infinite value may result from std = 0")
                 top_ind -= 1
     return feat_idx
