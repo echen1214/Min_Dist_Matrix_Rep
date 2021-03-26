@@ -64,7 +64,7 @@ class Dry_Apo_PDB(Select):
     Notes
     -----
     https://biopython.org/docs/1.75/api/Bio.PDB.PDBIO.html
-    
+
     """
     def __init__(self, *args):
         super().__init__()
@@ -233,7 +233,7 @@ class PDB_Processer:
             for i,struct in enumerate(structure):
                 prot = struct[chain]
                 if check_SIFTs_:
-                    print(chain)
+                    # print(chain)
                     if not repl_dict:
                         repl_dict = self._xml_replace_dict(xml_str, chain)
                 if repl_dict:
@@ -242,7 +242,7 @@ class PDB_Processer:
                         truthy.append(key == repl_dict[key])
 
                     if all(truthy) == False:
-                        print(repl_dict)
+                        # print(repl_dict)
                         self._replace_with_dict(prot, repl_dict)
 
                 self.io.set_structure(prot)
@@ -374,16 +374,30 @@ class PDB_Processer:
 
         """
         try:
+            try:
+                # count = 0
+                for residue in reversed(list(chain_object.get_residues())):
+                    res_id = list(residue.id)
+                    if str(res_id[1]) in replace_dict:
+                        repl_id = replace_dict[str(res_id[1])]
+                        res_id[1] = int(repl_id)
+                        residue.id = tuple(res_id)
+            except ValueError:
+                # count = 0
+                for residue in list(chain_object.get_residues()):
+                    res_id = list(residue.id)
+                    if str(res_id[1]) in replace_dict:
+                        repl_id = replace_dict[str(res_id[1])]
+                        res_id[1] = int(repl_id)
+                        residue.id = tuple(res_id)
+        except ValueError:
             count = 0
             for residue in reversed(list(chain_object.get_residues())):
                 res_id = list(residue.id)
-                if str(res_id[1]) in replace_dict:
-                    repl_id = replace_dict[str(res_id[1])]
-                    res_id[1] = int(repl_id)
-                    residue.id = tuple(res_id)
-        except ValueError:
-            count = 0
-            for residue in list(chain_object.get_residues()):
+                res_id[1] = -999 + count
+                residue.id = tuple(res_id)
+                count += 1
+            for residue in reversed(list(chain_object.get_residues())):
                 res_id = list(residue.id)
                 if str(res_id[1]) in replace_dict:
                     repl_id = replace_dict[str(res_id[1])]
