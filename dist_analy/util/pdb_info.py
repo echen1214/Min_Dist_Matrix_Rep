@@ -9,11 +9,69 @@ import json
 import time
 import requests
 import warnings
+import csv
+
+def pdb_csv(pdb_list: list, uniprot: str, csv_file: str):
+    info_root = 'https://data.rcsb.org/rest/v1/core/entry/'
+    info_root_1 = 'https://data.rcsb.org/rest/v1/core/polymer_entity/'
+
+    csv_data = []
+    dict_items = ['PDB ID', 'Title', 'Description', 'Method', 'Resolution', \
+                  'Polymer Binders', 'Major Binders', 'Minor Binders', 'Modifications']
+    for pdb in pdb_list:
+        print(pdb)
+        pdb_dict = {}
+        polymer_binders = []
+        data = get_any_info(info_root,pdb)
+        pdb_dict['PDB ID'] = pdb
+        pdb_dict["Title"] = data['struct']['title']
+        try:
+            pdb_dict["Description"] = data['struct']['pdbx_descriptor']
+        except KeyError:
+            pdb_dict["Description"] = None
+        pdb_dict["Method"] = data["rcsb_entry_info"]["experimental_method"]
+        try:
+            pdb_dict["Resolution"] = data["pdbx_vrpt_summary"]["pdbresolution"]
+        except:
+            pdb_dict["Resolution"] = None
+        try:
+            pdb_dict["Minor Binders"] = data['rcsb_entry_info']["nonpolymer_bound_components"]
+        except KeyError:
+            pdb_dict["Minor Binders"] = None
+        num_poly_entity = data["rcsb_entry_container_identifiers"]["polymer_entity_ids"]
+        major_binders = []
+        try:
+            for binding_dict in data["rcsb_binding_affinity"]:
+                if binding_dict["comp_id"] not in major_binders:
+                    major_binders.append(binding_dict["comp_id"])
+            pdb_dict["Major Binders"] = major_binders
+        except KeyError:
+            pdb_dict["Major Binders"] = None
+        for i in num_poly_entity:
+            data_1 = get_any_info(info_root_1,pdb,i)
+            try:
+                for x in data_1["rcsb_polymer_entity_container_identifiers"]["uniprot_ids"]:
+                    if x == uniprot:
+                        try:
+                            pdb_dict['Modifications'] = data_1["rcsb_polymer_entity_container_identifiers"]["chem_comp_nstd_monomers"]
+                        except KeyError:
+                            pdb_dict['Modifications'] = None
+                    else:
+                        polymer_binders.append(data_1["rcsb_polymer_entity"]["pdbx_description"])
+            except KeyError:
+                polymer_binders.append(data_1["rcsb_polymer_entity"]["pdbx_description"])
+        pdb_dict["Polymer Binders"] = polymer_binders
+        csv_data.append(pdb_dict)
+    with open(csv_file, 'w') as f1:
+        writer = csv.DictWriter(f1, fieldnames = dict_items)
+        writer.writeheader()
+        writer.writerows(csv_data)
 
 def get_any_info(url_root: str, *url_append, **request_dict):
     """ Code adapted from williamgilpin at https://github.com/williamgilpin/pypdb
     under the MIT License
 
+    PDB information url_root: ''
     Uniprot sequence url_root: 'http://www.ebi.ac.uk/proteins/api/proteins/'
     Uniprot protein url_root: 'https://data.rcsb.org/rest/v1/core/uniprot/'
     SIFTS url_root: 'https://www.ebi.ac.uk/pdbe/api/mappings/'
@@ -65,6 +123,7 @@ def get_any_info(url_root: str, *url_append, **request_dict):
     if request_dict:
         response = request_limited(url_root, params=request_dict)
 
+    # print(response.url)
     if response and response.status_code == 200:
         pass
     else:
