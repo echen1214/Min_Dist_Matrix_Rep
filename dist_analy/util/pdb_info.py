@@ -12,6 +12,20 @@ import warnings
 import csv
 
 def pdb_csv(pdb_list: list, uniprot: str, csv_file: str):
+    """ Creates a csv files of information parsed from the rcsb database about
+    the pdb structures. Includes information about the resolution, binders, amd
+    modifications.
+
+    Parameters
+    ----------
+    pdb_list : list
+        list of PDB files to get information about
+    uniprot : str
+        UniProt accession ID
+    csv_file : str
+        output filename
+
+    """
     info_root = 'https://data.rcsb.org/rest/v1/core/entry/'
     info_root_1 = 'https://data.rcsb.org/rest/v1/core/polymer_entity/'
 
