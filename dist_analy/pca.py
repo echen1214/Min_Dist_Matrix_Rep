@@ -6,7 +6,8 @@ import numpy as np
 import scipy.cluster.hierarchy as sch
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
-
+import matplotlib.pylab as pylab
+import warnings
 
 
 """ TODO
@@ -23,10 +24,16 @@ from matplotlib.lines import Line2D
 - x determine the important distances - Z-score
     - create interactive plot where you can interactively select ranges in jupyter
       notebook and it'll return the PDB
-- update color_text to pass in regions and color list
+- x update color_text to pass in regions and color list
 - cluster by PCA
-
-
+- apply checks to make sure parameters are correct:
+    -> make the function take flexible length lists
+    - plot_r1r2 -> check if family, pdb_prot_index, dist_mats are same lengths
+    - plot_stacked_histogram
+    -> make more consistent on what matrix input (distance matrix vs flattened)
+        is needed so that it is easy to use
+    pca -> requires flattened arrays
+    r1r2/ stacked histo -> requires distance matrix
 make class
 attribute list:
     dist_mat
@@ -38,12 +45,78 @@ attribute list:
     inds_fc
     npy_pca
 """
+params = {'legend.fontsize': 'x-large',
+         'axes.labelsize': 'x-large',
+         'axes.titlesize':'x-large',
+         'xtick.labelsize':'large',
+         'ytick.labelsize':'large'}
+pylab.rcParams.update(params)
 
-COLOR_LIST = ['g','r','c','m','y','k']
+COLOR_LIST = ['g','r','c','m','y','k','orange', 'pink']
 MARKER_LIST = ["o", "v", "s", "P", "*", "X", "d", ">"]
 DFLT_COL = "#808080"
 
-def hist_missing(dist_mats: np.ndarray, cutoff: int = 10, bins: int = None):
+def hist_missing_residue(dist_mats: np.ndarray, res_list: list, res_get: list = None):
+    """Plot the frequency that a residue is missing across a set of residue–residue
+    distance matrices. Returns a list of structure indices that are missing residues
+    in the list res_get
+
+    Parameters
+    ----------
+    dist_mats : np.ndarray
+        array of distance matrices (3D: PDB * res_list * res_list).
+    res_list : list
+        list of residues corresponding to rows and columns of the distance matrix
+    res_get : list, optional
+        list of residues to track which structure indices are missing these residues
+
+    Returns
+    -------
+    list
+        list of structure indices that are missing residues in the list res_get
+
+    """
+    if not res_get:
+        res_get = []
+
+    plt.figure(figsize=(len(res_list)*0.15,5))
+    missing_res = [0 for _ in range(len(res_list))]
+    # struct_res_get = [0 for _ in range(len(res_get))]
+    missing_pdb = []
+    for i,mat in enumerate(dist_mats):
+        missing = np.where(~mat.any(axis=1))[0]
+        for j in missing:
+            missing_res[j] += 1
+            if res_list[j] in res_get:
+                missing_pdb.append(i)
+    plt.bar(range(len(res_list)), missing_res)
+    plt.xticks(range(0,len(res_list),2), labels=res_list[::2], rotation=90)
+    # plt.title("Frequency of missing KLIFS-IDENT residues")
+    plt.ylabel("Number of structures")
+    plt.xlabel("Residue ID")
+    plt.margins(0)
+    return missing_pdb
+
+def hist_missing_structure(dist_mats: np.ndarray, cutoff: int = 10, bins: int = None):
+    """Plot a histogram of the frequency of residues missing per structure based
+    on the distance matrices. Returns list of struture indices that have more residues
+    missing than the cutoff
+
+    Parameters
+    ----------
+    dist_mats : np.ndarray
+        array of distance matrices (3D: PDB * res_list * res_list).
+    cutoff : int, default: 10
+        Cutoff of residues missing
+    bins : int, optional
+        Number of bins to plot the histogram
+
+    Returns
+    -------
+    list
+        list of struture indices that have more residues missing than the cutoff
+
+    """
     missing_pdb = []
     many_missing = []
 
@@ -54,7 +127,9 @@ def hist_missing(dist_mats: np.ndarray, cutoff: int = 10, bins: int = None):
             many_missing.append(i)
     plt.figure()
     plt.hist(missing_pdb, bins=bins)
-    plt.title("Frequency of missing KLIFS-IDENT residues")
+    # plt.title("Frequency of missing KLIFS-IDENT residues")
+    plt.ylabel("Number of structures")
+    plt.xlabel("Number of missing residues")
     return many_missing
 
 
@@ -80,7 +155,7 @@ def remove_missing_(dist_mats: np.ndarray, res_list: list):
         list of the subset residue indices of the original residue list
 
     """
-    """ Maybe change the function name """
+
     missing_res = Counter()
 
     for mat in dist_mats:
@@ -384,8 +459,11 @@ def plot_pca(npy_pca: decomposition.PCA, feats: np.ndarray, inds_fc: list, \
                 ax.scatter(cluster[0], cluster[1], color=color, marker = MARKER_LIST[family_map[ind]], alpha=0.7)
         else:
             cluster = a[ind_fc]
-            ax.scatter(cluster[:,0], cluster[:,1], color=color)
+            ax.scatter(cluster[:,0], cluster[:,1], color=color, alpha=0.7)
         print("cluster size:", len(ind_fc), color)
+    # for i, (x, label) in enumerate(zip([9, 453, 0], ['1E9H_A', '5A14_A', '1AQ1_A'])):
+    #     cluster = a[x]
+    #     ax.scatter(cluster[0], cluster[1], label=label, marker="*", color=COLOR_LIST[5+i])
 
     plt.legend()
     plt.xlabel("PC1")
@@ -470,7 +548,6 @@ def calc_cluster_smd(cluster1_inds: list, cluster2_inds: list, feats: np.ndarray
         the biased SMD value, minimum distance list
 
     """
-    ''' include different normalization functions '''
 
     if std not in ['SMD', 'SSMD']:
         raise ValueError('std must be either standardized mean difference `SMD` or \
@@ -482,14 +559,14 @@ def calc_cluster_smd(cluster1_inds: list, cluster2_inds: list, feats: np.ndarray
     std_feats_c2 = np.std(feats[cluster2_inds], axis=0)
 
     num = np.subtract(mean_feats_c1, mean_feats_c2)
-    print(num)
+    # print(num)
     if std == 'SSMD':
         denom = np.sqrt(np.add(np.square(std_feats_c1),np.square(std_feats_c2)))
     if std == 'SMD':
         std_feats_c1= np.where(std_feats_c1!=0, std_feats_c1, 1)
         std_feats_c2= np.where(std_feats_c2!=0, std_feats_c2, 1)
         denom = np.sqrt(np.multiply(std_feats_c1,std_feats_c2))
-    print(denom)
+    # print(denom)
     smd_diff_c1c2 = np.divide(num, denom)
     # zscore_diff_c1c2_idx = np.argsort(zscore_diff_c1c2)[::-1]
 
@@ -531,8 +608,8 @@ def plot_smd_distrib(cluster1: int, cluster2: int, feats: np.ndarray, \
     min_smd= np.stack((min_feats,smd),axis=1)
     plt.figure()
     plt.scatter(min_smd[:,0],min_smd[:,1])
-    plt.xlabel("minimum distance along distance pair between the two clusters")
-    plt.ylabel("%s between %i and %i/(min_dist-%.2f)"%(std, cluster1+1, cluster2+1, norm))
+    plt.xlabel("Minimum distance pair across all structures")
+    plt.ylabel("%s$\mathregular{^{%i|%i}}$/(min_dist-%.2f)"%(std, cluster1+1, cluster2+1, norm))
     plt.axvline(x=xcutoff, color="red")
     plt.axhline(y=0, color='black')
     plt.axhline(y=ycutoff, color='red', linestyle='dashed')
@@ -543,40 +620,58 @@ def plot_smd_distrib(cluster1: int, cluster2: int, feats: np.ndarray, \
         plt.xlim(-0.5, 10)
 
 ###, color_list, region_list):
-def color_text(res: str, res_num: int):
-    """Creates colored string corresponding to the specified regions and region
-    colors
+class color_text:
+    def __init__(self, color_list: list, region_list: list):
+        self.color_list = color_list
+        self.region_list = region_list
+    def get_text(self, res: str, res_num: int):
+        """Creates colored string corresponding to the specified regions and region
+        colors using the colored package
 
-    Parameters
-    ----------
-    res : str
-        one letter residue code
-    res_num : int
-        residue ID
-    Returns
-    -------
-    str
-        colored string of the one letter code and residue ID
+        Parameters
+        ----------
+        res : str
+            one letter residue code
+        res_num : int
+            residue ID
+        Returns
+        -------
+        str
+            colored string of the one letter code and residue ID
 
-    """
-    # CDK2
-    color_list  = ['red','orange_red_1', 'orange_1', 'yellow', 'green', 'cyan', 'blue', 'purple_1b', 'magenta']
-    region_list = [np.arange(12,17), np.arange(45,58),[33,51,127,145],np.arange(80,87),\
-                np.arange(125,132),np.arange(145,172),np.arange(182,197)]
-
-    # ABL1
-    # region_list = [np.arange(248, 256), np.arange(282,292),[271, 286, 344, 381],np.arange(317,322),\
-    #             np.arange(338, 345),np.arange(380, 403),[]]
-
-    if res_num in region_list[2]:
-        return(fg("%s"%color_list[2])+res+str(res_num)+attr(0))
-    for i,reg in enumerate(region_list):
-        if res_num in reg:
-            return(fg("%s"%color_list[i])+res+str(res_num)+attr(0))
-    return res+str(res_num)
+        """
+        # if res_num in region_list[2]:
+        #     return(fg("%s"%color_list[2])+res+str(res_num)+attr(0))
+        for i,reg in enumerate(self.region_list):
+            if res_num in reg:
+                return(fg("%s"%self.color_list[i])+res+str(res_num)+attr(0))
+        return res+str(res_num)
+    def return_color(self, res_num):
+        for i,reg in enumerate(self.region_list):
+            if res_num in reg:
+                return(self.color_list[i])
+        return("black")
+# def color_text(res: str, res_num: int, color_list: list, region_list: list):
+#
+#     # CDK2
+#     # color_list  = ['red', 'orange_red_1', 'yellow', 'green_1', 'dark_green', 'cyan', 'blue', 'purple_1b', 'magenta'] ## change to hex code
+#     # region_list = [np.arange(12,17), np.delete(np.arange(45,58), np.where(np.arange(45,58)==51)), \
+#     #               np.arange(80,87), np.delete(np.arange(125,132), np.where(np.arange(125,132)==127)), \
+#     #                np.array([33,51,127,145]), np.arange(146,172),np.arange(182,197)]
+#
+#     # ABL1
+#     # region_list = [np.arange(248, 256), np.arange(282,292),[271, 286, 344, 381],np.arange(317,322),\
+#     #             np.arange(338, 345),np.arange(380, 403),[]]
+#
+#     if res_num in region_list[2]:
+#         return(fg("%s"%color_list[2])+res+str(res_num)+attr(0))
+#     for i,reg in enumerate(region_list):
+#         if res_num in reg:
+#             return(fg("%s"%color_list[i])+res+str(res_num)+attr(0))
+#     return res+str(res_num)
 
 def plot_smd(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarray, \
-                smd: np.ndarray, res_list: list, uniprot_seq: str, \
+                smd: np.ndarray, res_list_list: list, uniprot_seq_list: list, color_obj_list: list, \
                 top: int = 10, xcutoff:int = 3.5, ycutoff:int = 5, norm: int = 1.5, \
                 std: str = 'SMD'):
     """ Plots SMD vs minimum distance. Returns the residue–residue ID of the top SMD ranking distance pairs
@@ -613,7 +708,7 @@ def plot_smd(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarr
         contains hydrogen atoms set norm to 0
     std : str, default: 'SMD'
         'SMD' or 'SSMD' string reflecting the choice of denominator
-        
+
     Returns
     -------
     list
@@ -631,10 +726,10 @@ def plot_smd(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarr
 
     # top_ind = 0
     feat_idx = []
-    filter = (abs(smd) > ycutoff) & (min_dist < xcutoff)
-    filter_idx = np.where(filter == True)[0]
-    filter_z = smd[filter]
-    filter_dist = min_dist[filter]
+    filter_cut = (abs(smd) > ycutoff) & (min_dist < xcutoff)
+    filter_idx = np.where(filter_cut == True)[0]
+    filter_z = smd[filter_idx]
+    filter_dist = min_dist[filter_idx]
 
     z_pos = filter_z > 0
     z_neg = filter_z < 0
@@ -647,19 +742,158 @@ def plot_smd(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarr
         for i, (idx, min_dist, smd_val) in enumerate(zip(idx_sort, dist_sort, z_sort)):
             if i > top:
                 break
-            x,y=triu_getXY(idx,m=len(res_list),k=1)
+            x,y=triu_getXY(idx,m=len(res_list_list[0]),k=1)
             feat_idx.append((x,y,idx,min_dist,smd_val))
-            r1 = uniprot_seq[res_list[x]-1]
-            r1_id = res_list[x]
-            r2 = uniprot_seq[res_list[y]-1]
-            r2_id = res_list[y]
-            print("%s-%s: %.3f, %.3f"%(color_text(r1,r1_id), color_text(r2,r2_id),min_dist,smd_val))
+            out_text = ""
+            for res_list, uniprot_seq, color_obj in zip(res_list_list, uniprot_seq_list, color_obj_list):
+                r1 = uniprot_seq[res_list[x]-1]
+                r1_id = res_list[x]
+                r2 = uniprot_seq[res_list[y]-1]
+                r2_id = res_list[y]
+                out_text += "%s-%s: "%(color_obj.get_text(r1,r1_id), color_obj.get_text(r2,r2_id))
             if np.isinf(smd_val):
                 print("Warning: infinite value may result from std = 0")
                 top_ind -= 1
+            out_text += "%.3f, %.3f"%(min_dist,smd_val)
+            print(out_text)
     return feat_idx
 
+def plot_r1r2(c1: int, c2: int, r1r2_feat: list, inds_fc: list, dist_mats: np.ndarray, \
+    pdb_prot_index: list = None, family: list = None):
+    """For each distance matrix plot on R2 vs R1. The R1/R2 distances are selected
+    following the calculation of the SMD/SSMD. The top distances are passed in
+    as r1r2_feat. The clustering is defined by inds_fc.
 
+    To include multiple proteins in the R1/R2 plots, pass in two lists, pdb_prot_index
+    and family. pdb_prot_index maps each distance matrix to the family.
+    Parameters
+    ----------
+    c1 : int
+        cluster index number 1
+    c2 : int
+        cluster index number 2
+    r1r2_feat : list
+        list of the top R1/R2 distances, and their corresponding minimum distance
+        and SMD/SSMD values. Plots the list returned by plot_smd()
+    inds_fc : list
+        2D list of structure indices for each cluster (2D: cluster * structure indices)
+    dist_mats : np.ndarray
+        array of distance matrices (3D: PDB * res_list * res_list).
+    pdb_prot_index : list
+        list of family label indices corresponding to dist_mats
+    family : list
+        list of family labels
+    """
+    if not (pdb_prot_index == family):
+        raise ValueError("Must pass in both pdb_prot_index and family or neither")
+    if not pdb_prot_index:
+        pdb_prot_index = []
+    if not family:
+        family = []
+    # DFLT_COL = "#808080"
+    r1_feat, r2_feat = [], []
+    for feat in r1r2_feat:
+        if feat[-1] > 0:
+            r1_feat.append(feat)
+        else:
+            r2_feat.append(feat)
+    # cl = ['g','r','c','m','y','k','orange', 'pink']
+    # MARKER_LIST = ["o", "v", "s", "P", "*", "X", "d", ">"]
+    plt.figure()
+    ax = plt.axes()
+    for i,ind_fc in enumerate(inds_fc):
+#         r1_dist, r2_dist = [], []
+        for mat, ind in zip(dist_mats[ind_fc], ind_fc):
+            temp1 = 0
+            for r1 in r1_feat:
+                temp1 += mat[r1[0]][r1[1]]
+            temp2 = 0
+            for r2 in r2_feat:
+                temp2 += mat[r2[0]][r2[1]]
+
+            if len(pdb_prot_index) > 0:
+                if len(ind_fc) == 1:
+                    plt.scatter(temp1, temp2, color = DFLT_COL, marker = MARKER_LIST[pdb_prot_index[ind]])
+                else:
+                    plt.scatter(temp1, temp2, color = COLOR_LIST[i], marker = MARKER_LIST[pdb_prot_index[ind]])
+            else:
+                if len(ind_fc) == 1:
+                    plt.scatter(temp1, temp2, color = DFLT_COL)
+                else:
+                    plt.scatter(temp1, temp2, color = COLOR_LIST[i])
+
+    plt.xlabel(r'sum(R%s) ($\AA$)'%str(c2+1))
+    plt.ylabel(r'sum(R%s) ($\AA$)'%str(c1+1))
+    if family:
+        plt.legend()
+        legend_elements = [Line2D([], [], marker=mark, label=label, linestyle='None') for mark, label in zip(MARKER_LIST[:len(family)], family)]
+        ax.legend(handles=legend_elements)
+
+def plot_stacked_histogram(r1: int, r2:int, dist_mats: list, res_lists: list, \
+    inds_fc: list, uniprot_seqs: list, color_texts: list, SMD:float=None):
+    """ Plot the stacked histogram of the specified distance pair across the
+    set of distance matrices colored on the plot based on their clustering. The
+    title and residue labeling is colored based on the color_text objects.
+
+    The default syntax is to accept lists of res_list, uniprot_seq, color_text.
+    This allows the labeling of multiple proteins in the title.
+
+    Parameters
+    ----------
+    r1 : int
+        index mapping to a res_list
+    r2 : int
+        index mapping to a res_list
+    dist_mats : list
+        array of distance matrices (3D: PDB * res_list * res_list).
+    res_lists : list
+        2D list of residues corresponding one axis of the distance matrix
+    inds_fc : list
+        2D list of structure indices for each cluster (2D: cluster * structure indices)
+    uniprot_seqs : list
+        2D list of strings of one letter amino acid codes that reflect the sequence which
+        the residue numbering is based off of
+    color_texts : list
+        list of color_text objects
+    SMD : float
+        Standardized mean difference value of the specified distance pair
+
+    """
+    min_val = 1000
+    max_val = 0
+    clust_value = []
+    for ind_fc in inds_fc:
+        value = []
+        for x in ind_fc:
+            mat = dist_mats[x]
+#         for mat in [mats[x] for x in ind_fc]:
+            if mat[r1,r2] != 0:
+                if mat[r1,r2] > max_val: max_val = mat[r1,r2]
+                if mat[r1,r2] < min_val: min_val = mat[r1,r2]
+                value.append(mat[r1,r2])
+#                 if mat[r1,r2] < 2.2:
+#                     print('pdb', x)
+        clust_value.append(value)
+    bins=np.arange(min_val-1,max_val+1,0.15)
+   # print(bins)
+    fig = plt.figure()
+    # cl = ['g','r','c','m','y']
+    n,bins,patches = plt.hist(x=clust_value, bins=bins, stacked=True, color=COLOR_LIST[:len(inds_fc)] )
+    plt.xlabel('Distance')
+    plt.ylabel('Frequency')
+    title = ""
+    center = float(1)/float(len(res_lists)+1)
+    for i, (res_list, uniprot_seq, color_text) in enumerate(zip(res_lists, uniprot_seqs, color_texts)):
+        res1 = uniprot_seq[res_list[r1]-1] + str(res_list[r1])
+        res2 = uniprot_seq[res_list[r2]-1] + str(res_list[r2])
+        text_center = center + center*i
+
+        fig.text(text_center-0.05, 0.90, res1, ha="center", va="bottom", size="x-large",color=color_text.return_color(res_list[r1]))
+        fig.text(text_center, 0.90, "–", ha="center", va="bottom", size="x-large")
+        fig.text(text_center+0.05,0.90, res2, ha="center", va="bottom", size="x-large",color=color_text.return_color(res_list[r2]))
+    if SMD:
+#         plt.legend("SMD: %.3f"%SMD)
+        plt.annotate("SMD: %.3f"%SMD, xy=(0.97, 0.95), xycoords='axes fraction', size=14, ha='right', va='top', )
 
 def run(dist_mats: np.ndarray, res_list: list, k: int, remove_missing: bool = True,
         replace_zeros: str = None, family: list = None):
@@ -715,6 +949,7 @@ def run(dist_mats: np.ndarray, res_list: list, k: int, remove_missing: bool = Tr
             ind_list = np.arange(0,len(res_list[0]))
         ## flatten dist_mats to 3D
         dist_mats = np.array([dist_mat for dist_mat_list in dist_mats for dist_mat in dist_mat_list])
+        print(dist_mats.shape)
         if remove_missing:
             print("removing residues not available in every structure")
             dist_mats, _, ind_list = remove_missing_(dist_mats, res_list[0])
@@ -741,5 +976,5 @@ def run(dist_mats: np.ndarray, res_list: list, k: int, remove_missing: bool = Tr
     npy_pca.fit(feats_list)
 
     inds_fc, medoid_ind_list = plot_analy(npy_pca, feats_list, k, index_map, family)
-    return (dist_mats, res_list, ind_list, inds_fc, medoid_ind_list)
+    return (dist_mats, res_list, ind_list, inds_fc, medoid_ind_list, npy_pca)
     # return (npy_pca)
