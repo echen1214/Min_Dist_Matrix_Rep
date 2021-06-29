@@ -12,7 +12,7 @@ from pathlib import Path
     - x separate the pdb files into multiple models (multiple pdb files for
         each chain and each model with varying occupancy)
     - x renumber based on SIFTs numbering'
-    - option to not remove residues and get the missing data to median/mean
+    - x  option to not remove residues and get the missing data to median/mean
 
     - implement reading of other types of file (PQR, mol2, CIF)
 """
@@ -114,7 +114,8 @@ def get_shortest_dist(res1: ndarray, res2: ndarray, unitcell:ndarray=None, min_d
 
 def build_shortest_dist_matrix(residues1:ndarray, res_list_1:ndarray, residues2:ndarray=None,
                               res_list_2:ndarray=None, unitcell:ndarray=None,
-                              format='mat', no_adj: bool = True, min_dist: int = None):
+                              format='mat', no_adj: bool = True, min_dist: int = None,
+                              heavy: bool = True):
     """Generate shortest-distance distance matrix
     This code is adapted from the ProDy python package, specifically the
     buildDistMatrix function, under the MIT license
@@ -154,8 +155,10 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:ndarray, residues2:
         raise TypeError('residues1 must be an array')
     # if not isinstance(residues1[0], Residue):
     #     raise TypeError('array must contain Residue objects')
-
-    atomcoords1 = np.array([x.getCoords() if isinstance(x,Residue) else None for x in residues1], dtype=ndarray)
+    if heavy:
+        atomcoords1 = np.array([x.select('heavy').getCoords() if isinstance(x,Residue) else None for x in residues1], dtype=ndarray)
+    else:
+        atomcoords1 = np.array([x.getCoords() if isinstance(x,Residue) else None for x in residues1], dtype=ndarray)
 
     if residues2 is None:
         symmetric = True
@@ -164,7 +167,10 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:ndarray, residues2:
         atomcoords2 = atomcoords1
     else:
         symmetric = False
-        atomcoords1 = np.array([x.getCoords() if isinstance(x,Residue) else None for x in residues2], dtype=ndarray)
+        if heavy:
+            atomcoords2 = np.array([x.select('heavy').getCoords() if isinstance(x,Residue) else None for x in residues2], dtype=ndarray)
+        else:
+            atomcoords2 = np.array([x.getCoords() if isinstance(x,Residue) else None for x in residues2], dtype=ndarray)
 
         if not isinstance(residues2, ndarray):
             raise TypeError('residues2 must be an array')

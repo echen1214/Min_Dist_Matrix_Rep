@@ -95,7 +95,7 @@ def align_fasta_clustalw(inpath: str, infile: str, outpath: str, outfile: str):
     clustalw_cline = ClustalwCommandline(clustalw_exe, infile=inpath+infile, outfile=outpath+outfile)
     stdout, stderr = clustalw_cline()
 
-def get_and_align_sequence(filename: str, outpath: str, unip_list: list, prot_list: list = [], \
+def get_and_align_sequence(outpath: str, filename: str, unip_list: list, prot_list: list = [], \
                            descrip_list: list = []):
     """Function that creates a file of the sequences and then runs a command line
     sequence alignment. Then it loads the alignment into the Biopython align
