@@ -14,6 +14,7 @@ from Bio.SeqRecord import SeqRecord
 from numpy import all
 import prody.atomic.chain
 from dist_analy.util import pdb_info
+import matplotlib.pyplot as plt
 
 """
 Things that need to be done:
@@ -26,20 +27,48 @@ Things that need to be done:
 - x compare the residues numbering to SIFTS
 - x prepare files to be read for dist_analy
 - test for insertions
-- create excel file of list of PDB files and their binders
+x create excel file of list of PDB files and their binders
 x create flag for checking SIFTs, uniprot checking,
 x check dry_apo_pdb when creating a class for import_pdb. will there only be one
   dry_apo_pdb instance and the append res_check list continue to build for each
   function call of dry_apo_pdb(*NCAA) or will there be multiple instances
 - suppress urllib output
 - xrl_repl_dict implement conversion to any other residue numbering system
-- add flag to process NMR structures
-- use prody instead of biopython to read in pdb files.
+x add flag to process NMR structures
+- use prody instead of biopython to read in pdb files.\
+- process_pdb() occasionally crashes with different errors, but seems to run fine
+  when run again -> may be useful to have a general try/except to try a couple of
+  times before crashing
+- the replace_dictionary is very buggy -> unsure at this point the purpose of
+  renumbering to negative in _replace_with_dict (third try except block)
 """
 CANON = {'ALA', 'ARG', 'ASN', 'ASP', 'CYS', 'GLU', 'GLN', 'GLY', 'HIS', 'ILE',\
     'LEU', 'LYS', 'MET', 'PHE', 'PRO', 'SER', 'THR', 'TRP', 'TYR', 'VAL'}
 # NONCANON = ['TPO'] ##
 # if amino acid then return (add a parameter to include any noncanonical amino acids)
+
+def hist_missing_residue_struct(proc_list:list, bins: int = None, cutoff: int = 10):
+    def get_missing_residues(pdb, chain):
+        info_root = 'https://data.rcsb.org/rest/v1/core/polymer_entity_instance/'
+        info = pdb_info.get_any_info(info_root, pdb, chain)
+
+        for item in info["rcsb_polymer_instance_feature"]:
+            if item['name'] == 'unmodeled residue':
+                total_unmodel = sum([b_e['end_seq_id']-b_e['beg_seq_id'] for b_e in item['feature_positions']])
+        return(total_unmodel)
+    unmodel_list = []
+    pdb_list = []
+    for proc in proc_list:
+        pdb = proc.split('/')[-1].split('.')[0]
+        chain = pdb.split(".")[0].split("_")[-1]
+        unmodel = get_missing_residues(pdb, chain)
+        unmodel_list.append(unmodel)
+        pdb_list.append(pdb)
+    plt.figure()
+    plt.hist(missing_pdb, bins=bins)
+    plt.ylabel("Number of structures")
+    plt.xlabel("Number of missing residues")
+
 class Dry_Apo_PDB(Select):
     """
     Bio.PDB.Select class for removing water molecules, ligands, and retaining
@@ -71,7 +100,7 @@ class Dry_Apo_PDB(Select):
         self.res_check = CANON #+ NONCANON
         for arg in args:
             self.res_check.add(arg)
-        print(self.res_check)
+        # print(self.res_check)
     def accept_residue(self, residue):
         if residue.get_resname() == "HOH":
             return 0
@@ -170,7 +199,8 @@ class PDB_Processer:
         return chain_all
 
     def process_pdb(self, filename: str, path: str, outpath: str, uniprot: str = '',
-                    chain_all: list = [], repl_dict: dict = {}
+                    chain_all: list = [], repl_dict: dict = {}, res_range: list = [],
+                    method: str = "All"
                     ):
         """ Accepts a PDB file and finds the protein chain(s) that matches the
         desired UniProt ID and creates a new PDB at the desired output path.
@@ -190,8 +220,8 @@ class PDB_Processer:
             list of chains that represent the desired protein
         repl_dict: dict, optional
             dictionary mapping the pdb residue ID to the desired residue ID
-
-
+        res_range: list, optional
+            range of residue numbering (UniProt) that the structure should at least include
         Returns
         -------
         list
@@ -221,21 +251,60 @@ class PDB_Processer:
         if not self.check_database and not chain_all:
             raise ValueError("If not check_database, must pass in a list of chains to chain_all")
 
-        if check_SIFTs_:
-            xml_str = self._get_xml_str(pdb, ftp_url=self.ftp_url)
-            if not xml_str:
-                warnings.warn("%s: unable to get SIFTs residues, skipping residue numbering check"%pdb)
-                check_SIFTs_ = False
+        if method not in ['All', 'X-ray', 'NMR']:
+            raise ValueError("method must be either All, X-ray or NMR")
+
+        if method == 'X-ray':
+            if len(structure) > 1:
+                return []
+        elif method == 'NMR':
+            if len(structure) <= 1:
+                return []
+        if res_range:
+            temp_parse = PDBParser()
 
         process_pdb_list = []
+
         for chain in chain_all:
-            # print(chain, len(list(structure[chain].get_residues())))
             for i,struct in enumerate(structure):
                 prot = struct[chain]
                 if check_SIFTs_:
+                    try:
+                        #### this runs very slowly will need to check why it runs so slowly
+                        repl_dict = {}
+                        SIFTS = pdb_info.get_any_info("https://www.ebi.ac.uk/pdbe/api/mappings/uniprot/", pdb)
+                        sifts_list = SIFTS[pdb.lower()]['UniProt'][uniprot]['mappings']
+                        for item in sifts_list:
+                            if item['chain_id'] == chain:
+                                start_unp = item['unp_start'] # will maybe need to check if the 0 index is different for NMR structures
+                                start_pdb = item['start']['author_residue_number']
+                                end_unp = item['unp_end']
+                                end_pdb = item['end']['author_residue_number']
+                            else:
+                                continue
+                        try:
+                            shift = start_pdb-start_unp
+                        except:
+                            shift = end_pdb-end_unp
+
+                        if shift != 0:
+                            for i in range(start_unp, end_unp):
+                                repl_dict[str(i+shift)] = str(i)
+                        else:
+                            repl_dict[1] = 1
+                        # print(start_pdb, start_unp, shift, end_unp)
                     # print(chain)
-                    if not repl_dict:
-                        repl_dict = self._xml_replace_dict(xml_str, chain)
+                    except:
+                        repl_dict = {}
+                        warnings.warn("%s: unable to get SIFTs residues , trying another way"%pdb)
+                        xml_str = self._get_xml_str(pdb, ftp_url=self.ftp_url)
+                        if not xml_str:
+                            warnings.warn("%s: unable to get SIFTs residues , skipping residue numbering check"%pdb)
+                            check_SIFTs_ = False
+                        if not repl_dict:
+                            repl_dict = self._xml_replace_dict(xml_str, chain)
+                        # print(repl_dict)
+
                 if repl_dict:
                     truthy = []
                     for key in repl_dict.keys():
@@ -244,17 +313,67 @@ class PDB_Processer:
                     if all(truthy) == False:
                         # print(repl_dict)
                         self._replace_with_dict(prot, repl_dict)
-
+                # print([res._id[1] for res in list(prot.get_residues())])
                 self.io.set_structure(prot)
                 if len(structure) > 1:
                     outf = "%s_%s_%i.pdb"%(pdb,chain,i)
                 else:
                     outf = "%s_%s.pdb"%(pdb,chain)
-                self.io.save("%s/%s"%(outpath,outf), select=self.select)
+                self.io.save("%s%s"%(outpath,outf), select=self.select)
+                print(outf)
+                if res_range:
+                    # print("%s%s"%(outpath,outf))
+                    temp_prot = temp_parse.get_structure('pdb', "%s%s"%(outpath,outf))
+                    prot_res_list = [res._id[1] for res in list(temp_prot.get_residues())]
+                    if not any(elem in prot_res_list for elem in res_range):
+                        # print([elem for elem in prot_res_list])
+                        warnings.warn("%s not within given residue range, deleting"%(outf))
+                        # file_path = Path("%s%s"%(outpath,outf))
+                        # try:
+                        #     file_path.unlink()
+                        # except OSError as e:
+                        #     print("Error: %s : %s" % (file_path, e.strerror))
+                        continue
                 process_pdb_list.append(outf)
 
         return process_pdb_list
 
+    def process_ligand(self, filename: str, path: str, outpath: str,):
+        class select_ligand(Select):
+            def __init__(self, *args):
+                super().__init__()
+                self.check = set()
+                for arg in args:
+                    self.check.add(arg)
+            def accept_residue(self, residue):
+                if residue.get_resname() in ["HOH"]:
+                    return 0
+                elif residue.get_resname() in self.check:
+                    return 1
+                else:
+                    return 0
+        ligand_url = "https://data.rcsb.org/rest/v1/core/nonpolymer_entity/"
+
+        pdb = filename.split('.')[0]
+        structure = self.parse.get_structure(pdb, file=path+filename)
+
+        info = pdb_info.get_any_info(self.info_root_url, pdb)
+        entry_all = []
+        lig_list = []
+        for entry_id in info['rcsb_entry_container_identifiers']['non_polymer_entity_ids']:
+            try:
+                ligand_name = pdb_info.get_any_info(ligand_url, pdb, entry_id)["pdbx_entity_nonpoly"]["comp_id"]
+                # ligand_name = pdb_info.get_any_info(ligand_url, entry_id)["pdbx_entity_nonpoly"]["comp_id"]
+                if ligand_name in ["MG", "NA", "CL", "SO4", "CA", "K"]:
+                    continue
+                self.io.set_structure(structure)
+                sele = select_ligand(ligand_name)
+                outf = "%s_%s.pdb"%(pdb,ligand_name)
+                self.io.save("%s%s"%(outpath,outf), select=sele)
+                lig_list.append(outf)
+            except:
+                warnings.warn("%s: unable to get ligand"%pdb)
+        return lig_list
     # def find_uniprot_seq
 
 ## make the FTP login part of the initialization of the class
@@ -265,6 +384,10 @@ class PDB_Processer:
 
         todo: find a way to only login once
         suppress output of urllib
+
+        rather than getting the xml file and individually parsing through the residues
+        one by one. check https://www.ebi.ac.uk/pdbe/api/mappings/uniprot/
+        and check the starting and ending residues -> then shift the residues
 
         Parameters
         ----------
@@ -352,6 +475,7 @@ class PDB_Processer:
                         unip_id = -999 + ignore_count
                         ignore_count += 1
                     dict_repl[pdb_id] = unip_id
+
         return dict_repl
 
     @staticmethod
@@ -373,24 +497,33 @@ class PDB_Processer:
         -------
 
         """
+        # print(replace_dict)
         try:
             try:
-                # count = 0
                 for residue in reversed(list(chain_object.get_residues())):
                     res_id = list(residue.id)
+                    # print(res_id)
                     if str(res_id[1]) in replace_dict:
                         repl_id = replace_dict[str(res_id[1])]
+                        x = res_id[1]
+                        # print(res_id, repl_id, "0")
                         res_id[1] = int(repl_id)
+                        # print(res_id)
                         residue.id = tuple(res_id)
-            except ValueError:
+                        # print(x, residue.id)
+            except ValueError as e:
+                print(e)
                 # count = 0
                 for residue in list(chain_object.get_residues()):
                     res_id = list(residue.id)
                     if str(res_id[1]) in replace_dict:
                         repl_id = replace_dict[str(res_id[1])]
+                        # print(res_id[1], repl_id, "1")
                         res_id[1] = int(repl_id)
                         residue.id = tuple(res_id)
-        except ValueError:
+        except ValueError as e:
+            print(e)
+            warnings.warn("renumber with negative numbers \n")
             count = 0
             for residue in reversed(list(chain_object.get_residues())):
                 res_id = list(residue.id)
@@ -401,5 +534,7 @@ class PDB_Processer:
                 res_id = list(residue.id)
                 if str(res_id[1]) in replace_dict:
                     repl_id = replace_dict[str(res_id[1])]
+                    # print(repl_id, "2")
                     res_id[1] = int(repl_id)
                     residue.id = tuple(res_id)
+        # print([ x for x in chain_object.get_residues()])
