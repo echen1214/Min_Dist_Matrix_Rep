@@ -146,7 +146,7 @@ class Query(object):
         self.query_type = query_type
         self.search_term = search_term
         self.return_type = return_type
-        self.url = "https://search.rcsb.org/rcsbsearch/v1/query?json="
+        self.url = "https://search.rcsb.org/rcsbsearch/v2/query?json="
         composite_query = False
         if not scan_params:
             query_params = dict()
