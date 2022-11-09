@@ -33,6 +33,16 @@ Features
 
 * TODO
 
+Installation
+--------
+
+Download and install _ClustalO: http://www.clustal.org/omega/ . For example Mac users can do ::
+
+  wget http://www.clustal.org/omega/clustal-omega-1.2.3-macosx
+  mv clustal-omega-1.2.3-macosx clustalo
+  sudo chmod u+x clustalo 
+
+
 Credits
 -------
 
