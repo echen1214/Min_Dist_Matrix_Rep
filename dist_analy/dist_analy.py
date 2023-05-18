@@ -1,6 +1,7 @@
 """Main module."""
 
 import numpy as np
+import warnings
 from numpy import zeros, array, ndarray, empty, any, save
 from prody.atomic import Atomic, Residue, Atom, AtomGroup
 from prody.proteins import pdbfile
@@ -13,8 +14,10 @@ from pathlib import Path
         each chain and each model with varying occupancy)
     - x renumber based on SIFTs numbering'
     - x  option to not remove residues and get the missing data to median/mean
-
+    - turn distance matrix into a data structure ?
     - implement reading of other types of file (PQR, mol2, CIF)
+    - implement ability to track the atoms pairs involved in the shortest residue
+      distances
 """
 
 DISTMAT_FORMATS = set(['mat', 'rcd', 'arr'])
@@ -112,10 +115,10 @@ def get_shortest_dist(res1: ndarray, res2: ndarray, unitcell:ndarray=None, min_d
     return value
 
 
-def build_shortest_dist_matrix(residues1:ndarray, res_list_1:ndarray, residues2:ndarray=None,
-                              res_list_2:ndarray=None, unitcell:ndarray=None,
+def build_shortest_dist_matrix(residues1:ndarray, res_list_1:list, residues2:ndarray=None,
+                              res_list_2:list=None, unitcell:ndarray=None,
                               format='mat', no_adj: bool = True, min_dist: int = None,
-                              heavy: bool = True):
+                              heavy: bool = True, mol: bool = False):
     """Generate shortest-distance distance matrix
     This code is adapted from the ProDy python package, specifically the
     buildDistMatrix function, under the MIT license
@@ -128,8 +131,12 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:ndarray, residues2:
     ----------
     residues1 : prody.atomic.Residue objects in np.ndarray
         residue or coordinate data
+    res_list_1 : list
+        list of labels of residue1
     residues2 : prody.atomic.Residue objects in np.ndarray, optional
         residue or coordinate data
+    res_list_2 : list, optional
+        list of labels of residue2
     unitcell : numpy.ndarray, optional
         orthorhombic unitcell dimension array with shape ``(3,)``
     format : bool, default: 'mat'
@@ -140,6 +147,10 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:ndarray, residues2:
         if true excludes backbone-backbone distances from neighboring residues
     min_dist : int, optional
         if true the minimum residue-residue distance is set to min_dist
+    heavy : bool, default: True
+        if true, includes only heavy atoms
+    mol : bool, default: False
+        if true, residue2 is an molecule of type AtomGroup
 
     Returns
     -------
@@ -151,29 +162,38 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:ndarray, residues2:
 
     """
 
-    if not isinstance(residues1, ndarray):
-        raise TypeError('residues1 must be an array')
+    # if not isinstance(residues1, ndarray):
+    #     raise TypeError('residues1 must be an array')
     # if not isinstance(residues1[0], Residue):
     #     raise TypeError('array must contain Residue objects')
+
     if heavy:
         atomcoords1 = np.array([x.select('heavy').getCoords() if isinstance(x,Residue) else None for x in residues1], dtype=ndarray)
     else:
         atomcoords1 = np.array([x.getCoords() if isinstance(x,Residue) else None for x in residues1], dtype=ndarray)
 
-    if residues2 is None:
+
+    if residues2 is None or res_list_2 == res_list_1:
+        # print("here")
         symmetric = True
         residues2 = residues1
         res_list_2 = res_list_1
         atomcoords2 = atomcoords1
     else:
         symmetric = False
-        if heavy:
-            atomcoords2 = np.array([x.select('heavy').getCoords() if isinstance(x,Residue) else None for x in residues2], dtype=ndarray)
+        no_adj = False
+        if mol:
+            check = AtomGroup
         else:
-            atomcoords2 = np.array([x.getCoords() if isinstance(x,Residue) else None for x in residues2], dtype=ndarray)
+            check = Residue
 
-        if not isinstance(residues2, ndarray):
-            raise TypeError('residues2 must be an array')
+        if heavy:
+            atomcoords2 = np.array([x.select('heavy').getCoords() if isinstance(x,check) else None for x in residues2], dtype=ndarray)
+        else:
+            atomcoords2 = np.array([x.getCoords() if isinstance(x,check) else None for x in residues2], dtype=ndarray)
+
+        # if not isinstance(residues2, ndarray):
+        #     raise TypeError('residues2 must be an array')
         # if not isinstance(residues2[0], Residue):
         #     raise TypeError('array must contain Residue objects')
 
@@ -195,6 +215,7 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:ndarray, residues2:
     else:
         dist = []
 
+    # print("here")
     if no_adj:
         if symmetric:
             no_adj_res = [res.select('not backbone') if isinstance(res,Residue) else None for res in residues1]
@@ -249,7 +270,7 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:ndarray, residues2:
                     res1_t = res1
                     res2_t = res2
                     temp_dist = []
-                    if no_adj and res_list_2[j]-res_list_1[i]==1:
+                    if no_adj and abs(res_list_2[j_1]-res_list_1[i])==1:
                         atom1_noadj = residues1[i].select('not backbone')
                         atom2_noadj = residues2[j].select('not backbone')
                         if atom1_noadj and atom2_noadj:
@@ -281,10 +302,33 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:ndarray, residues2:
 
     return dist
 
+def get_res_obj(file, chain = None, res_list = None):
+    structure= pdbfile.parsePDB(file, chain=chain)
+    hv = structure.getHierView()
 
-def get_shortest_dist_matrix(file: str, res_list: list, chain: str,
+    if chain:
+        obj = hv[chain]
+    else:
+        obj = structure
+
+    if res_list is not None:
+        res_obj = np.empty(len(res_list), dtype=Residue)
+        for i,res in enumerate(res_list):
+            temp_obj = obj.getResidue(res)
+            if temp_obj:
+                res_obj[i] = temp_obj
+    else:
+        res_obj = []
+        for x in obj:
+            res_obj.append(x)
+    return(res_obj)
+
+
+
+def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None,
                              min_dist: int = None, no_adj: bool = True,
-                             save_dir: str = None):
+                             save_dir: str = None, ligand_file: str = None,
+                             ligand_chain: str = None):
     """ Generate shortest-distance distance matrix.
 
     Parameters
@@ -309,19 +353,25 @@ def get_shortest_dist_matrix(file: str, res_list: list, chain: str,
         2D np.array of carbon alpha distance matrix
 
     """
-    structure= pdbfile.parsePDB(file, chain=chain)
-    hv = structure.getHierView()
-    obj = hv[chain]
-    res_obj = np.empty(len(res_list), dtype=Residue)
-    for i,res in enumerate(res_list):
-        temp_obj = obj.getResidue(res)
-        if temp_obj:
-            res_obj[i] = temp_obj
-    # res_obj= np.array(hv[chain], dtype=Residue)[res_list]
-    dist_matrix = build_shortest_dist_matrix(res_obj, res_list, min_dist=min_dist, \
-                                            no_adj=no_adj)
+    res_obj = get_res_obj(file, chain, res_list)
+
+    if ligand_file:
+        ligand = pdbfile.parsePDB(ligand_file, chain=ligand_chain)
+        if ligand.numResidues() > 1:
+            warnings.warn("Ligand is more than one residue")
+        lig_res = list(set(ligand.getResnums()))
+        dist_matrix = build_shortest_dist_matrix(res_obj, res_list, [ligand], lig_res, min_dist=min_dist, \
+                                            no_adj=no_adj, heavy=True, mol=True)
+    else:
+        dist_matrix = build_shortest_dist_matrix(res_obj, res_list, min_dist=min_dist, \
+                                            no_adj=no_adj, heavy=True)
     if save_dir:
         Path(save_dir).mkdir(parents=True, exist_ok=True)
-        fn = file.split('/')[-1].split('.')[0]
+        fn = file.split('/')[-1]
+        
+        if ligand_file:
+            res_name = list(set(ligand.getResnames()))
+            fn = file.split('/')[-1].split('.')[0]
+            fn = fn + "_" + "_".join(["%s%i"%(name,int) for name, int in zip(res_name, lig_res)])
         np.save(save_dir+fn, dist_matrix)
     return dist_matrix
