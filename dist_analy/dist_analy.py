@@ -1,13 +1,15 @@
 """Main module."""
 
-import numpy as np
 import warnings
-from numpy import zeros, array, ndarray, empty, any, save
-from prody.atomic import Atomic, Residue, Atom, AtomGroup
-from prody.proteins import pdbfile
-from prody.measure import measure
-from prody.utilities import getDistance
 from pathlib import Path
+
+import numpy as np
+import prody
+from numpy import zeros, array, ndarray, empty
+from prody.atomic import Residue, AtomGroup
+from prody.measure import measure
+from prody.proteins import pdbfile
+from prody.utilities import getDistance
 
 """ TODO
     - x separate the pdb files into multiple models (multiple pdb files for
@@ -21,6 +23,7 @@ from pathlib import Path
 """
 
 DISTMAT_FORMATS = set(['mat', 'rcd', 'arr'])
+
 
 def get_ca_dist_matrix(file: str, res_list: list, chain: str, save_dir: str = None):
     """ Using prody functions to generate carbon alpha distance matrix
@@ -55,13 +58,13 @@ def get_ca_dist_matrix(file: str, res_list: list, chain: str, save_dir: str = No
     #     if atoms.select('resnum %i'%res):
     #         ca_atoms.append(atoms.select('resnum %i'%res))
 
-    ca_atoms = atoms.select('resnum %s'%(" ".join([str(x) for x in res_list])))
+    ca_atoms = atoms.select('resnum %s' % (" ".join([str(x) for x in res_list])))
     # print(ca_atoms)
     dist_matrix_sel = measure.buildDistMatrix(ca_atoms)
     # print(dist_matrix_sel)
     res_truthy = np.zeros(len(res_list), dtype=bool)
-    reindex = np.zeros(len(ca_atoms), dtype = int)
-    for i,atom in enumerate(ca_atoms):
+    reindex = np.zeros(len(ca_atoms), dtype=int)
+    for i, atom in enumerate(ca_atoms):
         res_truthy[res_list.index(atom.getResnum())] = True
         reindex[i] = res_list.index(atom.getResnum())
     # print(res_truthy)
@@ -70,55 +73,23 @@ def get_ca_dist_matrix(file: str, res_list: list, chain: str, save_dir: str = No
     if not len(dist_matrix_sel) == np.count_nonzero(res_truthy):
         raise ValueError("residue selection went wrong")
 
-    dist_matrix = np.zeros((len(res_list),len(res_list)))
-    for i,row in enumerate(dist_matrix_sel):
-        for j,val in enumerate(row):
+    dist_matrix = np.zeros((len(res_list), len(res_list)))
+    for i, row in enumerate(dist_matrix_sel):
+        for j, val in enumerate(row):
             dist_matrix[reindex[i]][reindex[j]] = val
     # print(dist_matrix)
     if save_dir:
         Path(save_dir).mkdir(parents=True, exist_ok=True)
         fn = file.split('/')[-1].split('.')[0]
-        np.save(save_dir+fn, dist_matrix)
+        np.save(save_dir + fn, dist_matrix)
 
     return dist_matrix
 
-def get_shortest_dist(res1: ndarray, res2: ndarray, unitcell:ndarray=None, min_dist: int = None):
-    """Helper function for build_shortest_dist_matrix.
-    Loops through pairwise residue-residue distances and returns the shortest
 
-    Parameters
-    ----------
-    res1 : ndarray
-        array of atomic coordinates
-    res2 : ndarray
-        array of atomic coordinates
-    unitcell : numpy.ndarray, optional
-        orthorhombic unitcell dimension array with shape ``(3,)``
-    min_dist : int, optional
-        if true the minimum residue-residue distance is set to min_dist
-
-    Returns
-    -------
-    np.float32
-        value of the shortest distance between two residues
-
-    """
-    temp_dist = []
-    for atom1 in res1:
-        for atom2 in res2:
-            temp_dist.append(getDistance(atom1, atom2, unitcell))
-    value = np.min(temp_dist)
-
-    if min_dist and value < min_dist:
-        value = min_dist
-
-    return value
-
-
-def build_shortest_dist_matrix(residues1:ndarray, res_list_1:list, residues2:ndarray=None,
-                              res_list_2:list=None, unitcell:ndarray=None,
-                              format='mat', no_adj: bool = True, min_dist: int = None,
-                              heavy: bool = True, mol: bool = False):
+def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: ndarray = None,
+                               res_list_2: list = None, unitcell: ndarray = None,
+                               format='mat', no_adj: bool = True, min_dist: int = None,
+                               heavy: bool = True, mol: bool = False):
     """Generate shortest-distance distance matrix
     This code is adapted from the ProDy python package, specifically the
     buildDistMatrix function, under the MIT license
@@ -167,11 +138,7 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:list, residues2:nda
     # if not isinstance(residues1[0], Residue):
     #     raise TypeError('array must contain Residue objects')
 
-    if heavy:
-        atomcoords1 = np.array([x.select('heavy').getCoords() if isinstance(x,Residue) else None for x in residues1], dtype=ndarray)
-    else:
-        atomcoords1 = np.array([x.getCoords() if isinstance(x,Residue) else None for x in residues1], dtype=ndarray)
-
+    atomcoords1 = get_atom_coords(heavy, residues1, Residue)
 
     if residues2 is None or res_list_2 == res_list_1:
         # print("here")
@@ -187,10 +154,7 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:list, residues2:nda
         else:
             check = Residue
 
-        if heavy:
-            atomcoords2 = np.array([x.select('heavy').getCoords() if isinstance(x,check) else None for x in residues2], dtype=ndarray)
-        else:
-            atomcoords2 = np.array([x.getCoords() if isinstance(x,check) else None for x in residues2], dtype=ndarray)
+        atomcoords2 = get_atom_coords(heavy, residues1, check)
 
         # if not isinstance(residues2, ndarray):
         #     raise TypeError('residues2 must be an array')
@@ -215,32 +179,31 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:list, residues2:nda
     else:
         dist = []
 
-    # print("here")
     if no_adj:
         if symmetric:
-            no_adj_res = [res.select('not backbone') if isinstance(res,Residue) else None for res in residues1]
+            no_adj_res = [res.select('not backbone') if isinstance(res, Residue) else None for res in residues1]
             no_adj_res_coords = empty(len1, dtype=object)
             no_adj_res_truthy = [False] * len1
-            for i,x in enumerate(no_adj_res):
+            for i, x in enumerate(no_adj_res):
                 if x:
                     no_adj_res_coords[i] = x.getCoords()
                     no_adj_res_truthy[i] = True
 
     if symmetric:
-        for i,res1 in enumerate(atomcoords1[:-1]):
-            for j,res2 in enumerate(atomcoords2[i+1:]):
+        for i, res1 in enumerate(atomcoords1[:-1]):
+            for j, res2 in enumerate(atomcoords2[i + 1:]):
                 j_1 = i + j + 1
                 if res1 is None or res2 is None:
                     value = 0
                 else:
                     res1_t = res1
-                    if no_adj and abs(res_list_2[j_1]-res_list_1[i])==1:
+                    if no_adj and abs(res_list_2[j_1] - res_list_1[i]) == 1:
                         if no_adj_res_truthy[i] and no_adj_res_truthy[j_1]:
                             res1_t = no_adj_res_coords[i]
                             res2 = no_adj_res_coords[j_1]
                         else:
-                            res1_t = [np.array([5.0,0.0,0.0])]
-                            res2 = [np.array([0.0,0.0,0.0])]
+                            res1_t = [np.array([5.0, 0.0, 0.0])]
+                            res2 = [np.array([0.0, 0.0, 0.0])]
 
                     temp_dist = []
                     for atom1 in res1_t:
@@ -251,8 +214,9 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:list, residues2:nda
                         value = min_dist
 
                 if format == 'mat':
-                    dist[i,j_1] = dist[j_1,i] = value
-                else: dist.append(value)
+                    dist[i, j_1] = dist[j_1, i] = value
+                else:
+                    dist.append(value)
         if format == 'rcd':
             n_res1 = len(residues1)
             n_res2 = len(residues2)
@@ -262,23 +226,23 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:list, residues2:nda
             dist = (row, col, dist)
 
     else:
-        for i,res1 in enumerate(atomcoords1):
-            for j,res2 in enumerate(atomcoords2):
+        for i, res1 in enumerate(atomcoords1):
+            for j, res2 in enumerate(atomcoords2):
                 if res1 is None or res2 is None:
                     value = 0
                 else:
                     res1_t = res1
                     res2_t = res2
                     temp_dist = []
-                    if no_adj and abs(res_list_2[j_1]-res_list_1[i])==1:
+                    if no_adj and abs(res_list_2[j_1] - res_list_1[i]) == 1:
                         atom1_noadj = residues1[i].select('not backbone')
                         atom2_noadj = residues2[j].select('not backbone')
                         if atom1_noadj and atom2_noadj:
                             res1_t = np.array([x.getCoords() for x in atom1_noadj])
                             res2_t = np.array([x.getCoords() for x in atom2_noadj])
                         else:
-                            res1_t = [np.array([5.0,0.0,0.0])]
-                            res2_t = [np.array([0.0,0.0,0.0])]
+                            res1_t = [np.array([5.0, 0.0, 0.0])]
+                            res2_t = [np.array([0.0, 0.0, 0.0])]
 
                     # value = get_shortest_dist(res1_t, res2_t, unitcell, min_dist)
                     for atom1 in res1_t:
@@ -289,21 +253,32 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:list, residues2:nda
                     if min_dist and value < min_dist:
                         value = min_dist
 
-                    if format == 'mat':
-                        dist[i,j] = value
-                    else: dist.append(value)
+                if format == 'mat':
+                    dist[i, j] = value
+                else:
+                    dist.append(value)
         if format == 'rcd':
             n_res1 = len(residues1)
             n_res2 = len(residues2)
             rc = np.array([(i, j) for i in range(n_res1) \
-                            for j in range(n_res2)])
+                           for j in range(n_res2)])
             row, col = rc.T
             dist = (row, col, dist)
 
     return dist
 
-def get_res_obj(file, chain = None, res_list = None):
-    structure= pdbfile.parsePDB(file, chain=chain)
+
+def get_atom_coords(heavy: bool, residues1, type: prody.atomic):
+    if heavy:
+        atomcoords1 = np.array([x.select('heavy').getCoords() if isinstance(x, type) else None for x in residues1],
+                               dtype=ndarray)
+    else:
+        atomcoords1 = np.array([x.getCoords() if isinstance(x, type) else None for x in residues1], dtype=ndarray)
+    return atomcoords1
+
+
+def get_res_obj(file, chain=None, res_list=None):
+    structure = pdbfile.parsePDB(file, chain=chain)
     hv = structure.getHierView()
 
     if chain:
@@ -313,7 +288,7 @@ def get_res_obj(file, chain = None, res_list = None):
 
     if res_list is not None:
         res_obj = np.empty(len(res_list), dtype=Residue)
-        for i,res in enumerate(res_list):
+        for i, res in enumerate(res_list):
             temp_obj = obj.getResidue(res)
             if temp_obj:
                 res_obj[i] = temp_obj
@@ -321,8 +296,7 @@ def get_res_obj(file, chain = None, res_list = None):
         res_obj = []
         for x in obj:
             res_obj.append(x)
-    return(res_obj)
-
+    return (res_obj)
 
 
 def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None,
@@ -361,17 +335,17 @@ def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None
             warnings.warn("Ligand is more than one residue")
         lig_res = list(set(ligand.getResnums()))
         dist_matrix = build_shortest_dist_matrix(res_obj, res_list, [ligand], lig_res, min_dist=min_dist, \
-                                            no_adj=no_adj, heavy=True, mol=True)
+                                                 no_adj=no_adj, heavy=True, mol=True)
     else:
         dist_matrix = build_shortest_dist_matrix(res_obj, res_list, min_dist=min_dist, \
-                                            no_adj=no_adj, heavy=True)
+                                                 no_adj=no_adj, heavy=True)
     if save_dir:
         Path(save_dir).mkdir(parents=True, exist_ok=True)
         fn = file.split('/')[-1]
-        
+
         if ligand_file:
             res_name = list(set(ligand.getResnames()))
             fn = file.split('/')[-1].split('.')[0]
-            fn = fn + "_" + "_".join(["%s%i"%(name,int) for name, int in zip(res_name, lig_res)])
-        np.save(save_dir+fn, dist_matrix)
+            fn = fn + "_" + "_".join(["%s%i" % (name, int) for name, int in zip(res_name, lig_res)])
+        np.save(save_dir + fn, dist_matrix)
     return dist_matrix
