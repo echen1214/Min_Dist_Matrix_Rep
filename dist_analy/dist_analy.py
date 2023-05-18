@@ -2,14 +2,15 @@
 
 import warnings
 from pathlib import Path
+from typing import List, Optional
 
 import numpy as np
-import prody
 from numpy import zeros, array, ndarray, empty
 from prody.atomic import Residue, AtomGroup
 from prody.measure import measure
 from prody.proteins import pdbfile
 from prody.utilities import getDistance
+from scipy.spatial import distance_matrix
 
 """ TODO
     - x separate the pdb files into multiple models (multiple pdb files for
@@ -138,14 +139,14 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
     # if not isinstance(residues1[0], Residue):
     #     raise TypeError('array must contain Residue objects')
 
-    atomcoords1 = get_atom_coords(heavy, residues1, Residue)
+    atomic_xyz_residue_1 = get_atom_coords(heavy, residues1, Residue)
 
     if residues2 is None or res_list_2 == res_list_1:
         # print("here")
         symmetric = True
         residues2 = residues1
         res_list_2 = res_list_1
-        atomcoords2 = atomcoords1
+        atomic_xyz_residue_2 = atomic_xyz_residue_1
     else:
         symmetric = False
         no_adj = False
@@ -154,7 +155,7 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
         else:
             check = Residue
 
-        atomcoords2 = get_atom_coords(heavy, residues1, check)
+        atomic_xyz_residue_2 = get_atom_coords(heavy, residues1, check)
 
         # if not isinstance(residues2, ndarray):
         #     raise TypeError('residues2 must be an array')
@@ -190,28 +191,32 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
                     no_adj_res_truthy[i] = True
 
     if symmetric:
-        for i, res1 in enumerate(atomcoords1[:-1]):
-            for j, res2 in enumerate(atomcoords2[i + 1:]):
-                j_1 = i + j + 1
-                if res1 is None or res2 is None:
+        for i, atoms_group_res1 in enumerate(atomic_xyz_residue_1[:-1]):
+            for j, atoms_group_res2 in enumerate(atomic_xyz_residue_2[i + 1:]):
+                j_1 = i + j + 1 # This is what, a pointer to the next residue? Why not just use j?
+                # Residue Block
+                if atoms_group_res1 is None or atoms_group_res2 is None:
                     value = 0
                 else:
-                    res1_t = res1
+                    res1_t = atoms_group_res1
                     if no_adj and abs(res_list_2[j_1] - res_list_1[i]) == 1:
                         if no_adj_res_truthy[i] and no_adj_res_truthy[j_1]:
                             res1_t = no_adj_res_coords[i]
-                            res2 = no_adj_res_coords[j_1]
+                            atoms_group_res2 = no_adj_res_coords[j_1]
                         else:
                             res1_t = [np.array([5.0, 0.0, 0.0])]
-                            res2 = [np.array([0.0, 0.0, 0.0])]
+                            atoms_group_res2 = [np.array([0.0, 0.0, 0.0])]
 
-                    temp_dist = []
-                    for atom1 in res1_t:
-                        temp_dist.append(getDistance(atom1, res2, unitcell))
-                    value = np.min(temp_dist)
-
+                    if unitcell is not None: # Legacy
+                        temp_dist = []
+                        for atom1 in res1_t:
+                            temp_dist.append(getDistance(atom1, atoms_group_res2, unitcell))
+                        value = np.min(temp_dist)
+                    else:
+                        value = np.min(distance_matrix(res1_t, atoms_group_res2))
                     if min_dist and value < min_dist:
                         value = min_dist
+
 
                 if format == 'mat':
                     dist[i, j_1] = dist[j_1, i] = value
@@ -226,15 +231,14 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
             dist = (row, col, dist)
 
     else:
-        for i, res1 in enumerate(atomcoords1):
-            for j, res2 in enumerate(atomcoords2):
-                if res1 is None or res2 is None:
+        for i, atoms_group_res1 in enumerate(atomic_xyz_residue_1):
+            for j, atoms_group_res2 in enumerate(atomic_xyz_residue_2):
+                if atoms_group_res1 is None or atoms_group_res2 is None:
                     value = 0
                 else:
-                    res1_t = res1
-                    res2_t = res2
-                    temp_dist = []
-                    if no_adj and abs(res_list_2[j_1] - res_list_1[i]) == 1:
+                    res1_t = atoms_group_res1
+                    res2_t = atoms_group_res2
+                    if no_adj and abs(res_list_2[j] - res_list_1[i]) == 1:
                         atom1_noadj = residues1[i].select('not backbone')
                         atom2_noadj = residues2[j].select('not backbone')
                         if atom1_noadj and atom2_noadj:
@@ -244,15 +248,18 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
                             res1_t = [np.array([5.0, 0.0, 0.0])]
                             res2_t = [np.array([0.0, 0.0, 0.0])]
 
-                    # value = get_shortest_dist(res1_t, res2_t, unitcell, min_dist)
-                    for atom1 in res1_t:
-                        for atom2 in res2_t:
-                            temp_dist.append(getDistance(atom1, atom2, unitcell))
+                    if unitcell is not None: #Legacy
+                        temp_dist = []
+                        for atom1 in res1_t:
+                            for atom2 in res2_t:
+                                temp_dist.append(getDistance(atom1, atom2, unitcell))
 
-                    value = np.min(temp_dist)
+                        value = np.min(temp_dist)
+
+                    else:
+                        value = np.min(distance_matrix(res1_t, res2_t))
                     if min_dist and value < min_dist:
                         value = min_dist
-
                 if format == 'mat':
                     dist[i, j] = value
                 else:
@@ -260,7 +267,7 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
         if format == 'rcd':
             n_res1 = len(residues1)
             n_res2 = len(residues2)
-            rc = np.array([(i, j) for i in range(n_res1) \
+            rc = np.array([(i, j) for i in range(n_res1)
                            for j in range(n_res2)])
             row, col = rc.T
             dist = (row, col, dist)
@@ -268,7 +275,9 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
     return dist
 
 
-def get_atom_coords(heavy: bool, residues1, type: prody.atomic):
+
+
+def get_atom_coords(heavy: bool, residues1: List, type):
     if heavy:
         atomcoords1 = np.array([x.select('heavy').getCoords() if isinstance(x, type) else None for x in residues1],
                                dtype=ndarray)
@@ -349,3 +358,5 @@ def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None
             fn = fn + "_" + "_".join(["%s%i" % (name, int) for name, int in zip(res_name, lig_res)])
         np.save(save_dir + fn, dist_matrix)
     return dist_matrix
+
+
