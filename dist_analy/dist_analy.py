@@ -289,9 +289,9 @@ def build_shortest_dist_matrix(residues1:ndarray, res_list_1:list, residues2:nda
                     if min_dist and value < min_dist:
                         value = min_dist
 
-                    if format == 'mat':
-                        dist[i,j] = value
-                    else: dist.append(value)
+                if format == 'mat':
+                    dist[i,j] = value
+                else: dist.append(value)
         if format == 'rcd':
             n_res1 = len(residues1)
             n_res2 = len(residues2)
@@ -368,7 +368,7 @@ def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None
     if save_dir:
         Path(save_dir).mkdir(parents=True, exist_ok=True)
         fn = file.split('/')[-1]
-        
+
         if ligand_file:
             res_name = list(set(ligand.getResnames()))
             fn = file.split('/')[-1].split('.')[0]
