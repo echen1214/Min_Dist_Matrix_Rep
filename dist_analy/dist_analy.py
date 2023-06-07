@@ -5,8 +5,8 @@ from pathlib import Path
 from typing import List, Optional
 
 import numpy as np
-from numpy import zeros, array, ndarray, empty
-from prody.atomic import Residue, AtomGroup
+from numpy import array, empty, ndarray, zeros
+from prody.atomic import AtomGroup, Residue
 from prody.measure import measure
 from prody.proteins import pdbfile
 from prody.utilities import getDistance
@@ -260,17 +260,10 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
                         value = np.min(distance_matrix(res1_t, res2_t))
                     if min_dist and value < min_dist:
                         value = min_dist
-<<<<<<< HEAD
-
-                if format == 'mat':
-                    dist[i,j] = value
-                else: dist.append(value)
-=======
                 if format == 'mat':
                     dist[i, j] = value
                 else:
                     dist.append(value)
->>>>>>> c4d79caa72b32860aed6196b05b40b02218f29c5
         if format == 'rcd':
             n_res1 = len(residues1)
             n_res2 = len(residues2)
@@ -365,5 +358,3 @@ def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None
             fn = fn + "_" + "_".join(["%s%i" % (name, int) for name, int in zip(res_name, lig_res)])
         np.save(save_dir + fn, dist_matrix)
     return dist_matrix
-
-

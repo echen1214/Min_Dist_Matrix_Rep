@@ -15,7 +15,7 @@ TODO
 
 """
 uniprot_seq_url = 'http://www.ebi.ac.uk/proteins/api/proteins/'
-clustalw_exe = '/Users/echen10/Desktop/programs/clustal-omega-1.2.3-macosx'
+# clustalw_exe = '/Users/echen10/Desktop/programs/clustal-omega-1.2.3-macosx'
 
 
 def get_uniprot_sequence(uniprot: str, prot: str, description: str = ''):
@@ -92,7 +92,8 @@ def align_fasta_clustalw(inpath: str, infile: str, outpath: str, outfile: str):
 
     """
     Path(outpath).mkdir(parents=True, exist_ok=True)
-    clustalw_cline = ClustalwCommandline(clustalw_exe, infile=inpath+infile, outfile=outpath+outfile)
+    clustalw_cline = ClustalwCommandline("clustalo", infile=inpath+infile, outfile=outpath+outfile,\
+                                        numiter=5,)
     stdout, stderr = clustalw_cline()
 
 def get_and_align_sequence(outpath: str, filename: str, unip_list: list, prot_list: list = [], \
@@ -131,12 +132,12 @@ def get_and_align_sequence(outpath: str, filename: str, unip_list: list, prot_li
         f1+='.fa'
         f2+='.al'
     get_write_fasta(outpath+'fasta/', f1,  unip_list, prot_list, descrip_list)
-    align_fasta_clustalw(outpath+'fasta/', f1, outpath+'align/', filename+'.al')
+    align_fasta_clustalw(outpath+'fasta/', f1, outpath+'align/', f2)
 
     align = AlignIO.read(outpath+'align/'+f2, "clustal")
     return align
 
-def get_conserved(align):
+def get_conserved(align, conservative=False, semi=False):
     """Determines the residue IDs of the identically conserved residues of an
     sequence alignment for each corresponding sequence
 
@@ -156,15 +157,18 @@ def get_conserved(align):
     res_count = [0 for obj in align]
     cons_id = [[] for obj in align]
 
-    for i in range(0,len(align_seq[0])):
-        temp_set = set()
+    clustal_anno = ["*"]
+    if conservative:
+        clustal_anno.append(":")
+    if semi:
+        clustal_anno.append('.')
+
+    for i,cons in enumerate(align.column_annotations['clustal_consensus']):
         for j,seq in enumerate(align_seq):
-            temp_set.add(seq[i])
             if seq[i]!='-':
                 res_count[j] += 1
-        if len(temp_set) == 1:
-            for j,res in enumerate(res_count):
-                cons_id[j].append(res)
+            if cons in clustal_anno:
+                cons_id[j].append(res_count[j])
     return cons_id
 
 def get_klifs_res(ref_pdb: str, chain: str):
@@ -205,7 +209,7 @@ def get_klifs_res(ref_pdb: str, chain: str):
 
     klifs_res_list = pdb_info.get_any_info('https://klifs.net/api/interactions_match_residues', **request_dict)
 
-    klifs_res = [int(temp_dict['Xray_position']) for temp_dict in klifs_res_list if temp_dict['Xray_position'] != '_']
+    klifs_res = [int(temp_dict['Xray_position']) if temp_dict['Xray_position'] != '_' else None for temp_dict in klifs_res_list ]
     return klifs_res
 
 def def_union(s1,s2):

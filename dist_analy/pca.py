@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 import matplotlib.pylab as pylab
 import warnings
-
+from IPython.display import Markdown
+from IPython.display import display
 
 """ TODO
 - x get list of residues that are present in all structures
@@ -52,11 +53,14 @@ params = {'legend.fontsize': 'x-large',
          'ytick.labelsize':'large'}
 pylab.rcParams.update(params)
 
-COLOR_LIST = ['g','r','c','m','y','k','orange', 'pink']
-MARKER_LIST = ["o", "v", "s", "P", "*", "X", "d", ">"]
+COLOR_LIST = ['g','r','c','m','y','k','orange', 'pink', 'grey', 'white', 'lime', 'tan', 'aqua', 'olive', 'dodgerblue']
+MARKER_LIST = ["o", "v", "s", "P", "*", "X", "d", ">", "2", "p", "+", 'x', '<', '|', '_', 'h', '8', 'H']
 DFLT_COL = "#808080"
 
-def hist_missing_residue(dist_mats: np.ndarray, res_list: list, res_get: list = None):
+
+
+def hist_missing_residue(dist_mats: np.ndarray, res_list: list, res_get: list = None,\
+                         axis: int = 1):
     """Plot the frequency that a residue is missing across a set of residue–residue
     distance matrices. Returns a list of structure indices that are missing residues
     in the list res_get
@@ -69,6 +73,8 @@ def hist_missing_residue(dist_mats: np.ndarray, res_list: list, res_get: list = 
         list of residues corresponding to rows and columns of the distance matrix
     res_get : list, optional
         list of residues to track which structure indices are missing these residues
+    axis : int, default: 1
+        axis on which to check for missing residues
 
     Returns
     -------
@@ -84,20 +90,22 @@ def hist_missing_residue(dist_mats: np.ndarray, res_list: list, res_get: list = 
     # struct_res_get = [0 for _ in range(len(res_get))]
     missing_pdb = []
     for i,mat in enumerate(dist_mats):
-        missing = np.where(~mat.any(axis=1))[0]
+        missing = np.where(~mat.any(axis=axis))[0]
         for j in missing:
             missing_res[j] += 1
             if res_list[j] in res_get:
                 missing_pdb.append(i)
     plt.bar(range(len(res_list)), missing_res)
     plt.xticks(range(0,len(res_list),2), labels=res_list[::2], rotation=90)
+    plt.ylim([0, len(dist_mats)])
     # plt.title("Frequency of missing KLIFS-IDENT residues")
     plt.ylabel("Number of structures")
     plt.xlabel("Residue ID")
     plt.margins(0)
-    return missing_pdb
+    return (missing_pdb, missing_res)
 
-def hist_missing_structure(dist_mats: np.ndarray, cutoff: int = 10, bins: int = None):
+def hist_missing_structure(dist_mats: np.ndarray, cutoff: int = 10, bins: int = None, \
+                           axis: int = 1):
     """Plot a histogram of the frequency of residues missing per structure based
     on the distance matrices. Returns list of struture indices that have more residues
     missing than the cutoff
@@ -110,7 +118,8 @@ def hist_missing_structure(dist_mats: np.ndarray, cutoff: int = 10, bins: int = 
         Cutoff of residues missing
     bins : int, optional
         Number of bins to plot the histogram
-
+    axis : int, default: 1
+        axis on which to check for missing residues
     Returns
     -------
     list
@@ -121,7 +130,7 @@ def hist_missing_structure(dist_mats: np.ndarray, cutoff: int = 10, bins: int = 
     many_missing = []
 
     for i,mat in enumerate(dist_mats):
-        missing = np.where(~mat.any(axis=1))[0]
+        missing = np.where(~mat.any(axis=axis))[0]
         missing_pdb.append(len(missing))
         if len(missing) > cutoff:
             many_missing.append(i)
@@ -204,9 +213,9 @@ def replace_zeros_(feats: np.ndarray, method:str ='mean', axis: int = 0):
         new_feats = np.where(feats==0.0, np.nanmedian(np.where(feats==0.0, np.nan, feats), axis = axis), feats)
     return new_feats
 
-def triu_flatten(dist_mats: np.ndarray, len_res_list: int):
+def triu_flatten(dist_mats: np.ndarray, len_res_list: int, k: int = 1):
     """ Return an array of flattened 1D upper triangular values (features) of each
-    residue-residue distance matrix. These values include all those above the
+    symetric residue-residue distance matrix. These values include all those above the
     diagonal of the matrix (k=1)
 
     Parameters
@@ -215,16 +224,18 @@ def triu_flatten(dist_mats: np.ndarray, len_res_list: int):
         array of distance matrices (3D: PDB * res_list * res_list | 2D: res_list * res_list)
     len_res_list : list
         number of elements of res_list
-
+    k : int, default = 1
+        Diagonal offset. Default is 1, removing the diagonal entires. k = 2 can be
+        used to remove adjacent residues if the res_list is consecutive
     Returns
     -------
     np.ndarray
         array of 1D flattened distance matrices (2D: PDB * features | 1D: res_list)
 
     """
-    triu_ind = np.triu_indices(len_res_list, k=1)
+    triu_ind = np.triu_indices(len_res_list, k=k)
     feats_list = []
-    print(len(dist_mats.shape))
+    # print(dist_mats.shape)
     if len(dist_mats.shape) == 3:
         for mat in dist_mats:
             feats_list.append(np.array(mat)[triu_ind])
@@ -363,18 +374,11 @@ def clustering(feats: np.ndarray, k: int, method: str = 'ward', criterion: str =
             index=index+1
 
         ind_fc_clust = [j for j,x in enumerate(ind_fc)]
-
         medoid_ind=find_medoid(feats[ind_fc], ind_fc_clust)
-        # pdb_list_fc = [pdb_list[x] for x in ind_fc]
-        # chain_list_fc = [chain_list[x] for x in ind_fc]
-
-        # pdb_clust_temp = [pdb_list_fc[ind] for ind in medoid_ind]
-        # chain_clust = [chain_list_fc[ind] for ind in medoid_ind]
-        #pdb_clust.append(pdb_clust_temp)
 
         inds_fc.append(ind_fc)
         medoid_ind_list.append(medoid_ind)
-    print("link_cols")
+#    print("link_cols")
     link_cols = {}
     ct=Z[-(k-1),2]
     for i, il2 in enumerate(Z[:,:2].astype(int)):
@@ -392,7 +396,7 @@ def clustering(feats: np.ndarray, k: int, method: str = 'ward', criterion: str =
             link_cols[i+1+len(Z)] = c1
         else:
             link_cols[i+1+len(Z)] = DFLT_COL
-    print("dendrogram")
+#    print("dendrogram")
     plt.figure(figsize=(25, 5))
     R = sch.dendrogram(Z, no_plot=False,leaf_rotation=90., color_threshold=None,\
                         link_color_func=lambda x: link_cols[x], no_labels=True)
@@ -441,7 +445,7 @@ def plot_pca(npy_pca: decomposition.PCA, feats: np.ndarray, inds_fc: list, \
         list of labels
     """
     print("plot PCA")
-    feats -= np.mean(feats, axis=0)
+    feats = feats - np.mean(feats, axis=0)
     a = np.dot(feats, npy_pca.components_.T)
     plt.figure()
     ax = plt.axes()
@@ -454,6 +458,7 @@ def plot_pca(npy_pca: decomposition.PCA, feats: np.ndarray, inds_fc: list, \
             color = COLOR_LIST[index]
             index=index+1
         if family_map:
+            # print(family_map)
             for ind in ind_fc:
                 cluster = a[ind]
                 ax.scatter(cluster[0], cluster[1], color=color, marker = MARKER_LIST[family_map[ind]], alpha=0.7)
@@ -461,16 +466,20 @@ def plot_pca(npy_pca: decomposition.PCA, feats: np.ndarray, inds_fc: list, \
             cluster = a[ind_fc]
             ax.scatter(cluster[:,0], cluster[:,1], color=color, alpha=0.7)
         print("cluster size:", len(ind_fc), color)
-    # for i, (x, label) in enumerate(zip([9, 453, 0], ['1E9H_A', '5A14_A', '1AQ1_A'])):
+    # for i, (x, label) in enumerate(zip([400, 401, 429, 430, 402, 433, 403, 359, 361, 434, 436, 435, 437, 438, 440, 439, 443, 441, 442],\
+    #                                     ['4EK4', '4EK5', '4FKG', '4FKI', '4EK6', '4FKL', '4EK8', '3SW4', '3SW7', '4FKO', '4FKP', '4FKQ', '4FKR', '4FKS', '4FKT', '4FKU', '4FX3', '4FKV', '4FKW'])):
     #     cluster = a[x]
-    #     ax.scatter(cluster[0], cluster[1], label=label, marker="*", color=COLOR_LIST[5+i])
+    #     # print(cluster)
+    #     ax.scatter(cluster[0], cluster[1], label=label, marker="*", color="pink")
 
-    plt.legend()
     plt.xlabel("PC1")
     plt.ylabel("PC2")
     if family:
         legend_elements = [Line2D([], [], marker=mark, label=label, linestyle='None') for mark, label in zip(MARKER_LIST[:len(family)], family)]
-        ax.legend(handles=legend_elements)
+        plt.legend(handles=legend_elements, bbox_to_anchor=(1.04,1), loc="upper left")
+    else:
+        plt.legend(bbox_to_anchor=(1.04,1), loc="upper left")
+
     print(npy_pca.explained_variance_ratio_[:2])
 
 # assumes square matrix
@@ -522,7 +531,9 @@ def calc_cluster_smd(cluster1_inds: list, cluster2_inds: list, feats: np.ndarray
                         norm: int = 1.5, std: str = "SMD"):
     """Calculate the standardized mean difference (SMD) or the strictly standardized
     mean difference (SSMD) of the pairwise residue-residue distances (features)
-    between two clusters.
+    between two clusters. The positive SMD values reflect distance pairs that are
+    shorter for cluster2_ind, whereas the negative SMD values reflect the short
+    cluster1_ind pairs.
 
     SMD = average(cluster 1 features) - average(cluster 2 features) / (sqrt (std(cluster 1 features) * std(cluster 2 features)))
     SSMD = average(cluster 1 features) - average(cluster 2 features) / (sqrt (std(cluster 1 features)^2 + std(cluster 2 features)^2))
@@ -575,7 +586,7 @@ def calc_cluster_smd(cluster1_inds: list, cluster2_inds: list, feats: np.ndarray
     smd_new = np.divide(smd_diff_c1c2, (np.subtract(min_dist,norm))) #np.divide(np.log(min_dist), np.log(5)))
     return (smd_new, min_dist)
 
-def plot_smd_distrib(cluster1: int, cluster2: int, feats: np.ndarray, \
+def plot_smd_distrib(cluster1: int, cluster2: int, feats: np.ndarray, min_feats: np.ndarray, \
                         smd: np.ndarray, xcutoff: int=3.5, ycutoff: int=5, \
                         norm: int = 1.5, std: str = "SMD"):
     """Plots the distribution of SMD vs minimum distance. Each data point
@@ -602,9 +613,12 @@ def plot_smd_distrib(cluster1: int, cluster2: int, feats: np.ndarray, \
         contains hydrogen atoms set norm to 0
     std : str, default: 'SMD'
         'SMD' or 'SSMD' string reflecting the choice of denominator
+    # excl_adj : bool, default: 'False'
+    #     if True, excludes any residue pairs that are adjacent to one another
     """
-    min_feats = np.amin(feats, axis=0)
+    # min_feats = np.amin(feats, axis=0)
     # min_feats_idx = np.argsort(min_feats)
+    # print(min_feats.shape, smd.shape)
     min_smd= np.stack((min_feats,smd),axis=1)
     plt.figure()
     plt.scatter(min_smd[:,0],min_smd[:,1])
@@ -646,6 +660,11 @@ class color_text:
             if res_num in reg:
                 return(fg("%s"%self.color_list[i])+res+str(res_num)+attr(0))
         return res+str(res_num)
+    def get_text_markdown(self, res:str, res_num: int):
+        for i,reg in enumerate(self.region_list):
+            if res_num in reg:
+                return("<span style='color: %s'>"%self.color_list[i] + "%s"%(res+str(res_num)) + "</span>")
+        return res+str(res_num)
     def return_color(self, res_num):
         for i,reg in enumerate(self.region_list):
             if res_num in reg:
@@ -671,9 +690,10 @@ class color_text:
 #     return res+str(res_num)
 
 def plot_smd(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarray, \
-                smd: np.ndarray, res_list_list: list, uniprot_seq_list: list, color_obj_list: list, \
+                smd: np.ndarray, res_list_list: list, uniprot_seq_list: list, color_obj_list: list = None, \
+                prot_list: list = None, \
                 top: int = 10, xcutoff:int = 3.5, ycutoff:int = 5, norm: int = 1.5, \
-                std: str = 'SMD'):
+                std: str = 'SMD', k: int = 1):
     """ Plots SMD vs minimum distance. Returns the residue–residue ID of the top SMD ranking distance pairs
     given a minimum distance cutoff (xcutoff) and a minimum absolute SMD
     value (ycutoff).
@@ -708,6 +728,9 @@ def plot_smd(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarr
         contains hydrogen atoms set norm to 0
     std : str, default: 'SMD'
         'SMD' or 'SSMD' string reflecting the choice of denominator
+    k : int, default = 1
+        Diagonal offset. Default is 1, removing the diagonal entires. k = 2 can be
+        used to remove adjacent residues if the res_list is consecutive
 
     Returns
     -------
@@ -721,7 +744,7 @@ def plot_smd(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarr
         raise ValueError('std must be either standardized mean difference `SMD` or \
                           or strictly standardized mean difference `SSMD`')
 
-    plot_smd_distrib(cluster1, cluster2, feats, smd, \
+    plot_smd_distrib(cluster1, cluster2, feats, min_dist, smd, \
                         xcutoff=xcutoff, ycutoff=ycutoff, norm=norm, std=std)
 
     # top_ind = 0
@@ -733,29 +756,55 @@ def plot_smd(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarr
 
     z_pos = filter_z > 0
     z_neg = filter_z < 0
-    for z_rank, clust in zip([z_pos, z_neg], [cluster2, cluster1]):
+    # out_all = "|"
+    # if prot_list:
+    #     for i in prot_list:
+    #         out_all += "%s|"%i
+    #     out_all += "min dist (Å)| SMD|<br>|"
+    #     for i in prot_list:
+    #         out_all += ":-:|"
+    #     out_all += ":-:| :-:|<br>"
+
+    for z_rank, clust, rank in zip([z_pos, z_neg], [cluster2, cluster1], [-1,1]):
         print("cluster %i stabilizing interactions"%(clust+1))
-        z_sort_idx = np.argsort(filter_z[z_rank])[::-1]
+        z_sort_idx = np.argsort(filter_z[z_rank])[::rank]
         idx_sort = filter_idx[z_rank][z_sort_idx]
         dist_sort = filter_dist[z_rank][z_sort_idx]
         z_sort = filter_z[z_rank][z_sort_idx]
         for i, (idx, min_dist, smd_val) in enumerate(zip(idx_sort, dist_sort, z_sort)):
             if i > top:
                 break
-            x,y=triu_getXY(idx,m=len(res_list_list[0]),k=1)
+            x,y=triu_getXY(idx,m=len(res_list_list[0]),k=k)
             feat_idx.append((x,y,idx,min_dist,smd_val))
+            # out_text = "|"
             out_text = ""
-            for res_list, uniprot_seq, color_obj in zip(res_list_list, uniprot_seq_list, color_obj_list):
+            for i, (res_list, uniprot_seq) in enumerate(zip(res_list_list, uniprot_seq_list)):
                 r1 = uniprot_seq[res_list[x]-1]
                 r1_id = res_list[x]
                 r2 = uniprot_seq[res_list[y]-1]
                 r2_id = res_list[y]
-                out_text += "%s-%s: "%(color_obj.get_text(r1,r1_id), color_obj.get_text(r2,r2_id))
+                if color_obj_list:
+                    out_text += "%s-%s: "%(color_obj_list[i].get_text_markdown(r1,r1_id), color_obj_list[i].get_text_markdown(r2,r2_id))
+                    # out_text += "%s-%s|"%(color_obj_list[i].get_text_markdown(r1,r1_id), color_obj_list[i].get_text_markdown(r2,r2_id))
+                    # out_text += "%s-%s: "%(color_obj_list[i].get_text(r1,r1_id), color_obj_list[i].get_text(r2,r2_id))
+                else:
+                    out_text += "%s-%s: "%(r1+str(r1_id), r2+str(r2_id))
+                    # out_text += "%s-%s|"%(r1+str(r1_id), r2+str(r2_id))
+
             if np.isinf(smd_val):
                 print("Warning: infinite value may result from std = 0")
                 top_ind -= 1
+            # if excl_adj:
+            #     if abs(r2_id-r1_id) < 2:
+        #         continue
             out_text += "%.3f, %.3f"%(min_dist,smd_val)
-            print(out_text)
+            display(Markdown(out_text))
+
+            # out_text += "%.3f|%.3f| <br>"%(min_dist,smd_val)
+            # out_all += out_text
+        # display(Markdown(out_all))
+
+            # print(out_text)
     return feat_idx
 
 def plot_r1r2(c1: int, c2: int, r1r2_feat: list, inds_fc: list, dist_mats: np.ndarray, \
@@ -784,7 +833,7 @@ def plot_r1r2(c1: int, c2: int, r1r2_feat: list, inds_fc: list, dist_mats: np.nd
     family : list
         list of family labels
     """
-    if not (pdb_prot_index == family):
+    if not pdb_prot_index and family:
         raise ValueError("Must pass in both pdb_prot_index and family or neither")
     if not pdb_prot_index:
         pdb_prot_index = []
@@ -801,6 +850,7 @@ def plot_r1r2(c1: int, c2: int, r1r2_feat: list, inds_fc: list, dist_mats: np.nd
     # MARKER_LIST = ["o", "v", "s", "P", "*", "X", "d", ">"]
     plt.figure()
     ax = plt.axes()
+    index = 0
     for i,ind_fc in enumerate(inds_fc):
 #         r1_dist, r2_dist = [], []
         for mat, ind in zip(dist_mats[ind_fc], ind_fc):
@@ -815,22 +865,36 @@ def plot_r1r2(c1: int, c2: int, r1r2_feat: list, inds_fc: list, dist_mats: np.nd
                 if len(ind_fc) == 1:
                     plt.scatter(temp1, temp2, color = DFLT_COL, marker = MARKER_LIST[pdb_prot_index[ind]])
                 else:
-                    plt.scatter(temp1, temp2, color = COLOR_LIST[i], marker = MARKER_LIST[pdb_prot_index[ind]])
+                    plt.scatter(temp1, temp2, color = COLOR_LIST[index], marker = MARKER_LIST[pdb_prot_index[ind]])
             else:
                 if len(ind_fc) == 1:
                     plt.scatter(temp1, temp2, color = DFLT_COL)
                 else:
-                    plt.scatter(temp1, temp2, color = COLOR_LIST[i])
+                    plt.scatter(temp1, temp2, color = COLOR_LIST[index])
+        if len(ind_fc) > 1:
+            index+=1
+            # if temp1 > 11 and temp2 > 40:
+            #     print(ind)
+
+    # for mat in [dist_mats[x] for x in [253, 442,251, 256, 254]]:
+    #     temp1 = 0
+    #     for r1 in r1_feat:
+    #         temp1 += mat[r1[0]][r1[1]]
+    #     temp2 = 0
+    #     for r2 in r2_feat:
+    #         temp2 += mat[r2[0]][r2[1]]
+    #     plt.scatter(temp1, temp2, color = "lime", marker = "*")
 
     plt.xlabel(r'sum(R%s) ($\AA$)'%str(c2+1))
     plt.ylabel(r'sum(R%s) ($\AA$)'%str(c1+1))
     if family:
-        plt.legend()
+        # plt.legend()
         legend_elements = [Line2D([], [], marker=mark, label=label, linestyle='None') for mark, label in zip(MARKER_LIST[:len(family)], family)]
-        ax.legend(handles=legend_elements)
+        # ax.legend(handles=legend_elements)
+        plt.legend(handles=legend_elements, bbox_to_anchor=(1.04,1), loc="upper left")
 
 def plot_stacked_histogram(r1: int, r2:int, dist_mats: list, res_lists: list, \
-    inds_fc: list, uniprot_seqs: list, color_texts: list, SMD:float=None):
+    inds_fc: list, uniprot_seqs: list, color_texts: list = None, SMD:float=None):
     """ Plot the stacked histogram of the specified distance pair across the
     set of distance matrices colored on the plot based on their clustering. The
     title and residue labeling is colored based on the color_text objects.
@@ -883,14 +947,18 @@ def plot_stacked_histogram(r1: int, r2:int, dist_mats: list, res_lists: list, \
     plt.ylabel('Frequency')
     title = ""
     center = float(1)/float(len(res_lists)+1)
-    for i, (res_list, uniprot_seq, color_text) in enumerate(zip(res_lists, uniprot_seqs, color_texts)):
+    for i, (res_list, uniprot_seq) in enumerate(zip(res_lists, uniprot_seqs)):
         res1 = uniprot_seq[res_list[r1]-1] + str(res_list[r1])
         res2 = uniprot_seq[res_list[r2]-1] + str(res_list[r2])
         text_center = center + center*i
-
-        fig.text(text_center-0.05, 0.90, res1, ha="center", va="bottom", size="x-large",color=color_text.return_color(res_list[r1]))
-        fig.text(text_center, 0.90, "–", ha="center", va="bottom", size="x-large")
-        fig.text(text_center+0.05,0.90, res2, ha="center", va="bottom", size="x-large",color=color_text.return_color(res_list[r2]))
+        if color_texts:
+            fig.text(text_center-0.05, 0.90, res1, ha="center", va="bottom", size="x-large",color=color_texts[i].return_color(res_list[r1]))
+            fig.text(text_center, 0.90, "–", ha="center", va="bottom", size="x-large")
+            fig.text(text_center+0.05,0.90, res2, ha="center", va="bottom", size="x-large",color=color_texts[i].return_color(res_list[r2]))
+        else:
+            fig.text(text_center-0.05, 0.90, res1, ha="center", va="bottom", size="x-large")
+            fig.text(text_center, 0.90, "–", ha="center", va="bottom", size="x-large")
+            fig.text(text_center+0.05,0.90, res2, ha="center", va="bottom", size="x-large")
     if SMD:
 #         plt.legend("SMD: %.3f"%SMD)
         plt.annotate("SMD: %.3f"%SMD, xy=(0.97, 0.95), xycoords='axes fraction', size=14, ha='right', va='top', )
@@ -946,14 +1014,17 @@ def run(dist_mats: np.ndarray, res_list: list, k: int, remove_missing: bool = Tr
                 print("replacing %s missing data with the %s distance"%(fam,replace_zeros))
                 for i,prot_dist_mat in enumerate(dist_mats_1):
                     dist_mats[i] = replace_zeros_(prot_dist_mat, method=replace_zeros)
-            ind_list = np.arange(0,len(res_list[0]))
+            ind_list = np.arange(0,len(res_list[0])) ## this will not work if the range of consecutive resiudes are not passed in
         ## flatten dist_mats to 3D
         dist_mats = np.array([dist_mat for dist_mat_list in dist_mats for dist_mat in dist_mat_list])
         print(dist_mats.shape)
         if remove_missing:
             print("removing residues not available in every structure")
             dist_mats, _, ind_list = remove_missing_(dist_mats, res_list[0])
+            print(ind_list)
             res_list = [prot_res[ind_list] for prot_res in res_list]
+        else:
+            ind_list = res_list
         # if replace_zeros:
         #      print("replacing missing data with the %s distance"%(replace_zeros))
         #      dist_mats = replace_zeros_(dist_mats, method=replace_zeros)
@@ -965,6 +1036,8 @@ def run(dist_mats: np.ndarray, res_list: list, k: int, remove_missing: bool = Tr
         if remove_missing:
             print("removing residues not available in every structure")
             dist_mats, res_list, ind_list = remove_missing_(dist_mats, res_list)
+        else:
+            ind_list = res_list
         if replace_zeros:
             dist_mats = replace_zeros_(dist_mats, method=replace_zeros)
             ind_list = np.arange(0,len(res_list))

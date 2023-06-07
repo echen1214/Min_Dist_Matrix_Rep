@@ -171,12 +171,14 @@ class PDB_Processer:
 
         for entry_id in info['rcsb_entry_container_identifiers']['polymer_entity_ids']:
             try:
-                uniprot_query = pdb_info.get_any_info(self.uniprot_root_url, pdb, str(entry_id))[0]\
-                    ['rcsb_uniprot_container_identifiers']['uniprot_id']
-                if not uniprot_query:
-                    raise RuntimeError('Unable to find UniProt associated with %s'%pdb)
-                if uniprot_query == uniprot:
-                    entry_all.append(int(entry_id))
+                query = pdb_info.get_any_info(self.uniprot_root_url, pdb, str(entry_id))
+                for q in query:
+                    uniprot_query = q['rcsb_uniprot_container_identifiers']['uniprot_id']
+                    # if not uniprot_query:
+                    #     raise RuntimeError('Unable to find UniProt associated with %s'%pdb)
+                    if uniprot_query == uniprot:
+                        entry_all.append(int(entry_id))
+                # print(uniprot_query)
             except ValueError:
                 print("unable to find data with %s entity #%s, skipping"%(pdb,entry_id))
                 pass
@@ -199,7 +201,7 @@ class PDB_Processer:
         return chain_all
 
     def process_pdb(self, filename: str, path: str, outpath: str, uniprot: str = '',
-                    chain_all: list = [], repl_dict: dict = {}, res_range: list = [],
+                    chain_all: list = None, repl_dict: dict = None, res_range: list = None,
                     method: str = "All"
                     ):
         """ Accepts a PDB file and finds the protein chain(s) that matches the
@@ -260,49 +262,65 @@ class PDB_Processer:
         elif method == 'NMR':
             if len(structure) <= 1:
                 return []
+
+        if chain_all is None:
+            chain_all = []
         if res_range:
             temp_parse = PDBParser()
+        else:
+            res_range = []
+        if repl_dict is None:
+            repl_dict = {}
 
         process_pdb_list = []
 
         for chain in chain_all:
             for i,struct in enumerate(structure):
+                # if Path("%s%s_%s.pdb"%(outpath,pdb,chain)).is_file():
+                #     print("%s_%s.pdb exists"%(pdb,chain))
+                #     continue
                 prot = struct[chain]
                 if check_SIFTs_:
                     try:
                         #### this runs very slowly will need to check why it runs so slowly
-                        repl_dict = {}
-                        SIFTS = pdb_info.get_any_info("https://www.ebi.ac.uk/pdbe/api/mappings/uniprot/", pdb)
-                        sifts_list = SIFTS[pdb.lower()]['UniProt'][uniprot]['mappings']
-                        for item in sifts_list:
-                            if item['chain_id'] == chain:
-                                start_unp = item['unp_start'] # will maybe need to check if the 0 index is different for NMR structures
-                                start_pdb = item['start']['author_residue_number']
-                                end_unp = item['unp_end']
-                                end_pdb = item['end']['author_residue_number']
-                            else:
-                                continue
-                        try:
-                            shift = start_pdb-start_unp
-                        except:
-                            shift = end_pdb-end_unp
-
-                        if shift != 0:
-                            for i in range(start_unp, end_unp):
-                                repl_dict[str(i+shift)] = str(i)
-                        else:
-                            repl_dict[1] = 1
-                        # print(start_pdb, start_unp, shift, end_unp)
-                    # print(chain)
-                    except:
-                        repl_dict = {}
-                        warnings.warn("%s: unable to get SIFTs residues , trying another way"%pdb)
                         xml_str = self._get_xml_str(pdb, ftp_url=self.ftp_url)
-                        if not xml_str:
-                            warnings.warn("%s: unable to get SIFTs residues , skipping residue numbering check"%pdb)
-                            check_SIFTs_ = False
                         if not repl_dict:
                             repl_dict = self._xml_replace_dict(xml_str, chain)
+
+                    except Exception as e:
+                        try:
+                            warnings.warn("%s: unable to get SIFTs residues , trying another way"%pdb)
+                            SIFTS = pdb_info.get_any_info("https://www.ebi.ac.uk/pdbe/api/mappings/uniprot/", pdb)
+                            sifts_list = SIFTS[pdb.lower()]['UniProt'][uniprot]['mappings']
+                            for item in sifts_list:
+                                if item['chain_id'] == chain:
+                                    print(item)
+                                    shift, start_unp, start_pdb, end_unp, end_pdb =None, None, None, None, None
+                                    start_unp = item['unp_start'] # will maybe need to check if the 0 index is different for NMR structures
+                                    start_pdb = item['start']['author_residue_number']
+                                    # if start_pdb == None:
+                                        # start_pdb = list(struct[chain].get_residues())[0].id[1]-1
+                                    end_unp = item['unp_end']
+                                    end_pdb = item['end']['author_residue_number']
+                                    # print(chain, start_unp, start_pdb)
+                                    # if end_pdb == None:
+                                    #     end_pdb = item['end']['residue_number']
+                                    try:
+                                        shift = start_pdb-start_unp
+                                        # print(shift)
+                                    except:
+                                        shift = end_pdb-end_unp
+                                        # print(shift)
+
+                                    for i in range(start_unp, end_unp):
+                                        repl_dict[str(i+shift)] = str(i)
+
+                                else:
+                                    continue
+                        except Exception as e:
+                            print(e)
+                            warnings.warn("%s: unable to get SIFTs residues , skipping residue numbering check"%pdb)
+                            check_SIFTs_ = False
                         # print(repl_dict)
 
                 if repl_dict:
@@ -311,7 +329,7 @@ class PDB_Processer:
                         truthy.append(key == repl_dict[key])
 
                     if all(truthy) == False:
-                        # print(repl_dict)
+#                        print(repl_dict)
                         self._replace_with_dict(prot, repl_dict)
                 # print([res._id[1] for res in list(prot.get_residues())])
                 self.io.set_structure(prot)
@@ -325,14 +343,15 @@ class PDB_Processer:
                     # print("%s%s"%(outpath,outf))
                     temp_prot = temp_parse.get_structure('pdb', "%s%s"%(outpath,outf))
                     prot_res_list = [res._id[1] for res in list(temp_prot.get_residues())]
+                    # print(prot_res_list)
                     if not any(elem in prot_res_list for elem in res_range):
                         # print([elem for elem in prot_res_list])
                         warnings.warn("%s not within given residue range, deleting"%(outf))
-                        # file_path = Path("%s%s"%(outpath,outf))
-                        # try:
-                        #     file_path.unlink()
-                        # except OSError as e:
-                        #     print("Error: %s : %s" % (file_path, e.strerror))
+                        file_path = Path("%s%s"%(outpath,outf))
+                        try:
+                            file_path.unlink()
+                        except OSError as e:
+                            print("Error: %s : %s" % (file_path, e.strerror))
                         continue
                 process_pdb_list.append(outf)
 
@@ -497,44 +516,54 @@ class PDB_Processer:
         -------
 
         """
-        # print(replace_dict)
-        try:
-            try:
-                for residue in reversed(list(chain_object.get_residues())):
-                    res_id = list(residue.id)
-                    # print(res_id)
-                    if str(res_id[1]) in replace_dict:
-                        repl_id = replace_dict[str(res_id[1])]
-                        x = res_id[1]
-                        # print(res_id, repl_id, "0")
-                        res_id[1] = int(repl_id)
-                        # print(res_id)
-                        residue.id = tuple(res_id)
-                        # print(x, residue.id)
-            except ValueError as e:
-                print(e)
-                # count = 0
-                for residue in list(chain_object.get_residues()):
-                    res_id = list(residue.id)
-                    if str(res_id[1]) in replace_dict:
-                        repl_id = replace_dict[str(res_id[1])]
-                        # print(res_id[1], repl_id, "1")
-                        res_id[1] = int(repl_id)
-                        residue.id = tuple(res_id)
-        except ValueError as e:
-            print(e)
-            warnings.warn("renumber with negative numbers \n")
-            count = 0
-            for residue in reversed(list(chain_object.get_residues())):
-                res_id = list(residue.id)
-                res_id[1] = -999 + count
+        print(replace_dict)
+#        try:
+#            first_key = next(iter(replace_dict))
+#            first_val = replace_dict[first_key] 
+#            if int(first_val) > int(first_key):
+#                print("reverse")
+##            try:
+#                for residue in reversed(list(chain_object.get_residues())):
+#                    res_id = list(residue.id)
+#                    # print(res_id)
+#                    if str(res_id[1]) in replace_dict:
+#                        repl_id = replace_dict[str(res_id[1])]
+#                        x = res_id[1]
+#                        # print(res_id, repl_id, "0")
+#                        res_id[1] = int(repl_id)
+#                        # print(res_id)
+#                        residue.id = tuple(res_id)
+#                        # print(x, residue.id)
+##            except ValueError as e:
+#            else:
+#                print("forward")
+##                print(e)
+#                # count = 0
+#                for residue in list(chain_object.get_residues()):
+#                    res_id = list(residue.id)
+#                    if str(res_id[1]) in replace_dict:
+#                        repl_id = replace_dict[str(res_id[1])]
+##                        print(res_id[1], repl_id, "1")
+#                        res_id[1] = int(repl_id)
+#                        residue.id = tuple(res_id)
+#        except ValueError as e:
+#            print(e)
+        warnings.warn("renumber with negative numbers")
+
+        count = 0
+        org_res_list = []
+        for residue in reversed(list(chain_object.get_residues())):
+            res_id = list(residue.id)
+            org_res_list.append(res_id[1])
+            res_id[1] = -999 + count
+            residue.id = tuple(res_id)
+            count += 1
+ #            print(replace_dict)
+        for residue, org_res in zip(reversed(list(chain_object.get_residues())), org_res_list):
+            res_id = list(residue.id)
+            if str(org_res) in replace_dict:
+                repl_id = replace_dict[str(org_res)]
+                # print(repl_id, "2")
+                res_id[1] = int(repl_id)
                 residue.id = tuple(res_id)
-                count += 1
-            for residue in reversed(list(chain_object.get_residues())):
-                res_id = list(residue.id)
-                if str(res_id[1]) in replace_dict:
-                    repl_id = replace_dict[str(res_id[1])]
-                    # print(repl_id, "2")
-                    res_id[1] = int(repl_id)
-                    residue.id = tuple(res_id)
-        # print([ x for x in chain_object.get_residues()])
+   # print([ x for x in chain_object.get_residues()])
