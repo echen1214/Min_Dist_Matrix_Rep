@@ -36,6 +36,7 @@ Features
 
 Requirements
 --------
+::
 
   python
   numpy
@@ -56,17 +57,16 @@ For example Mac users can do ::
   sudo chmod u+x clustalo
   sudo ln -s /{path}/{to}/clustalo /usr/local/bin/
 
-Create conda environment for this package
+Create conda environment for this package :: 
   conda create --name dist_analy python=3.9
   conda activate dist_analy
   conda install mdtraj
   git clone https://github.com/echen1214/dist_analy
   cd dist_analy
   pip install -e .
-
   conda deactivate
 
-This package is intended to be used with `Jupyter notebooks`_. You can use the conda environment in the Jupyter notebook
+This package is intended to be used with `Jupyter notebooks`_. You can use the conda environment in the Jupyter notebook ::
   pip install jupyterlab
   pip install notebook
   conda install nb_conda_kernels
