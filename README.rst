@@ -49,7 +49,7 @@ Requirements
 Installation
 --------
 
-Download and install a ClustalOmega_ binary into a local directory and symlink the binary to the command line.
+Download and install a `ClustalOmega <http://www.clustal.org/omega/>`_ binary into a local directory and symlink the binary to the command line.
 For example Mac users can do ::
 
   wget http://www.clustal.org/omega/clustal-omega-1.2.3-macosx
@@ -57,7 +57,8 @@ For example Mac users can do ::
   sudo chmod u+x clustalo
   sudo ln -s /{path}/{to}/clustalo /usr/local/bin/
 
-Create conda environment for this package :: 
+Create conda environment for this package ::
+
   conda create --name dist_analy python=3.9
   conda activate dist_analy
   conda install mdtraj
@@ -66,7 +67,8 @@ Create conda environment for this package ::
   pip install -e .
   conda deactivate
 
-This package is intended to be used with `Jupyter notebooks`_. You can use the conda environment in the Jupyter notebook ::
+This package is intended to be used with `Jupyter notebooks <https://jupyter.org/install>`_. You can use the conda environment in the Jupyter notebook ::
+
   pip install jupyterlab
   pip install notebook
   conda install nb_conda_kernels
@@ -78,5 +80,5 @@ This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypack
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
-.. _ClustalO: http://www.clustal.org/omega/
-.. _`Jupyter notebooks`:https://jupyter.org/install
+#.. _ClustalO: http://www.clustal.org/omega/
+#.. _`Jupyter notebooks`:https://jupyter.org/install
