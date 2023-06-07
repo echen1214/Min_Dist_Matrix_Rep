@@ -11,13 +11,22 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 requirements = [
-                'alphaspace2==0.1.2',
-                'biopython==1.78',
+                'alphaspace2>=0.1.2',
+                'mdtraj>=1.9.5',
+                'biopython>=1.81',
                 'numpy>=1.19.4',
-                'ProDy>=1.11',
-                'scipy==1.5.4',
-                'requests==2.25.0',
-                'pytest==6.1.2',
+                'prody>=2.0',
+                'scipy>=1.1.0',
+                'requests>=2.25.0',
+                'matplotlib',
+                'urllib3',
+                'pybel',
+                'colored',
+                'anytree',
+                'sklearn',
+                'pypdb',
+                'ipykernel',
+                'anytree'
 ]
 
 setup_requirements = ['pytest-runner', ]

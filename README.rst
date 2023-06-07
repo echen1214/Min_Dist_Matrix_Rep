@@ -67,7 +67,7 @@ Create conda environment for this package ::
   pip install -e .
   conda deactivate
 
-This package is intended to be used with `Jupyter notebooks <https://jupyter.org/install>`_. You can use the conda environment in the Jupyter notebook ::
+This package is intended to be used with `Jupyter notebooks <https://jupyter.org/install>`_. You can use the conda environment you just created within the Jupyter notebook ::
 
   pip install jupyterlab
   pip install notebook
@@ -80,5 +80,3 @@ This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypack
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
-#.. _ClustalO: http://www.clustal.org/omega/
-#.. _`Jupyter notebooks`:https://jupyter.org/install
