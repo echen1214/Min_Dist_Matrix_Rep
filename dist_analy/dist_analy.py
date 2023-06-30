@@ -391,6 +391,10 @@ def torch_get_distance(x1, x2, device=None):
             device = torch.device('cuda')
         else:
             device = torch.device('cpu')
-    x1 = torch.from_numpy(x1).to(device)
-    x2 = torch.from_numpy(x2).to(device)
+    if type(x1) == list:
+        x1 = torch.from_numpy(x1[0]).unsqueeze(0).to(device)
+        x2 = torch.from_numpy(x2[0]).unsqueeze(0).to(device)
+    else:
+        x1 = torch.from_numpy(x1).to(device)
+        x2 = torch.from_numpy(x2).to(device)
     return torch.min(torch.cdist(x1, x2)).cpu().numpy()
