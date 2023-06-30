@@ -11,6 +11,7 @@ from prody.measure import measure
 from prody.proteins import pdbfile
 from prody.utilities import getDistance
 from scipy.spatial import distance_matrix
+import torch
 
 """ TODO
     - x separate the pdb files into multiple models (multiple pdb files for
@@ -24,7 +25,7 @@ from scipy.spatial import distance_matrix
 """
 
 DISTMAT_FORMATS = set(['mat', 'rcd', 'arr'])
-
+USE_TORCH = True
 
 def get_ca_dist_matrix(file: str, res_list: list, chain: str, save_dir: str = None):
     """ Using prody functions to generate carbon alpha distance matrix
@@ -213,7 +214,7 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
                             temp_dist.append(getDistance(atom1, atoms_group_res2, unitcell))
                         value = np.min(temp_dist)
                     else:
-                        value = np.min(distance_matrix(res1_t, atoms_group_res2))
+                        value = obtain_min_dist(res1_t, atoms_group_res2)
                     if min_dist and value < min_dist:
                         value = min_dist
 
@@ -257,7 +258,7 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
                         value = np.min(temp_dist)
 
                     else:
-                        value = np.min(distance_matrix(res1_t, res2_t))
+                        value = obtain_min_dist(res1_t, res2_t)
                     if min_dist and value < min_dist:
                         value = min_dist
                 if format == 'mat':
@@ -358,3 +359,38 @@ def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None
             fn = fn + "_" + "_".join(["%s%i" % (name, int) for name, int in zip(res_name, lig_res)])
         np.save(save_dir + fn, dist_matrix)
     return dist_matrix
+
+
+def obtain_min_dist(x1,x2):
+    if USE_TORCH:
+        value = torch_get_distance(x1,x2)
+    else:
+        value = np.min(distance_matrix(x1,x2))
+    return value
+def torch_get_distance(x1, x2, device=None):
+    """ Calculate distance between two sets of coordinates.
+
+    Parameters
+    ----------
+    x1 : torch.tensor
+        coordinates of first set of atoms
+    x2 : torch.tensor
+        coordinates of second set of atoms
+    device : torch.device, optional
+        device to use for calculation
+        will find GPU if available
+
+    Returns
+    -------
+    torch.tensor
+        distance between two sets of atoms
+
+    """
+    if device is None:
+        if torch.cuda.is_available() and torch.cuda.device_count():
+            device = torch.device('cuda')
+        else:
+            device = torch.device('cpu')
+    x1 = torch.from_numpy(x1).to(device)
+    x2 = torch.from_numpy(x2).to(device)
+    return torch.min(torch.cdist(x1, x2)).cpu().numpy()
