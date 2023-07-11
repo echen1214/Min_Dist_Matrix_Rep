@@ -56,12 +56,20 @@ For example Mac users can do ::
   mv clustal-omega-1.2.3-macosx clustalo
   sudo chmod u+x clustalo
   sudo ln -s /{path}/{to}/clustalo /usr/local/bin/
+  ## this will be different with zsh shell
+
+Similarly, a Windows user can do ::
+  wget http://www.clustal.org/omega/clustal-omega-1.2.2-win64.zip
+  tar -xf http://www.clustal.org/omega/clustal-omega-1.2.2-win64.zip
+  cd clustal-omega-1.2.2-win64
+  mklink clustalo .\clustalo.exe
+  set PATH=%PATH%;%cd%
 
 Create conda environment for this package ::
 
   conda create --name dist_analy python=3.9
   conda activate dist_analy
-  conda install mdtraj
+  conda install mdtraj -c conda-forge
   git clone https://github.com/echen1214/dist_analy
   cd dist_analy
   pip install -e .
@@ -71,7 +79,7 @@ This package is intended to be used with `Jupyter notebooks <https://jupyter.org
 
   pip install jupyterlab
   pip install notebook
-  conda install nb_conda_kernels
+  conda install -c conda-forge  nb_conda_kernels
 
 Credits
 -------

@@ -18,6 +18,8 @@ requirements = [
                 'prody>=2.0',
                 'scipy>=1.1.0',
                 'requests>=2.25.0',
+                'pandas',
+                'scikit-learn',
                 'matplotlib',
                 'urllib3',
                 'pybel',

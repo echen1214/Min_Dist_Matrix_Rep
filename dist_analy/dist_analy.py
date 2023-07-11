@@ -155,7 +155,7 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
         else:
             check = Residue
 
-        atomic_xyz_residue_2 = get_atom_coords(heavy, residues1, check)
+        atomic_xyz_residue_2 = get_atom_coords(heavy, residues2, check)
 
         # if not isinstance(residues2, ndarray):
         #     raise TypeError('residues2 must be an array')
