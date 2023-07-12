@@ -59,8 +59,8 @@ For example Mac users can do ::
   ## this will be different with zsh shell
 
 Similarly, a Windows user can do ::
-  wget http://www.clustal.org/omega/clustal-omega-1.2.2-win64.zip
-  tar -xf http://www.clustal.org/omega/clustal-omega-1.2.2-win64.zip
+  wget http://www.clustal.org/omega/clustal-omega-1.2.2-win64.zip -outfile clustal.zip
+  tar -xf clustal.zip
   cd clustal-omega-1.2.2-win64
   mklink clustalo .\clustalo.exe
   set PATH=%PATH%;%cd%
