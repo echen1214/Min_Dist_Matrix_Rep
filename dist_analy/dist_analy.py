@@ -3,7 +3,7 @@
 import warnings
 from pathlib import Path
 from typing import List, Optional
-
+from functools import reduce
 import numpy as np
 from numpy import array, empty, ndarray, zeros
 from prody.atomic import AtomGroup, Residue
@@ -387,14 +387,27 @@ def torch_get_distance(x1, x2, device=None):
 
     """
     if device is None:
-        if torch.cuda.is_available() and torch.cuda.device_count():
+        if type(x1) == list:
+            x1 = torch.from_numpy(x1[0]).unsqueeze(0)
+        big_enough = reduce(lambda x,y: x * y, x1.shape) >= 62500 # is the array large enough to warrent the data transfer wait?
+        if not big_enough:
+            warn_once()
+        if torch.cuda.is_available() and torch.cuda.device_count() and big_enough:
             device = torch.device('cuda')
         else:
             device = torch.device('cpu')
-    if type(x1) == list:
-        x1 = torch.from_numpy(x1[0]).unsqueeze(0).to(device)
+    
+    if type(x2) == list:
+        x1 = x1.to(device)
         x2 = torch.from_numpy(x2[0]).unsqueeze(0).to(device)
     else:
         x1 = torch.from_numpy(x1).to(device)
         x2 = torch.from_numpy(x2).to(device)
     return torch.min(torch.cdist(x1, x2)).cpu().numpy()
+
+warning_issued = False
+def warn_once():
+    global warning_issued
+    if not warning_issued:
+        warnings.warn("Your matrices are too small for GPU acceleration, defaulting to CPU. Note: This warning is issued only once")
+        warning_issued = True
