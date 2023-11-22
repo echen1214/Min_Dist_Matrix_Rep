@@ -1,31 +1,27 @@
+import warnings
+import numpy as np
+import scipy.cluster.hierarchy as sch
+import sklearn.cluster as skc
+import matplotlib.pyplot as plt
+import matplotlib.pylab as pylab
+
 from collections import Counter
 from sklearn import decomposition
 from colored import fg, bg, attr
 from copy import copy
-import numpy as np
-import scipy.cluster.hierarchy as sch
-import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
-import matplotlib.pylab as pylab
-import warnings
 from IPython.display import Markdown
 from IPython.display import display
 
 """ TODO
-- x get list of residues that are present in all structures
 - organize data properly
 - x calculate principal compenents
     - x output PCA plot/ eigenvalue contributions
     - create interactive plot where you can interactively select ranges in jupyter
       notebook and it'll return the PDB
-- x hierarchical clustering
-    - x output hierarchical clustering plot
-    - create interactive plot where you can interactively select ranges in jupyter
-      notebook and it'll return the PDB
 - x determine the important distances - Z-score
     - create interactive plot where you can interactively select ranges in jupyter
       notebook and it'll return the PDB
-- x update color_text to pass in regions and color list
 - cluster by PCA
 - apply checks to make sure parameters are correct:
     -> make the function take flexible length lists
@@ -427,69 +423,83 @@ def plot_analy(npy_pca: decomposition.PCA, feats: np.ndarray, k: int, \
     plot_pca(npy_pca, feats, inds_fc, family_map, family)
     return(inds_fc, medoid_ind_list)
 
-def plot_pca(npy_pca: decomposition.PCA, feats: np.ndarray, inds_fc: list, \
-             family_map: list = None, family: list = None):
-    """Centers and plots the PC1/PC2 plots and prints out the percentage of variance
-    explained by PC1/PC2
-
-    The cluster colors are green, red, cyan, maroon, yellow, black. Any unclusted
-    structures are colored a default color, grey.
+def get_pca(feats: np.ndarray):
+    """Centers and fits PCA object to data and returns the projected coordinates
 
     Parameters
     ----------
-    npy_pca : type
-        PCA object
     feats : np.ndarray
         array of 1D flattened distance matrices
-    inds_fc : list
-        2D list of structure indices for each cluster (2D: cluster * structure indices)
-    family_map: list, optional
-        flat list mapping each distance matrix to the index of family list
-    family: list, optional
-        list of labels
     """
-    print("plot PCA")
-    feats = feats - np.mean(feats, axis=0)
-    a = np.dot(feats, npy_pca.components_.T)
-    plt.figure()
-    ax = plt.axes()
-    index = 0
 
-    for i,ind_fc in enumerate(inds_fc):
-        if len(ind_fc)==1:
-            color=DFLT_COL
-        else:
-            color = COLOR_LIST[index]
-            index=index+1
-        if family_map:
-            # print(family_map)
-            for ind in ind_fc:
-                cluster = a[ind]
-                ax.scatter(cluster[0], cluster[1], color=color, marker = MARKER_LIST[family_map[ind]], alpha=0.7)
-        else:
-            cluster = a[ind_fc]
-            ax.scatter(cluster[:,0], cluster[:,1], color=color, alpha=0.7)
-        print("cluster size:", len(ind_fc), color)
-    # for i, (x, label) in enumerate(zip([281, 125, 10, 63, 34], \
-    #                                   ['3PXQ_A_01', '4EZ7_A', '3PXZ_A', '3PXF_A', '3PY1_A',])):
-    #     cluster = a[x]
-    #     # print(cluster)
-    #     ax.scatter(cluster[0], cluster[1], label=label, marker="*", color="pink")
-
-    plt.xlabel("PC1")
-    plt.ylabel("PC2")
-    if family:
-        legend_elements = [Line2D([], [], marker=mark, label=label, linestyle='None') for mark, label in zip(MARKER_LIST[:len(family)], family)]
-        plt.legend(handles=legend_elements, bbox_to_anchor=(1.04,1), loc="upper left")
-    else:
-        plt.legend(bbox_to_anchor=(1.04,1), loc="upper left")
+    npy_pca = decomposition.PCA(n_components = 10, svd_solver = 'full', random_state=42)
+    a = npy_pca.fit_transform(feats)
 
     var_ratio = npy_pca.explained_variance_ratio_
-    print(var_ratio[np.where(np.cumsum(var_ratio) < 0.85)])
-    # if len([np.where(npy_pca.explained_variance_ratio_ > 0.05)]) > 2:
-    #     print(npy_pca.explained_variance_ratio_[np.where(npy_pca.explained_variance_ratio_ > 0.05)])
-    # else:
-    #     print(npy_pca.explained_variance_ratio_[:2])
+    sel_axis = np.where(np.cumsum(var_ratio) < 0.8)[0]
+    if len(sel_axis) < 2:
+        sel_axis=[0,1]
+    elif len(sel_axis) >= 10:
+        sel_axis=range(0,10)
+    else:
+        sel_axis = np.append(sel_axis, sel_axis[-1]+1)
+    # print(var_ratio[sel_axis])
+    proj_coords = a[:,sel_axis]
+    return proj_coords, var_ratio[sel_axis], npy_pca
+
+def pca_hdbscan(proj_coords, var_ratio, hdbscan_args: dict = dict(), family_map: list = None, family: list = None):
+    hdb = skc.HDBSCAN(**hdbscan_args).fit(proj_coords)
+    pca_hdbscan_figure(proj_coords,hdb.labels_, hdb.probabilities_, var_ratio, family_map, family)
+    return(hdb.labels_, hdb)
+
+def pca_hdbscan_figure(a, labels: list, prob: list, var_ratio: list, family_map: list = None, family: list = None, resize_by_prob=False):
+    ## inspired by https://scikit-learn.org/stable/auto_examples/cluster/plot_hdbscan.html#demo-of-hdbscan-clustering-algorithm
+
+    plt.figure()
+    unique_labels = set(labels)
+    proba_map = {idx: prob[idx] for idx in range(len(labels))}
+
+    for lab in unique_labels:
+        if lab == -1:
+            # Black used for noise.
+            col = "black"
+        else:
+            col = COLOR_LIST[lab]
+
+        label_index = np.where(labels == lab)[0]
+        # for ci in class_index:
+        if family:
+            for mark in range(min(family_map), max(family_map)+1):
+                label_fam_index = np.intersect1d(label_index, np.where(np.asarray(family_map)==mark)[0])
+                if resize_by_prob:
+                    for ci in label_fam_index:
+                        plt.plot(a[ci, 0],a[ci, 1],
+                            "x" if lab == -1 else MARKER_LIST[mark], markerfacecolor=col,
+                            markeredgecolor="k", markersize=5 if lab == -1 else 1 + 5 * proba_map[ci])
+                else:
+                    plt.plot(a[label_fam_index, 0],a[label_fam_index, 1],
+                        "x" if lab == -1 else MARKER_LIST[mark], markerfacecolor=col,
+                        markeredgecolor="k",)
+        else:
+            if resize_by_prob:
+                for ci in label_index:
+                    plt.plot(a[ci, 0],a[ci, 1],
+                        "x" if lab == -1 else "o", markerfacecolor=col,
+                        markeredgecolor="k", markersize=5 if lab == -1 else 1 + 5 * proba_map[ci])
+            else:
+                plt.plot(a[label_index, 0],a[label_index, 1],
+                    "x" if lab == -1 else "o", markerfacecolor=col,
+                    markeredgecolor="k",)
+    
+    n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
+    plt.title(f"Estimated number of clusters: {n_clusters_}")
+    plt.xlabel(f"PC1: {var_ratio[0]*100:.1f}")
+    plt.ylabel(f"PC2: {var_ratio[1]*100:.1f}")
+    if family:
+        legend_elements = [Line2D([], [], marker=mark, label=label, color='k', markerfacecolor='white', linestyle='None') for mark, label in zip(MARKER_LIST[:len(family)], family)]
+        plt.legend(handles=legend_elements, bbox_to_anchor=(1.04,1), loc="upper left")
+    else:
+        pass
 
 # assumes square matrix
 # does not work for negative k
@@ -969,8 +979,8 @@ def plot_stacked_histogram(r1: int, r2:int, dist_mats: list, res_lists: list, \
 #         plt.legend("SMD: %.3f"%SMD)
         plt.annotate("SMD: %.3f"%SMD, xy=(0.97, 0.95), xycoords='axes fraction', size=14, ha='right', va='top', )
 
-def run(dist_mats: np.ndarray, res_list: list, k: int, remove_missing: bool = True,
-        replace_zeros: str = None, family: list = None):
+def run(dist_mats: np.ndarray, res_list: list, remove_missing: bool = True,
+        replace_zeros: str = None, family: list = None, hdbscan_args: dict = dict()):
     """ Pass in a list of the distance matrices and the corresponding residue
     lists and perform the hierarchical clustering and principal component
     analysis
@@ -994,7 +1004,25 @@ def run(dist_mats: np.ndarray, res_list: list, k: int, remove_missing: bool = Tr
         (protein * PDB * res_list * res_list) and res_list will be a 2D array
         (protein * res_list). the list of proteins names must be the same length
         as the length of the first res_list axis and the first dist_mats axis
+    hdbscan_args: dict
+        dictionary of keywork arguments to pass to hdbscan
 
+    Return
+    ----------
+    np.array
+        projected coordinates following PCA
+    list
+        list of labels assigned by HDBSCAN
+    np.array
+        resulting matrices after removing zeros
+    list
+        list of residues
+    list
+        list of indices
+    sklearn.decomposition.PCA
+        PCA plot fit to features
+    sklearn.cluster.HDBSCAN
+        clustering method fit to datapoints
     """
 
     ## should the res_list be the same size as the length of the dist_mat
@@ -1023,7 +1051,7 @@ def run(dist_mats: np.ndarray, res_list: list, k: int, remove_missing: bool = Tr
             ind_list = np.arange(0,len(res_list[0])) ## this will not work if the range of consecutive resiudes are not passed in
         ## flatten dist_mats to 3D
         dist_mats = np.array([dist_mat for dist_mat_list in dist_mats for dist_mat in dist_mat_list])
-        print(dist_mats.shape)
+        # print(dist_mats.shape)
         if remove_missing:
             print("removing residues not available in every structure")
             dist_mats, _, ind_list = remove_missing_(dist_mats, res_list[0])
@@ -1050,10 +1078,6 @@ def run(dist_mats: np.ndarray, res_list: list, k: int, remove_missing: bool = Tr
         index_map = None
         feats_list = triu_flatten(dist_mats, len(res_list))
 
-    print("PCA, svd")
-    npy_pca = decomposition.PCA(n_components = 10, svd_solver = 'full', random_state=42)
-    npy_pca.fit(feats_list)
-
-    inds_fc, medoid_ind_list = plot_analy(npy_pca, feats_list, k, index_map, family)
-    return (dist_mats, res_list, ind_list, inds_fc, medoid_ind_list, npy_pca)
-    # return (npy_pca)
+    proj_coords, var_ratio, npy_pca = get_pca(feats_list)
+    labels, hdb = pca_hdbscan(proj_coords, var_ratio, hdbscan_args, index_map, family)
+    return(proj_coords, labels, dist_mats, res_list, ind_list, npy_pca, hdb)
