@@ -26,6 +26,8 @@ def pdb_read_csv(csv_file: str, chain: bool = False):
 
     Returns
     -------
+    dict
+        dict of the csv file
     pandas.DataFrame
         DataFrame of the csv file
 
@@ -40,9 +42,9 @@ def pdb_read_csv(csv_file: str, chain: bool = False):
             'Polymer Binders', 'Major Binders', 'Minor Binders', \
             'Modifications', 'Mutations', 'Paper DOI']
     df = pd.read_csv(csv_file, header=0, usecols=dict_items)
-    for col in ['Polymer Binders', 'Major Binders', 'Minor Binders']:
-        df[col] = df[col].apply(lambda x: ast.literal_eval(x))
-    return(df)
+    for col in ['Polymer Binders', 'Major Binders', 'Minor Binders','Modifications', 'Mutations',]:
+        df[col] = df[col].apply(lambda x: ast.literal_eval(x) if type(x)==str else [])
+    return(df.set_index('PDB ID').T.to_dict(), df)
 
 def pdb_chain_csv(pdb_list: list, uniprot: str, csv_file: str):
     """ Creates a csv files of information parsed from the rcsb database about
@@ -67,7 +69,7 @@ def pdb_chain_csv(pdb_list: list, uniprot: str, csv_file: str):
     # csv_data = []
     dict_items = ['PDB ID', 'Chain', 'Title', 'Date', 'Description', 'Method', 'Resolution', \
                   'Polymer Binders', 'Major Binders', 'Minor Binders', \
-                  'Modifications', 'Mutations']
+                  'Modifications', 'Mutations', 'Paper DOI']
     pdb_dict = {}
     for pdb in pdb_list:
         try:
@@ -147,6 +149,12 @@ def pdb_chain_csv(pdb_list: list, uniprot: str, csv_file: str):
                                     pdb_dict[temp_pdb]["Minor Binders"].append(data_1["pdbx_entity_nonpoly"]["comp_id"])
                     except KeyError:
                         print("unable to get binders of %s_%s"%(pdb,chain))
+
+                    try:
+                        pdb_dict[pdb]["Paper DOI"] =  data["citation"][0]["pdbx_database_id_doi"]
+                    except:
+                        pdb_dict[pdb]["Paper DOI"] = None
+
         except:
             print("unable to get info for %s"%pdb)
     with open(csv_file, 'w') as f1:
@@ -245,7 +253,10 @@ def pdb_csv(pdb_list: list, uniprot: str, csv_file: str):
             except KeyError:
                 pdb_dict[pdb]['Mutations'] = None
         pdb_dict[pdb]["Polymer Binders"] = polymer_binders
-        pdb_dict[pdb]["Paper DOI"] =  data["citation"][0]["pdbx_database_id_doi"]
+        try:
+            pdb_dict[pdb]["Paper DOI"] =  data["citation"][0]["pdbx_database_id_doi"]
+        except:
+            pdb_dict[pdb]["Paper DOI"] = None
         # csv_data.append(pdb_dict)
     with open(csv_file, 'w') as f1:
         writer = csv.DictWriter(f1, fieldnames = dict_items)
