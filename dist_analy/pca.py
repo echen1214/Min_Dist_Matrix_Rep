@@ -53,7 +53,7 @@ params = {'legend.fontsize': 'x-large',
          'ytick.labelsize':'large'}
 pylab.rcParams.update(params)
 
-COLOR_LIST = ['g','r','c','m','y','k','orange', 'pink', 'grey', 'white', 'lime', 'tan', 'aqua', 'olive', 'dodgerblue']
+COLOR_LIST = ['g','r','c','m','y','k','orange', 'pink', 'grey', 'lime', 'tan', 'aqua', 'olive', 'dodgerblue']
 MARKER_LIST = ["o", "v", "s", "P", "*", "X", "d", ">", "2", "p", "+", 'x', '<', '|', '_', 'h', '8', 'H']
 DFLT_COL = "#808080"
 
@@ -142,7 +142,7 @@ def hist_missing_structure(dist_mats: np.ndarray, cutoff: int = 10, bins: int = 
     return many_missing
 
 
-def remove_missing_(dist_mats: np.ndarray, res_list: list):
+def remove_missing_(dist_mats: np.ndarray, res_list: list, inf: bool = True):
     """ Pass in a list of the distance matrices and the corresponding residue lists,
     determine the subset of residues that are present in every distance matrix
 
@@ -152,7 +152,9 @@ def remove_missing_(dist_mats: np.ndarray, res_list: list):
         array of distance matrices (3D: PDB * res_list * res_list).
     res_list : list
         list of residues corresponding to rows and columns of the distance matrix
-
+    inf : bool
+        flag to remove infinite values, default is to remove values of 0
+        
     Returns
     -------
     dist_mats_cons : np.ndarray
@@ -168,7 +170,10 @@ def remove_missing_(dist_mats: np.ndarray, res_list: list):
     missing_res = Counter()
 
     for mat in dist_mats:
-        missing = np.where(~mat.any(axis=1))[0]
+        if inf:
+            missing = np.where((mat==np.inf).all(axis=1) | (~mat.any(axis=1)))[0]
+        else:
+            missing = np.where(~mat.any(axis=1))[0]
         missing_res.update(missing)
 
     print("original length of residue list %i; remove %i residues"%\
@@ -321,8 +326,7 @@ def find_medoid(feats: np.ndarray, ind_map: list):
     sort_ind = np.argsort(d_mat[med_ind])
     return ([ind_map[x] for x in sort_ind])
 
-
-def clustering(feats: np.ndarray, k: int, method: str = 'ward', criterion: str = 'maxclust'):
+def clustering(feats: np.ndarray, k: int, npy_pca, method: str = 'ward', criterion: str = 'maxclust'):
     """Performs heirarchcial clustering to create k clusters. Plots out dendrogram
     and colors the branches based on hierarchical cluster. inds_fc and
     medoid_ind_list are not equivalent
@@ -419,7 +423,7 @@ def plot_analy(npy_pca: decomposition.PCA, feats: np.ndarray, k: int, \
         list of labels
 
     """
-    inds_fc, org_color_list, medoid_ind_list = clustering(feats, k)
+    inds_fc, org_color_list, medoid_ind_list = clustering(feats, k, npy_pca)
     plot_pca(npy_pca, feats, inds_fc, family_map, family)
     return(inds_fc, medoid_ind_list)
 
@@ -466,8 +470,8 @@ def plot_pca(npy_pca: decomposition.PCA, feats: np.ndarray, inds_fc: list, \
             cluster = a[ind_fc]
             ax.scatter(cluster[:,0], cluster[:,1], color=color, alpha=0.7)
         print("cluster size:", len(ind_fc), color)
-    # for i, (x, label) in enumerate(zip([400, 401, 429, 430, 402, 433, 403, 359, 361, 434, 436, 435, 437, 438, 440, 439, 443, 441, 442],\
-    #                                     ['4EK4', '4EK5', '4FKG', '4FKI', '4EK6', '4FKL', '4EK8', '3SW4', '3SW7', '4FKO', '4FKP', '4FKQ', '4FKR', '4FKS', '4FKT', '4FKU', '4FX3', '4FKV', '4FKW'])):
+    # for i, (x, label) in enumerate(zip([281, 125, 10, 63, 34], \
+    #                                   ['3PXQ_A_01', '4EZ7_A', '3PXZ_A', '3PXF_A', '3PY1_A',])):
     #     cluster = a[x]
     #     # print(cluster)
     #     ax.scatter(cluster[0], cluster[1], label=label, marker="*", color="pink")
@@ -480,7 +484,12 @@ def plot_pca(npy_pca: decomposition.PCA, feats: np.ndarray, inds_fc: list, \
     else:
         plt.legend(bbox_to_anchor=(1.04,1), loc="upper left")
 
-    print(npy_pca.explained_variance_ratio_[:2])
+    var_ratio = npy_pca.explained_variance_ratio_
+    print(var_ratio[np.where(np.cumsum(var_ratio) < 0.85)])
+    # if len([np.where(npy_pca.explained_variance_ratio_ > 0.05)]) > 2:
+    #     print(npy_pca.explained_variance_ratio_[np.where(npy_pca.explained_variance_ratio_ > 0.05)])
+    # else:
+    #     print(npy_pca.explained_variance_ratio_[:2])
 
 # assumes square matrix
 # does not work for negative k
@@ -839,20 +848,18 @@ def plot_r1r2(c1: int, c2: int, r1r2_feat: list, inds_fc: list, dist_mats: np.nd
         pdb_prot_index = []
     if not family:
         family = []
-    # DFLT_COL = "#808080"
+
     r1_feat, r2_feat = [], []
     for feat in r1r2_feat:
         if feat[-1] > 0:
             r1_feat.append(feat)
         else:
             r2_feat.append(feat)
-    # cl = ['g','r','c','m','y','k','orange', 'pink']
-    # MARKER_LIST = ["o", "v", "s", "P", "*", "X", "d", ">"]
+
     plt.figure()
     ax = plt.axes()
     index = 0
     for i,ind_fc in enumerate(inds_fc):
-#         r1_dist, r2_dist = [], []
         for mat, ind in zip(dist_mats[ind_fc], ind_fc):
             temp1 = 0
             for r1 in r1_feat:
@@ -941,7 +948,6 @@ def plot_stacked_histogram(r1: int, r2:int, dist_mats: list, res_lists: list, \
     bins=np.arange(min_val-1,max_val+1,0.15)
    # print(bins)
     fig = plt.figure()
-    # cl = ['g','r','c','m','y']
     n,bins,patches = plt.hist(x=clust_value, bins=bins, stacked=True, color=COLOR_LIST[:len(inds_fc)] )
     plt.xlabel('Distance')
     plt.ylabel('Frequency')
@@ -1044,8 +1050,8 @@ def run(dist_mats: np.ndarray, res_list: list, k: int, remove_missing: bool = Tr
         index_map = None
         feats_list = triu_flatten(dist_mats, len(res_list))
 
-    print("PCA")
-    npy_pca = decomposition.PCA()
+    print("PCA, svd")
+    npy_pca = decomposition.PCA(n_components = 10, svd_solver = 'full', random_state=42)
     npy_pca.fit(feats_list)
 
     inds_fc, medoid_ind_list = plot_analy(npy_pca, feats_list, k, index_map, family)
