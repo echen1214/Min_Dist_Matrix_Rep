@@ -141,7 +141,7 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
 
     atomic_xyz_residue_1 = get_atom_coords(heavy, residues1, Residue)
 
-    if residues2 is None or res_list_2 == res_list_1:
+    if residues2 is None or np.array_equal(res_list_2,res_list_1):
         # print("here")
         symmetric = True
         residues2 = residues1
@@ -336,6 +336,7 @@ def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None
         2D np.array of carbon alpha distance matrix
 
     """
+
     res_obj = get_res_obj(file, chain, res_list)
 
     if ligand_file:
@@ -355,6 +356,7 @@ def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None
         if ligand_file:
             res_name = list(set(ligand.getResnames()))
             fn = file.split('/')[-1].split('.')[0]
-            fn = fn + "_" + "_".join(["%s%i" % (name, int) for name, int in zip(res_name, lig_res)])
+            rank = ligand_file.split('/')[-1].split('.')[0].split('_')[0]
+            fn = fn + "_" + rank + "_" + "_".join(["%s%i" % (name, int) for name, int in zip(res_name, lig_res)])
         np.save(save_dir + fn, dist_matrix)
     return dist_matrix
