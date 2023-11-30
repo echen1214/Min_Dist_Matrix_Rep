@@ -25,6 +25,20 @@ from scipy.spatial import distance_matrix
 
 DISTMAT_FORMATS = set(['mat', 'rcd', 'arr'])
 
+# def get_contact_map(file: str, res_list: list, chain: str, save_dir: str = None):
+#     """ Create a contact map following https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0226702#sec008
+
+#     Parameters
+#     ----------
+#     file : str
+#         filename
+#     res_list : list
+#         list of residues to calculate distance matrix with
+#     chain: str
+#         chain ID
+#     save_dir: str, optional
+#         directory to save distance matrices to a binary file in NumPy .npy format
+#     """    
 
 def get_ca_dist_matrix(file: str, res_list: list, chain: str, save_dir: str = None):
     """ Using prody functions to generate carbon alpha distance matrix
@@ -140,8 +154,8 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
     #     raise TypeError('array must contain Residue objects')
 
     atomic_xyz_residue_1 = get_atom_coords(heavy, residues1, Residue)
-
-    if residues2 is None or res_list_2 == res_list_1:
+    # print(res_list_1, res_list_2)
+    if residues2 is None or np.array_equal(res_list_2,res_list_1):
         # print("here")
         symmetric = True
         residues2 = residues1
@@ -350,7 +364,7 @@ def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None
                                                  no_adj=no_adj, heavy=True)
     if save_dir:
         Path(save_dir).mkdir(parents=True, exist_ok=True)
-        fn = file.split('/')[-1]
+        fn = file.split('/')[-1].split('.')[0]
 
         if ligand_file:
             res_name = list(set(ligand.getResnames()))

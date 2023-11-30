@@ -423,7 +423,7 @@ def plot_analy(npy_pca: decomposition.PCA, feats: np.ndarray, k: int, \
     plot_pca(npy_pca, feats, inds_fc, family_map, family)
     return(inds_fc, medoid_ind_list)
 
-def get_pca(feats: np.ndarray):
+def get_pca(feats: np.ndarray, cumsum: float = 0.8):
     """Centers and fits PCA object to data and returns the projected coordinates
 
     Parameters
@@ -436,14 +436,15 @@ def get_pca(feats: np.ndarray):
     a = npy_pca.fit_transform(feats)
 
     var_ratio = npy_pca.explained_variance_ratio_
-    sel_axis = np.where(np.cumsum(var_ratio) < 0.8)[0]
+    sel_axis = np.where(np.cumsum(var_ratio) < cumsum)[0]
     if len(sel_axis) < 2:
         sel_axis=[0,1]
     elif len(sel_axis) >= 10:
         sel_axis=range(0,10)
     else:
         sel_axis = np.append(sel_axis, sel_axis[-1]+1)
-    # print(var_ratio[sel_axis])
+    sel_var = [f'{var:.2f}' for var in var_ratio[sel_axis]]
+    print(f"Cumulative explained variance > {cumsum}: {', '.join(sel_var)}")
     proj_coords = a[:,sel_axis]
     return proj_coords, var_ratio[sel_axis], npy_pca
 
@@ -980,7 +981,7 @@ def plot_stacked_histogram(r1: int, r2:int, dist_mats: list, res_lists: list, \
         plt.annotate("SMD: %.3f"%SMD, xy=(0.97, 0.95), xycoords='axes fraction', size=14, ha='right', va='top', )
 
 def run(dist_mats: np.ndarray, res_list: list, remove_missing: bool = True,
-        replace_zeros: str = None, family: list = None, hdbscan_args: dict = dict()):
+        replace_zeros: str = None, family: list = None, cumsum=0.8, hdbscan_args: dict = dict()):
     """ Pass in a list of the distance matrices and the corresponding residue
     lists and perform the hierarchical clustering and principal component
     analysis
@@ -1078,6 +1079,6 @@ def run(dist_mats: np.ndarray, res_list: list, remove_missing: bool = True,
         index_map = None
         feats_list = triu_flatten(dist_mats, len(res_list))
 
-    proj_coords, var_ratio, npy_pca = get_pca(feats_list)
+    proj_coords, var_ratio, npy_pca = get_pca(feats_list, cumsum=cumsum)
     labels, hdb = pca_hdbscan(proj_coords, var_ratio, hdbscan_args, index_map, family)
     return(proj_coords, labels, dist_mats, res_list, ind_list, npy_pca, hdb)
