@@ -6,8 +6,8 @@ PDB ID,Title,Date,Description,Method,Resolution,Polymer Binders,Major Binders,Mi
 1CKP,HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE INHIBITOR PURVALANOL B,1998-07-14,,X-ray,,[],['PVB'],['EDO'],,,10.1126/science.281.5376.533
 1DI8,"THE STRUCTURE OF CYCLIN-DEPENDENT KINASE 2 (CDK2) IN COMPLEX WITH 4-[3-HYDROXYANILINO]-6,7-DIMETHOXYQUINAZOLINE",1999-11-29,CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.1.-),X-ray,,[],['DTQ'],[],,,10.1021/jm990401t
 1DM2,HUMAN CYCLIN-DEPENDENT KINASE 2 COMPLEXED WITH THE INHIBITOR HYMENIALDISINE,1999-12-13,CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.1.37),X-ray,,[],['HMD'],['EDO'],,,10.1016/S1074-5521(00)00063-6
-1E1V,HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE INHIBITOR NU2058,2000-05-11,CYCLIN-DEPENDENT PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['CMG'],[],['ACE'],,10.1021/JM990628O
-1E1X,HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE INHIBITOR NU6027,2000-05-11,CYCLIN-DEPENDENT PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['NW1'],[],['ACE'],,10.1021/JM990628O
+1E1V,HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE INHIBITOR NU2058,2000-05-11,,X-ray,,[],['CMG'],[],['ACE'],,10.1021/JM990628O
+1E1X,HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE INHIBITOR NU6027,2000-05-11,,X-ray,,[],['NW1'],[],['ACE'],,10.1021/JM990628O
 1E9H,Thr 160 phosphorylated CDK2 - Human cyclin A3 complex with the inhibitor indirubin-5-sulphonate bound,2000-10-16,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A3",X-ray,,['CYCLIN A3'],['INR'],[],['TPO'],,10.1016/S0969-2126(01)00598-6
 1F5Q,CRYSTAL STRUCTURE OF MURINE GAMMA HERPESVIRUS CYCLIN COMPLEXED TO HUMAN CYCLIN DEPENDENT KINASE 2,2000-06-15,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.-),X-ray,,['GAMMA HERPESVIRUS CYCLIN'],[],['CL'],,,10.1093/emboj/19.12.2877
 1FIN,CYCLIN A-CYCLIN-DEPENDENT KINASE 2 COMPLEX,1996-07-14,"CYCLIN-DEPENDENT KINASE 2, CYCLIN A, ADENOSINE-5'-TRIPHOSPHATE",X-ray,,['CYCLIN A'],['ATP'],[],,,10.1038/376313a0
@@ -15,26 +15,26 @@ PDB ID,Title,Date,Description,Method,Resolution,Polymer Binders,Major Binders,Mi
 1FVT,THE STRUCTURE OF CYCLIN-DEPENDENT KINASE 2 (CDK2) IN COMPLEX WITH AN OXINDOLE INHIBITOR,2000-09-20,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['106'],[],,,10.1126/science.291.5501.134
 1FVV,THE STRUCTURE OF CDK2/CYCLIN A IN COMPLEX WITH AN OXINDOLE INHIBITOR,2000-09-20,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37)/CYCLIN A,X-ray,,['CYCLIN A'],['107'],[],,,10.1126/science.291.5501.134
 1G5S,CRYSTAL STRUCTURE OF HUMAN CYCLIN DEPENDENT KINASE 2 (CDK2) IN COMPLEX WITH THE INHIBITOR H717,2000-11-02,,X-ray,,[],['I17'],[],,,10.1021/jm001043t
-1GIH,HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE CDK4 INHIBITOR,2001-02-06,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['1PU'],[],,,10.1074/jbc.M102060200
+1GIH,HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE CDK4 INHIBITOR,2001-02-06,,X-ray,,[],['1PU'],[],,,10.1074/jbc.M102060200
 1GII,HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE CDK4 INHIBITOR,2001-02-06,,X-ray,,[],['1PU'],[],,"['F82H', ' L83V', ' K89T']",10.1074/jbc.M102060200
 1GIJ,HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE CDK4 INHIBITOR,2001-02-06,,X-ray,,[],['2PU'],[],,"['F82H', ' L83V', ' K89T']",10.1074/jbc.M102060200
-1GY3,"pCDK2/cyclin A in complex with MgADP, nitrate and peptide substrate",2002-04-19,"CELL DIVISION PROTEIN KINASE 2, CYCLIN A2, SUBSTRATE PEPTIDE",X-ray,,"['CYCLIN A2', 'SUBSTRATE PEPTIDE']",['ATP'],"['MG', 'NO3', 'GOL']",['TPO'],,10.1021/BI0201724
-1GZ8,HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE INHIBITOR 2-Amino-6-(3'-methyl-2'-oxo)butoxypurine,2002-05-17,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['MBP'],[],"['ACE', 'CSD']",,10.1021/JM020056Z
+1GY3,"pCDK2/cyclin A in complex with MgADP, nitrate and peptide substrate",2002-04-19,,X-ray,,"['CYCLIN A2', 'SUBSTRATE PEPTIDE']",['ATP'],"['MG', 'NO3', 'GOL']",['TPO'],,10.1021/BI0201724
+1GZ8,HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE INHIBITOR 2-Amino-6-(3'-methyl-2'-oxo)butoxypurine,2002-05-17,,X-ray,,[],['MBP'],[],"['ACE', 'CSD']",,10.1021/JM020056Z
 1H00,"CDK2 in complex with a disubstituted 4, 6-bis anilino pyrimidine CDK4 inhibitor",2002-06-10,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],"['FAP', 'FCP']",[],['ACE'],,10.1016/S0960-894X(03)00202-6
 1H01,"CDK2 in complex with a disubstituted 2, 4-bis anilino pyrimidine CDK4 inhibitor",2002-06-10,CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22),X-ray,,[],"['FAL', 'FBL']",['GOL'],['KCX'],,10.1016/S0960-894X(03)00202-6
 1H07,"CDK2 in complex with a disubstituted 4, 6-bis anilino pyrimidine CDK4 inhibitor",2002-06-11,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],"['MFP', 'MFQ']",[],['ACE'],,10.1016/S0960-894X(03)00202-6
 1H08,"CDK2 in complex with a disubstituted 2, 4-bis anilino pyrimidine CDK4 inhibitor",2002-06-11,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],"['BYP', 'BWP']",['GOL'],['ACE'],,10.1016/S0960-894X(03)00202-6
-1H0V,Human cyclin dependent protein kinase 2 in complex with the inhibitor 2-Amino-6-[(R)-pyrrolidino-5'-yl]methoxypurine,2002-06-27,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['UN4'],[],,,10.1021/JM020056Z
-1H0W,Human cyclin dependent protein kinase 2 in complex with the inhibitor 2-Amino-6-[cyclohex-3-enyl]methoxypurine,2002-06-27,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['207'],[],,,10.1021/JM020056Z
+1H0V,Human cyclin dependent protein kinase 2 in complex with the inhibitor 2-Amino-6-[(R)-pyrrolidino-5'-yl]methoxypurine,2002-06-27,,X-ray,,[],['UN4'],[],,,10.1021/JM020056Z
+1H0W,Human cyclin dependent protein kinase 2 in complex with the inhibitor 2-Amino-6-[cyclohex-3-enyl]methoxypurine,2002-06-27,,X-ray,,[],['207'],[],,,10.1021/JM020056Z
 1H1P,Structure of human Thr160-phospho CDK2/cyclin A complexed with the inhibitor NU2058,2002-07-21,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.-), CYCLIN A2",X-ray,,['CYCLIN A2'],['CMG'],[],['TPO'],,10.1038/NSB842
 1H1Q,Structure of human Thr160-phospho CDK2/cyclin A complexed with the inhibitor NU6094,2002-07-21,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.-), CYCLIN A2",X-ray,,['CYCLIN A2'],['2A6'],[],['TPO'],,10.1038/NSB842
 1H1R,Structure of human Thr160-phospho CDK2/cyclin A complexed with the inhibitor NU6086,2002-07-21,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.-), CYCLIN A2",X-ray,,['CYCLIN A2'],['6CP'],[],['TPO'],,10.1038/nsb842
 1H1S,Structure of human Thr160-phospho CDK2/cyclin A complexed with the inhibitor NU6102,2002-07-21,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.-), CYCLIN A2",X-ray,,['CYCLIN A2'],['4SP'],[],['TPO'],,10.1038/NSB842
-1H24,CDK2/CyclinA in complex with a 9 residue recruitment peptide from E2F,2002-07-31,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.-), CYCLIN A2, TRANSCRIPTION FACTOR E2F1",X-ray,,"['CYCLIN A2', 'TRANSCRIPTION FACTOR E2F1']",[],[],['TPO'],,10.1021/BI0268910
-1H25,CDK2/Cyclin A in complex with an 11-residue recruitment peptide from retinoblastoma-associated protein,2002-07-31,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.-), CYCLIN A2, RETINOBLASTOMA-ASSOCIATED PROTEIN",X-ray,,"['CYCLIN A2', 'RETINOBLASTOMA-ASSOCIATED PROTEIN']",[],[],['TPO'],,10.1021/BI0268910
-1H26,CDK2/CyclinA in complex with an 11-residue recruitment peptide from p53,2002-07-31,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.-), CYCLIN A2, CELLULAR TUMOR ANTIGEN P53",X-ray,,"['CYCLIN A2', 'CELLULAR TUMOR ANTIGEN P53']",[],[],['TPO'],,10.1021/BI0268910
-1H27,CDK2/CyclinA in complex with an 11-residue recruitment peptide from p27,2002-07-31,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.-), CYCLIN A2, CYCLIN-DEPENDENT KINASE INHIBITOR 1B",X-ray,,"['CYCLIN A2', 'CYCLIN-DEPENDENT KINASE INHIBITOR 1B']",[],[],['TPO'],,10.1021/BI0268910
-1H28,CDK2/CyclinA in complex with an 11-residue recruitment peptide from p107,2002-07-31,"CELL DIVISION PROTEIN KINASE 2, CYCLIN A2, RETINOBLASTOMA-LIKE PROTEIN 1",X-ray,,"['CYCLIN A2', 'RETINOBLASTOMA-LIKE PROTEIN 1']",[],[],['TPO'],,10.1021/BI0268910
+1H24,CDK2/CyclinA in complex with a 9 residue recruitment peptide from E2F,2002-07-31,,X-ray,,"['CYCLIN A2', 'TRANSCRIPTION FACTOR E2F1']",[],[],['TPO'],,10.1021/BI0268910
+1H25,CDK2/Cyclin A in complex with an 11-residue recruitment peptide from retinoblastoma-associated protein,2002-07-31,,X-ray,,"['CYCLIN A2', 'RETINOBLASTOMA-ASSOCIATED PROTEIN']",[],[],['TPO'],,10.1021/BI0268910
+1H26,CDK2/CyclinA in complex with an 11-residue recruitment peptide from p53,2002-07-31,,X-ray,,"['CYCLIN A2', 'CELLULAR TUMOR ANTIGEN P53']",[],[],['TPO'],,10.1021/BI0268910
+1H27,CDK2/CyclinA in complex with an 11-residue recruitment peptide from p27,2002-07-31,,X-ray,,"['CYCLIN A2', 'CYCLIN-DEPENDENT KINASE INHIBITOR 1B']",[],[],['TPO'],,10.1021/BI0268910
+1H28,CDK2/CyclinA in complex with an 11-residue recruitment peptide from p107,2002-07-31,,X-ray,,"['CYCLIN A2', 'RETINOBLASTOMA-LIKE PROTEIN 1']",[],[],['TPO'],,10.1021/BI0268910
 1HCK,HUMAN CYCLIN-DEPENDENT KINASE 2,1996-06-03,"HUMAN CYCLIN-DEPENDENT KINASE 2, ADENOSINE-5'-TRIPHOSPHATE",X-ray,,[],['ATP'],['MG'],,,10.1021/jm960402a
 1HCL,HUMAN CYCLIN-DEPENDENT KINASE 2,1996-06-03,HUMAN CYCLIN-DEPENDENT KINASE 2,X-ray,,[],[],[],,,10.1021/jm960402a
 1JST,PHOSPHORYLATED CYCLIN-DEPENDENT KINASE-2 BOUND TO CYCLIN A,1996-07-03,"CYCLIN-DEPENDENT KINASE-2, CYCLIN A, ADENOSINE-5'-TRIPHOSPHATE",X-ray,,['CYCLIN A'],['ATP'],['MN'],['TPO'],,10.1038/nsb0896-696
@@ -46,17 +46,17 @@ PDB ID,Title,Date,Description,Method,Resolution,Polymer Binders,Major Binders,Mi
 1KE7,"CYCLIN-DEPENDENT KINASE 2 (CDK2) COMPLEXED WITH 3-{[(2,2-DIOXIDO-1,3-DIHYDRO-2-BENZOTHIEN-5-YL)AMINO]METHYLENE}-5-(1,3-OXAZOL-5-YL)-1,3-DIHYDRO-2H-INDOL-2-ONE",2001-11-14,,X-ray,,[],['LS3'],[],,,10.1021/jm010117d
 1KE8,"CYCLIN-DEPENDENT KINASE 2 (CDK2) COMPLEXED WITH 4-{[(2-OXO-1,2-DIHYDRO-3H-INDOL-3-YLIDENE)METHYL]AMINO}-N-(1,3-THIAZOL-2-YL)BENZENESULFONAMIDE",2001-11-14,,X-ray,,[],['LS4'],[],,,10.1021/jm010117d
 1KE9,"CYCLIN-DEPENDENT KINASE 2 (CDK2) COMPLEXED WITH 3-{[4-({[AMINO(IMINO)METHYL]AMINOSULFONYL)ANILINO]METHYLENE}-2-OXO-2,3-DIHYDRO-1H-INDOLE",2001-11-14,,X-ray,,[],['LS5'],[],,,10.1021/jm010117d
-1OGU,STRUCTURE OF HUMAN THR160-PHOSPHO CDK2/CYCLIN A COMPLEXED WITH A 2-ARYLAMINO-4-CYCLOHEXYLMETHYL-5-NITROSO-6-AMINOPYRIMIDINE INHIBITOR,2003-05-13,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],"['ST8', 'SGM']",[],['TPO'],,10.1016/S0960-894X(03)00651-6
-1OI9,Structure of human Thr160-phospho CDK2/cyclin A complexed with a 6-cyclohexylmethyloxy-2-anilino-purine inhibitor,2003-06-10,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],"['N20', 'SGM']",['MG'],['TPO'],,10.1021/JM0311442
+1OGU,STRUCTURE OF HUMAN THR160-PHOSPHO CDK2/CYCLIN A COMPLEXED WITH A 2-ARYLAMINO-4-CYCLOHEXYLMETHYL-5-NITROSO-6-AMINOPYRIMIDINE INHIBITOR,2003-05-13,,X-ray,,['CYCLIN A2'],"['ST8', 'SGM']",[],['TPO'],,10.1016/S0960-894X(03)00651-6
+1OI9,Structure of human Thr160-phospho CDK2/cyclin A complexed with a 6-cyclohexylmethyloxy-2-anilino-purine inhibitor,2003-06-10,,X-ray,,['CYCLIN A2'],"['N20', 'SGM']",['MG'],['TPO'],,10.1021/JM0311442
 1OIQ,Imidazopyridines: a potent and selective class of Cyclin-dependent Kinase inhibitors identified through Structure-based hybridisation,2003-06-24,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['HDU'],[],['ACE'],,10.1016/S0960-894X(03)00638-3
 1OIR,Imidazopyridines: a potent and selective class of Cyclin-dependent Kinase inhibitors identified through Structure-based hybridisation,2003-06-24,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['HDY'],[],"['ACE', 'KCX']",,10.1016/S0960-894X(03)00638-3
 1OIT,Imidazopyridines: a potent and selective class of Cyclin-dependent Kinase inhibitors identified through Structure-based hybridisation,2003-06-24,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['HDT'],[],['ACE'],,10.1016/S0960-894X(03)00638-3
-1OIU,Structure of human Thr160-phospho CDK2/cyclin A complexed with a 6-cyclohexylmethyloxy-2-anilino-purine inhibitor,2003-06-26,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],"['N76', 'SGM']",['MG'],['TPO'],,10.1021/JM0311442
-1OIY,Structure of human Thr160-phospho CDK2/cyclin A complexed with a 6-cyclohexylmethyloxy-2-anilino-purine inhibitor,2003-06-26,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],"['N41', 'SGM']",['MG'],['TPO'],,10.1021/JM0311442
-1OKV,Cyclin A binding groove inhibitor H-Arg-Arg-Leu-Ile-Phe-NH2,2003-07-30,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2, H-ARG-ARG-LEU-ILE-PHE-NH2",X-ray,,"['CYCLIN A2', 'H-ARG-ARG-LEU-ILE-PHE-NH2']",[],[],,,10.1016/J.STR.2003.11.006
-1OKW,Cyclin A binding groove inhibitor Ac-Arg-Arg-Leu-Asn-(m-Cl-Phe)-NH2,2003-07-31,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2, ACE-ARG-ARG-LEU-ASN-FCL-NH2",X-ray,,"['CYCLIN A2', 'ACE-ARG-ARG-LEU-ASN-FCL-NH2']",[],[],,,10.1016/J.STR.2003.11.006
+1OIU,Structure of human Thr160-phospho CDK2/cyclin A complexed with a 6-cyclohexylmethyloxy-2-anilino-purine inhibitor,2003-06-26,,X-ray,,['CYCLIN A2'],"['N76', 'SGM']",['MG'],['TPO'],,10.1021/JM0311442
+1OIY,Structure of human Thr160-phospho CDK2/cyclin A complexed with a 6-cyclohexylmethyloxy-2-anilino-purine inhibitor,2003-06-26,,X-ray,,['CYCLIN A2'],"['N41', 'SGM']",['MG'],['TPO'],,10.1021/JM0311442
+1OKV,Cyclin A binding groove inhibitor H-Arg-Arg-Leu-Ile-Phe-NH2,2003-07-30,,X-ray,,"['CYCLIN A2', 'H-ARG-ARG-LEU-ILE-PHE-NH2']",[],[],,,10.1016/J.STR.2003.11.006
+1OKW,Cyclin A binding groove inhibitor Ac-Arg-Arg-Leu-Asn-(m-Cl-Phe)-NH2,2003-07-31,,X-ray,,"['CYCLIN A2', 'ACE-ARG-ARG-LEU-ASN-FCL-NH2']",[],[],,,10.1016/J.STR.2003.11.006
 1OL1,Cyclin A binding groove inhibitor H-Cit-Cit-Leu-Ile-(p-F-Phe)-NH2,2003-08-04,,X-ray,,"['CYCLIN A2', 'CIR-CIR-LEU-ILE-PFF-NH2']",[],[],,,10.1016/J.STR.2003.11.006
-1OL2,Cyclin A binding groove inhibitor H-Arg-Arg-Leu-Asn-(p-F-Phe)-NH2,2003-08-05,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2, ARG-ARG-LEU-ASN-PFF-NH2",X-ray,,"['CYCLIN A2', 'ARG-ARG-LEU-ASN-PFF-NH2']",[],[],,,10.1016/J.STR.2003.11.006
+1OL2,Cyclin A binding groove inhibitor H-Arg-Arg-Leu-Asn-(p-F-Phe)-NH2,2003-08-05,,X-ray,,"['CYCLIN A2', 'ARG-ARG-LEU-ASN-PFF-NH2']",[],[],,,10.1016/J.STR.2003.11.006
 1P2A,The structure of cyclin dependent kinase 2 (CKD2) with a trisubstituted naphthostyril inhibitor,2003-04-15,"Cell division protein kinase 2, 5-[(2-AMINOETHYL)AMINO]-6-FLUORO-3-(1H-PYRROL-2-YL)BENZO[CD]INDOL-2(1H)-ONE",X-ray,,[],['5BN'],[],,,10.1016/S0960-894X(03)00488-8
 1P5E,"The structure of phospho-CDK2/cyclin A in complex with the inhibitor 4,5,6,7-tetrabromobenzotriazole (TBS)",2003-04-26,"Cell division protein kinase 2 (2.7.2.-), Cyclin A2",X-ray,,['Cyclin A2'],['TBS'],[],['TPO'],,10.1046/j.1432-1033.2003.03697.x
 1PF8,Crystal Structure of Human Cyclin-Dependent Kinase 2 Complexed with a Nucleoside Inhibitor,2003-05-24,,X-ray,,[],['SU9'],[],,,10.1016/j.bbrc.2003.09.114
@@ -73,14 +73,14 @@ PDB ID,Title,Date,Description,Method,Resolution,Polymer Binders,Major Binders,Mi
 1PYE,Crystal structure of CDK2 with inhibitor,2003-07-08,Cell division protein kinase 2 (E.C.2.7.1.-),X-ray,,[],['PM1'],[],,,
 1QMZ,PHOSPHORYLATED CDK2-CYCLYIN A-SUBSTRATE PEPTIDE COMPLEX,1999-10-11,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.-), G2/MITOTIC-SPECIFIC CYCLIN A, SUBSTRATE PEPTIDE",X-ray,,"['G2/MITOTIC-SPECIFIC CYCLIN A', 'SUBSTRATE PEPTIDE']",['ATP'],['MG'],['TPO'],,10.1038/15674
 1R78,CDK2 complex with a 4-alkynyl oxindole inhibitor,2003-10-20,Cell division protein kinase 2 (E.C.2.7.1.-),X-ray,,[],['FMD'],[],,,10.1016/j.bmcl.2003.12.009
-1URC,Cyclin A binding groove inhibitor Ace-Arg-Lys-Leu-Phe-Gly,2003-10-28,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37, 2.7.11.22), CYCLIN A2, PEPTIDE INHIBITOR",X-ray,,"['CYCLIN A2', 'PEPTIDE INHIBITOR']",[],[],,,10.1039/B409157D
+1URC,Cyclin A binding groove inhibitor Ace-Arg-Lys-Leu-Phe-Gly,2003-10-28,,X-ray,,"['CYCLIN A2', 'PEPTIDE INHIBITOR']",[],[],,,10.1039/B409157D
 1URW,"CDK2 IN COMPLEX WITH AN IMIDAZO[1,2-b]PYRIDAZINE",2003-11-11,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['I1P'],[],['ACE'],,10.1016/J.BMCL.2004.02.008
 1V1K,"CDK2 IN COMPLEX WITH A DISUBSTITUTED 4, 6-BIS ANILINO PYRIMIDINE CDK4 INHIBITOR",2004-04-16,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['3FP'],[],['ACE'],,10.1016/S0960-894X(03)00202-6
 1VYW,Structure of CDK2/Cyclin A with PNU-292137,2004-05-07,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],['292'],['SO4'],,,10.1021/JM031145U
 1VYZ,Structure of CDK2 complexed with PNU-181227,2004-05-07,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['N5B'],[],,,10.1021/JM031145U
 1W0X,Crystal structure of human CDK2 in complex with the inhibitor olomoucine.,2004-06-14,CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.1.37),X-ray,,[],['OLO'],[],,,10.1002/PROT.340220408
 1W8C,CO-CRYSTAL STRUCTURE OF 6-CYCLOHEXYLMETHOXY-8-ISOPROPYL-9H-PURIN-2- YLAMINE AND MONOMERIC CDK2,2004-09-20,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['N69'],[],"['ACE', 'CSD']",,10.1021/JM401555V
-1W98,The structural basis of CDK2 activation by cyclin E,2004-10-07,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), G1/S-SPECIFIC CYCLIN E1",X-ray,,['G1/S-SPECIFIC CYCLIN E1'],[],[],['TPO'],,10.1038/SJ.EMBOJ.7600554
+1W98,The structural basis of CDK2 activation by cyclin E,2004-10-07,,X-ray,,['G1/S-SPECIFIC CYCLIN E1'],[],[],['TPO'],,10.1038/SJ.EMBOJ.7600554
 1WCC,screening for fragment binding by X-ray crystallography,2004-11-12,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['CIG'],[],,,10.1021/JM0495778
 1Y8Y,"Crystal structure of human CDK2 complexed with a pyrazolo[1,5-a]pyrimidine inhibitor",2004-12-14,,X-ray,,[],['CT7'],[],,,10.1016/j.bmcl.2004.12.073
 1Y91,"Crystal structure of human CDK2 complexed with a pyrazolo[1,5-a]pyrimidine inhibitor",2004-12-14,,X-ray,,[],['CT9'],[],,,10.1016/j.bmcl.2004.12.073
@@ -92,40 +92,40 @@ PDB ID,Title,Date,Description,Method,Resolution,Polymer Binders,Major Binders,Mi
 2B54,Human cyclin dependent kinase 2 (CKD2)complexed with DIN-232305,2005-09-27,Cell division protein kinase 2 (E.C.2.7.1.37),X-ray,,[],['D05'],[],,,10.1021/jm020455u
 2B55,Human cyclin dependent kinase 2 (cdk2) complexed with indenopyraxole DIN-101312,2005-09-27,Cell division protein kinase 2 (E.C.2.7.1.37),X-ray,,[],['D31'],[],,,10.1021/jm0201722
 2BHE,HUMAN CYCLIN DEPENDENT PROTEIN KINASE 2 IN COMPLEX WITH THE INHIBITOR 5-BROMO-INDIRUBINE,2005-01-10,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['BRY'],[],,,10.1002/CBIC.200400108
-2BHH,HUMAN CYCLIN DEPENDENT PROTEIN KINASE 2 IN COMPLEX WITH THE INHIBITOR 4-HYDROXYPIPERINDINESULFONYL-INDIRUBINE,2005-01-11,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['RYU'],[],,,10.1002/CBIC.200400108
+2BHH,HUMAN CYCLIN DEPENDENT PROTEIN KINASE 2 IN COMPLEX WITH THE INHIBITOR 4-HYDROXYPIPERINDINESULFONYL-INDIRUBINE,2005-01-11,,X-ray,,[],['RYU'],[],,,10.1002/CBIC.200400108
 2BKZ,STRUCTURE OF CDK2-CYCLIN A WITH PHA-404611,2005-02-23,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],['SBC'],['SO4'],,,10.1016/J.BMCL.2005.01.023
-2BPM,STRUCTURE OF CDK2-CYCLIN A WITH PHA-630529,2005-04-21,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],['529'],['SO4'],,,10.1021/JM0408870
+2BPM,STRUCTURE OF CDK2-CYCLIN A WITH PHA-630529,2005-04-21,,X-ray,,['CYCLIN A2'],['529'],['SO4'],,,10.1021/JM0408870
 2BTR,STRUCTURE OF CDK2 COMPLEXED WITH PNU-198873,2005-06-06,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['U73'],[],,,10.1016/J.JMGM.2005.09.012
 2BTS,STRUCTURE OF CDK2 COMPLEXED WITH PNU-230032,2005-06-06,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['U32'],[],,,10.1016/J.JMGM.2005.09.012
-2C4G,STRUCTURE OF CDK2-CYCLIN A WITH PHA-533514,2005-10-19,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],['514'],['SO4'],,,10.1016/J.BMCL.2005.10.071
-2C5N,Differential Binding Of Inhibitors To Active And Inactive Cdk2 Provides Insights For Drug Design,2005-10-30,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],['CK8'],[],,,10.1016/J.CHEMBIOL.2005.11.011
-2C5O,Differential Binding Of Inhibitors To Active And Inactive Cdk2 Provides Insights For Drug Design,2005-10-30,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],['CK2'],[],,,10.1016/J.CHEMBIOL.2005.11.011
-2C5V,Differential Binding Of Inhibitors To Active And Inactive Cdk2 Provides Insights For Drug Design,2005-11-02,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2, ALA-ALA-ABA-ARG-SER-LEU-ILE-PFF-NH2",X-ray,,"['CYCLIN A2', 'ALA-ALA-ABA-ARG-SER-LEU-ILE-PFF-NH2']",['CK4'],[],,,10.1016/J.CHEMBIOL.2005.11.011
-2C5X,Differential Binding Of Inhibitors To Active And Inactive Cdk2 Provides Insights For Drug Design,2005-11-03,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],['MTW'],[],,,10.1016/J.CHEMBIOL.2005.11.011
+2C4G,STRUCTURE OF CDK2-CYCLIN A WITH PHA-533514,2005-10-19,,X-ray,,['CYCLIN A2'],['514'],['SO4'],,,10.1016/J.BMCL.2005.10.071
+2C5N,Differential Binding Of Inhibitors To Active And Inactive Cdk2 Provides Insights For Drug Design,2005-10-30,,X-ray,,['CYCLIN A2'],['CK8'],[],,,10.1016/J.CHEMBIOL.2005.11.011
+2C5O,Differential Binding Of Inhibitors To Active And Inactive Cdk2 Provides Insights For Drug Design,2005-10-30,,X-ray,,['CYCLIN A2'],['CK2'],[],,,10.1016/J.CHEMBIOL.2005.11.011
+2C5V,Differential Binding Of Inhibitors To Active And Inactive Cdk2 Provides Insights For Drug Design,2005-11-02,,X-ray,,"['CYCLIN A2', 'ALA-ALA-ABA-ARG-SER-LEU-ILE-PFF-NH2']",['CK4'],[],,,10.1016/J.CHEMBIOL.2005.11.011
+2C5X,Differential Binding Of Inhibitors To Active And Inactive Cdk2 Provides Insights For Drug Design,2005-11-03,,X-ray,,['CYCLIN A2'],['MTW'],[],,,10.1016/J.CHEMBIOL.2005.11.011
 2C5Y,DIFFERENTIAL BINDING OF INHIBITORS TO ACTIVE AND INACTIVE CDK2 PROVIDES INSIGHTS FOR DRUG DESIGN,2005-11-03,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['MTW'],[],,,10.1016/J.CHEMBIOL.2005.11.011
 2C68,Crystal structure of the human CDK2 complexed with the triazolopyrimidine inhibitor,2005-11-08,,X-ray,,[],['CT6'],[],,,10.1016/J.BMCL.2005.11.048
-2C69,Crystal structure of the human CDK2 complexed with the triazolopyrimidine inhibitor,2005-11-08,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['CT8'],[],,,10.1016/j.bmcl.2005.11.048
-2C6I,Crystal structure of the human CDK2 complexed with the triazolopyrimidine inhibitor,2005-11-10,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['DT1'],[],,,10.1016/J.BMCL.2005.11.048
-2C6K,Crystal structure of the human CDK2 complexed with the triazolopyrimidine inhibitor,2005-11-10,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['DT2'],[],,,10.1016/J.BMCL.2005.11.048
-2C6L,Crystal structure of the human CDK2 complexed with the triazolopyrimidine inhibitor,2005-11-10,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['DT4'],[],,,10.1016/J.BMCL.2005.11.048
-2C6M,Crystal structure of the human CDK2 complexed with the triazolopyrimidine inhibitor,2005-11-10,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['DT5'],[],,,10.1016/J.BMCL.2005.11.048
-2C6O,Crystal structure of the human CDK2 complexed with the triazolopyrimidine inhibitor,2005-11-10,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['4SP'],[],,,10.1016/j.bmcl.2005.11.048
-2C6T,Crystal structure of the human CDK2 complexed with the triazolopyrimidine inhibitor,2005-11-11,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],['DT5'],[],['TPO'],,10.1016/J.BMCL.2005.11.048
-2CCH,The crystal structure of CDK2 cyclin A in complex with a substrate peptide derived from CDC modified with a gamma-linked ATP analogue,2006-01-16,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.-), CYCLIN A2, CELL DIVISION CONTROL PROTEIN 6 HOMOLOG",X-ray,,"['CYCLIN A2', 'CELL DIVISION CONTROL PROTEIN 6 HOMOLOG']",['ATP'],"['SO4', 'GOL']",['TPO'],,10.1074/JBC.M600480200
-2CCI,Crystal structure of phospho-CDK2 Cyclin A in complex with a peptide containing both the substrate and recruitment sites of CDC6,2006-01-16,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2, CELL DIVISION CONTROL PROTEIN 6 HOMOLOG",X-ray,,"['Cyclin-A2', 'Cell division control protein 6 homolog']",['ATP'],['MG'],['TPO'],['YES'],10.1074/jbc.M600480200
-2CJM,Mechanism of CDK inhibition by active site phosphorylation: CDK2 Y15p T160p in complex with cyclin A structure,2006-04-05,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],['ATP'],['MG'],"['PTR', 'TPO']",,10.1074/JBC.M609151200
-2CLX,"4-Arylazo-3,5-diamino-1H-pyrazole CDK Inhibitors: SAR Study, Crystal Structure in Complex with CDK2, Selectivity, and Cellular Effects",2006-05-02,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37, 2.7.11.22)",X-ray,,[],['F18'],[],,,10.1021/JM0605740
+2C69,Crystal structure of the human CDK2 complexed with the triazolopyrimidine inhibitor,2005-11-08,,X-ray,,[],['CT8'],[],,,10.1016/j.bmcl.2005.11.048
+2C6I,Crystal structure of the human CDK2 complexed with the triazolopyrimidine inhibitor,2005-11-10,,X-ray,,[],['DT1'],[],,,10.1016/J.BMCL.2005.11.048
+2C6K,Crystal structure of the human CDK2 complexed with the triazolopyrimidine inhibitor,2005-11-10,,X-ray,,[],['DT2'],[],,,10.1016/J.BMCL.2005.11.048
+2C6L,Crystal structure of the human CDK2 complexed with the triazolopyrimidine inhibitor,2005-11-10,,X-ray,,[],['DT4'],[],,,10.1016/J.BMCL.2005.11.048
+2C6M,Crystal structure of the human CDK2 complexed with the triazolopyrimidine inhibitor,2005-11-10,,X-ray,,[],['DT5'],[],,,10.1016/J.BMCL.2005.11.048
+2C6O,Crystal structure of the human CDK2 complexed with the triazolopyrimidine inhibitor,2005-11-10,,X-ray,,[],['4SP'],[],,,10.1016/j.bmcl.2005.11.048
+2C6T,Crystal structure of the human CDK2 complexed with the triazolopyrimidine inhibitor,2005-11-11,,X-ray,,['CYCLIN A2'],['DT5'],[],['TPO'],,10.1016/J.BMCL.2005.11.048
+2CCH,The crystal structure of CDK2 cyclin A in complex with a substrate peptide derived from CDC modified with a gamma-linked ATP analogue,2006-01-16,,X-ray,,"['CYCLIN A2', 'CELL DIVISION CONTROL PROTEIN 6 HOMOLOG']",['ATP'],"['SO4', 'GOL']",['TPO'],,10.1074/JBC.M600480200
+2CCI,Crystal structure of phospho-CDK2 Cyclin A in complex with a peptide containing both the substrate and recruitment sites of CDC6,2006-01-16,,X-ray,,"['Cyclin-A2', 'Cell division control protein 6 homolog']",['ATP'],['MG'],['TPO'],['YES'],10.1074/jbc.M600480200
+2CJM,Mechanism of CDK inhibition by active site phosphorylation: CDK2 Y15p T160p in complex with cyclin A structure,2006-04-05,,X-ray,,['CYCLIN A2'],['ATP'],['MG'],"['PTR', 'TPO']",,10.1074/JBC.M609151200
+2CLX,"4-Arylazo-3,5-diamino-1H-pyrazole CDK Inhibitors: SAR Study, Crystal Structure in Complex with CDK2, Selectivity, and Cellular Effects",2006-05-02,,X-ray,,[],['F18'],[],,,10.1021/JM0605740
 2DS1,Human cyclin dependent kinase 2 complexed with the CDK4 inhibitor,2006-06-17,,X-ray,,[],['1CD'],[],,"['F82H', ' L83V', ' K89T']",10.1016/j.bmcl.2006.07.026
 2DUV,Structure of CDK2 with a 3-hydroxychromones,2006-07-27,Cell division protein kinase 2 (E.C.2.7.11.22),X-ray,,[],['371'],[],,,10.1016/j.bmcl.2006.12.011
 2EXM,Human CDK2 in complex with isopentenyladenine,2005-11-08,Cell division protein kinase 2 (E.C.2.7.1.37),X-ray,,[],['ZIP'],[],,,10.1002/prot.340220408
 2FVD,Cyclin Dependent Kinase 2 (CDK2) with diaminopyrimidine inhibitor,2006-01-30,Cell division protein kinase 2 (E.C.2.7.1.37),X-ray,,[],['LIA'],[],,,10.1021/jm0606138
 2G9X,Structure of Thr 160 phosphorylated CDK2/cyclin A in complex with the inhibitor NU6271,2006-03-07,,X-ray,,['Cyclin-A2'],['NU5'],[],['TPO'],,10.1021/ja060595j
 2I40,Cdk2/Cyclin A complexed with a thiophene carboxamide inhibitor,2006-08-21,,X-ray,,['Cyclin-A2'],['BLZ'],[],,,10.1016/j.bmcl.2006.09.018
-2IW6,STRUCTURE OF HUMAN THR160-PHOSPHO CDK2-CYCLIN A COMPLEXED WITH A BISANILINOPYRIMIDINE INHIBITOR,2006-06-26,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN-A2",X-ray,,['CYCLIN-A2'],"['QQ2', 'SGM']",['MG'],['TPO'],,10.1021/JM060216X
-2IW8,STRUCTURE OF HUMAN THR160-PHOSPHO CDK2-CYCLIN A F82H-L83V-H84D MUTANT WITH AN O6-CYCLOHEXYLMETHYLGUANINE INHIBITOR,2006-06-27,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN-A2",X-ray,,['CYCLIN-A2'],"['4SP', 'SGM']",[],['TPO'],,10.1021/JM060216X
-2IW9,STRUCTURE OF HUMAN THR160-PHOSPHO CDK2-CYCLIN A COMPLEXED WITH A BISANILINOPYRIMIDINE INHIBITOR,2006-06-27,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN-A2",X-ray,,['CYCLIN-A2'],"['4SP', 'SGM']",['MG'],['TPO'],,10.1021/JM060216X
-2J9M,Crystal Structure of CDK2 in complex with Macrocyclic Aminopyrimidine,2006-11-13,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['PY8'],[],,,10.1002/CMDC.200600199
-2JGZ,Crystal structure of phospho-CDK2 in complex with Cyclin B,2007-02-17,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.-), G2/MITOTIC-SPECIFIC CYCLIN-B1",X-ray,,['G2/MITOTIC-SPECIFIC CYCLIN-B1'],[],[],['TPO'],,10.4161/cc.6.11.4278
+2IW6,STRUCTURE OF HUMAN THR160-PHOSPHO CDK2-CYCLIN A COMPLEXED WITH A BISANILINOPYRIMIDINE INHIBITOR,2006-06-26,,X-ray,,['CYCLIN-A2'],"['QQ2', 'SGM']",['MG'],['TPO'],,10.1021/JM060216X
+2IW8,STRUCTURE OF HUMAN THR160-PHOSPHO CDK2-CYCLIN A F82H-L83V-H84D MUTANT WITH AN O6-CYCLOHEXYLMETHYLGUANINE INHIBITOR,2006-06-27,,X-ray,,['CYCLIN-A2'],"['4SP', 'SGM']",[],['TPO'],,10.1021/JM060216X
+2IW9,STRUCTURE OF HUMAN THR160-PHOSPHO CDK2-CYCLIN A COMPLEXED WITH A BISANILINOPYRIMIDINE INHIBITOR,2006-06-27,,X-ray,,['CYCLIN-A2'],"['4SP', 'SGM']",['MG'],['TPO'],,10.1021/JM060216X
+2J9M,Crystal Structure of CDK2 in complex with Macrocyclic Aminopyrimidine,2006-11-13,,X-ray,,[],['PY8'],[],,,10.1002/CMDC.200600199
+2JGZ,Crystal structure of phospho-CDK2 in complex with Cyclin B,2007-02-17,,X-ray,,['G2/MITOTIC-SPECIFIC CYCLIN-B1'],[],[],['TPO'],,10.4161/cc.6.11.4278
 2R3F,Crystal Structure of Cyclin-Dependent Kinase 2 with inhibitor,2007-08-29,Cell division protein kinase 2 (E.C.2.7.11.22),X-ray,,[],['SC8'],[],['ACE'],,10.1002/bip.20868
 2R3G,Crystal Structure of Cyclin-Dependent Kinase 2 with inhibitor,2007-08-29,Cell division protein kinase 2 (E.C.2.7.11.22),X-ray,,[],['SC9'],[],['ACE'],,10.1002/bip.20868
 2R3H,Crystal Structure of Cyclin-Dependent Kinase 2 with inhibitor,2007-08-29,Cell division protein kinase 2 (E.C.2.7.11.22),X-ray,,[],['SCE'],[],['ACE'],,10.1002/bip.20868
@@ -140,15 +140,15 @@ PDB ID,Title,Date,Description,Method,Resolution,Polymer Binders,Major Binders,Mi
 2R3Q,Crystal Structure of Cyclin-Dependent Kinase 2 with inhibitor,2007-08-29,Cell division protein kinase 2 (E.C.2.7.11.22),X-ray,,[],['5SC'],[],"['ACE', 'CSD']",,10.1002/bip.20868
 2R3R,Crystal Structure of Cyclin-Dependent Kinase 2 with inhibitor,2007-08-29,,X-ray,,[],['6SC'],[],['ACE'],,10.1002/bip.20868
 2R64,Crystal structure of a 3-aminoindazole compound with CDK2,2007-09-05,Cell division protein kinase 2 (E.C.2.7.11.22),X-ray,,[],['740'],[],,,10.1016/j.bmcl.2008.03.002
-2UUE,REPLACE: A strategy for Iterative Design of Cyclin Binding Groove Inhibitors,2007-03-02,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.11.1), CYCLIN A2, GVC-TETRAPEPTIDE INHIBITOR",X-ray,,"['CYCLIN A2', 'GVC-TETRAPEPTIDE INHIBITOR']","['MTZ', 'GVC']",[],,,10.1002/CBIC.200600189
+2UUE,REPLACE: A strategy for Iterative Design of Cyclin Binding Groove Inhibitors,2007-03-02,,X-ray,,"['CYCLIN A2', 'GVC-TETRAPEPTIDE INHIBITOR']","['MTZ', 'GVC']",[],,,10.1002/CBIC.200600189
 2UZB,Crystal structure of human CDK2 complexed with a thiazolidinone inhibitor,2007-04-27,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37, 2.7.11.22), CYCLIN-A2",X-ray,,['CYCLIN-A2'],['C75'],[],['TPO'],,10.1016/J.BMCL.2007.04.110
 2UZD,Crystal structure of human CDK2 complexed with a thiazolidinone inhibitor,2007-04-27,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.11.22, 2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],['C85'],[],['TPO'],,10.1016/J.BMCL.2007.04.110
 2UZE,Crystal structure of human CDK2 complexed with a thiazolidinone inhibitor,2007-04-27,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.11.22, 2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],['C95'],[],['TPO'],,10.1016/J.BMCL.2007.04.110
 2UZL,Crystal structure of human CDK2 complexed with a thiazolidinone inhibitor,2007-04-30,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.11.22, 2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],['C94'],[],['TPO'],,10.1016/J.BMCL.2007.04.110
-2UZN,Crystal structure of human CDK2 complexed with a thiazolidinone inhibitor,2007-04-30,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.11.22, 2.7.1.37)",X-ray,,[],['C96'],[],,,10.1016/J.BMCL.2007.04.110
-2UZO,Crystal structure of human CDK2 complexed with a thiazolidinone inhibitor,2007-04-30,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.11.22, 2.7.1.37)",X-ray,,[],['C62'],[],,,10.1016/J.BMCL.2007.04.110
+2UZN,Crystal structure of human CDK2 complexed with a thiazolidinone inhibitor,2007-04-30,,X-ray,,[],['C96'],[],,,10.1016/J.BMCL.2007.04.110
+2UZO,Crystal structure of human CDK2 complexed with a thiazolidinone inhibitor,2007-04-30,,X-ray,,[],['C62'],[],,,10.1016/J.BMCL.2007.04.110
 2V0D,Crystal structure of human CDK2 complexed with a thiazolidinone inhibitor,2007-05-14,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37, 2.7.11.22)",X-ray,,[],['C53'],['CL'],,,10.1016/J.BMCL.2007.04.110
-2V22,REPLACE: A strategy for Iterative Design of Cyclin Binding Groove Inhibitors,2007-05-31,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN-A2",X-ray,,['CYCLIN-A2'],['C35'],[],,,10.1002/CBIC.200600189
+2V22,REPLACE: A strategy for Iterative Design of Cyclin Binding Groove Inhibitors,2007-05-31,,X-ray,,['CYCLIN-A2'],['C35'],[],,,10.1002/CBIC.200600189
 2VTA,"Identification of N-(4-piperidinyl)-4-(2,6-dichlorobenzoylamino)-1H- pyrazole-3-carboxamide (AT7519), a Novel Cyclin Dependent Kinase Inhibitor Using Fragment-Based X-Ray Crystallography and Structure Based Drug Design.",2008-05-13,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.1, 2.7.11.22)",X-ray,,[],['LZ1'],['GOL'],,,10.1021/JM800382H
 2VTH,"Identification of N-(4-piperidinyl)-4-(2,6-dichlorobenzoylamino)-1H-pyrazole-3-carboxamide (AT7519), a Novel Cyclin Dependent Kinase Inhibitor Using Fragment-Based X-Ray Crystallography and Structure Based Drug Design",2008-05-15,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.11.1, 2.7.11.22)",X-ray,,[],['LZ2'],['GOL'],,,10.1021/JM800382H
 2VTI,"Identification of N-(4-piperidinyl)-4-(2,6-dichlorobenzoylamino)-1H- pyrazole-3-carboxamide (AT7519), a Novel Cyclin Dependent Kinase Inhibitor Using Fragment-Based X-Ray Crystallography and Structure Based Drug Design.",2008-05-15,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.11.1, 2.7.11.22)",X-ray,,[],['LZ3'],[],,,10.1021/JM800382H
@@ -170,16 +170,16 @@ PDB ID,Title,Date,Description,Method,Resolution,Polymer Binders,Major Binders,Mi
 2W1H,"Fragment-Based Discovery of the Pyrazol-4-yl urea (AT9283), a Multi- targeted Kinase Inhibitor with Potent Aurora Kinase Activity",2008-10-17,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37),X-ray,,[],['L0F'],[],,,10.1021/JM800984V
 2WEV,"Truncation and Optimisation of Peptide Inhibitors of CDK2, Cyclin A Through Structure Guided Design",2009-04-01,,X-ray,,"['CYCLIN-A2', 'ARG-ARG-B3L-MEA']",['CK7'],[],,,10.1002/CMDC.200900093
 2WFY,"Truncation and Optimisation of Peptide Inhibitors of CDK2, Cyclin A Through Structure Guided Design",2009-04-15,,X-ray,,"['CYCLIN-A2', 'ARG-ARG-B3L-PHE']",[],[],,,10.1002/CMDC.200900093
-2WHB,"Truncation and Optimisation of Peptide Inhibitors of CDK2, Cyclin A Through Structure Guided Design",2009-05-03,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN-A2, ARG-ARG-L3O-PFF",X-ray,,"['CYCLIN-A2', 'ARG-ARG-L3O-PFF']",[],[],,,10.1002/cmdc.200900093
+2WHB,"Truncation and Optimisation of Peptide Inhibitors of CDK2, Cyclin A Through Structure Guided Design",2009-05-03,,X-ray,,"['CYCLIN-A2', 'ARG-ARG-L3O-PFF']",[],[],,,10.1002/cmdc.200900093
 2WIH,STRUCTURE OF CDK2-CYCLIN A WITH PHA-848125,2009-05-13,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN-A2",X-ray,,['CYCLIN-A2'],['P48'],['SO4'],,,10.1021/JM9006559
 2WIP,"STRUCTURE OF CDK2-CYCLIN A COMPLEXED WITH 8-ANILINO-1-METHYL-4,5-DIHYDRO- 1H-PYRAZOLO[4,3-H] QUINAZOLINE-3-CARBOXYLIC ACID",2009-05-14,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN-A2",X-ray,,['CYCLIN-A2'],['P49'],['SO4'],,,10.1021/JM9006559
-2WMA,Structural and thermodynamic consequences of cyclization of peptide ligands for the recruitment site of cyclin A,2009-06-30,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.11.22), CYCLIN-A2, CYCLIC RKLFN-NH2",X-ray,,"['CYCLIN-A2', 'CYCLIC RKLFN-NH2']",[],[],['TPO'],,
-2WMB,Structural and thermodynamic consequences of cyclization of peptide ligands for the recruitment site of cyclin A,2009-06-30,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.11.22), CYCLIN-A2, LINEAR RKLFD",X-ray,,"['CYCLIN-A2', 'LINEAR RKLFD']",[],['MG'],['TPO'],,
+2WMA,Structural and thermodynamic consequences of cyclization of peptide ligands for the recruitment site of cyclin A,2009-06-30,,X-ray,,"['CYCLIN-A2', 'CYCLIC RKLFN-NH2']",[],[],['TPO'],,
+2WMB,Structural and thermodynamic consequences of cyclization of peptide ligands for the recruitment site of cyclin A,2009-06-30,,X-ray,,"['CYCLIN-A2', 'LINEAR RKLFD']",[],['MG'],['TPO'],,
 2WPA,"Optimisation of 6,6-Dimethyl Pyrrolo 3,4-c pyrazoles: Identification of PHA-793887, a Potent CDK Inhibitor Suitable for Intravenous Dosing",2009-08-03,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN A2",X-ray,,['CYCLIN A2'],['889'],['SO4'],,,10.1016/J.BMC.2010.01.042
 2WXV,"Structure of CDK2-CYCLIN A with a Pyrazolo(4,3-h) quinazoline-3- carboxamide inhibitor",2009-11-10,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN-A2",X-ray,,['CYCLIN-A2'],['WXV'],['SO4'],,,10.1021/JM901710H
-2X1N,"Truncation and Optimisation of Peptide Inhibitors of CDK2, Cyclin A Through Structure Guided Design",2009-12-31,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37), CYCLIN-A2, ACE-LEU-ASN-PFF-NH2",X-ray,,"['CYCLIN-A2', 'ACE-LEU-ASN-PFF-NH2']",['X1N'],[],,,10.1021/JM901660C
-2XMY,Discovery and Characterisation of 2-Anilino-4-(thiazol-5-yl) pyrimidine Transcriptional CDK Inhibitors as Anticancer Agents,2010-07-29,"CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.1.37, 2.7.11.22)",X-ray,,[],['CDK'],[],,,10.1016/J.CHEMBIOL.2010.07.016
-2XNB,Discovery and Characterisation of 2-Anilino-4-(thiazol-5-yl) pyrimidine Transcriptional CDK Inhibitors as Anticancer Agents,2010-08-01,CELL DIVISION PROTEIN KINASE 2 (E.C.2.7.11.22),X-ray,,[],['Y8L'],[],,,10.1016/J.CHEMBIOL.2010.07.016
+2X1N,"Truncation and Optimisation of Peptide Inhibitors of CDK2, Cyclin A Through Structure Guided Design",2009-12-31,,X-ray,,"['CYCLIN-A2', 'ACE-LEU-ASN-PFF-NH2']",['X1N'],[],,,10.1021/JM901660C
+2XMY,Discovery and Characterisation of 2-Anilino-4-(thiazol-5-yl) pyrimidine Transcriptional CDK Inhibitors as Anticancer Agents,2010-07-29,,X-ray,,[],['CDK'],[],,,10.1016/J.CHEMBIOL.2010.07.016
+2XNB,Discovery and Characterisation of 2-Anilino-4-(thiazol-5-yl) pyrimidine Transcriptional CDK Inhibitors as Anticancer Agents,2010-08-01,,X-ray,,[],['Y8L'],[],,,10.1016/J.CHEMBIOL.2010.07.016
 3BHT,Structure of phosphorylated Thr160 CDK2/cyclin A in complex with the inhibitor meriolin 3,2007-11-29,"Cell division protein kinase 2 (E.C.2.7.11.22), Cyclin-A2",X-ray,,['Cyclin-A2'],"['MFR', 'SGM']",['MG'],['TPO'],,10.1158/0008-5472.CAN-07-1826
 3BHU,Structure of phosphorylated Thr160 CDK2/cyclin A in complex with the inhibitor meriolin 5,2007-11-29,"Cell division protein kinase 2 (E.C.2.7.11.22), Cyclin-A2",X-ray,,['Cyclin-A2'],['MHR'],['MG'],['TPO'],,10.1158/0008-5472.CAN-07-1826
 3BHV,Structure of phosphorylated Thr160 CDK2/cyclin A in complex with the inhibitor variolin B,2007-11-29,"Cell division protein kinase 2 (E.C.2.7.11.22), Cyclin-A2",X-ray,,['Cyclin-A2'],"['VAR', 'SGM']",['MG'],['TPO'],,10.1158/0008-5472.CAN-07-1826
@@ -189,9 +189,9 @@ PDB ID,Title,Date,Description,Method,Resolution,Polymer Binders,Major Binders,Mi
 3EID,CDK2/CyclinA complexed with a pyrazolopyridazine inhibitor,2008-09-15,,X-ray,,['Cyclin-A2'],['PO5'],[],,,10.1016/j.bmcl.2008.09.069
 3EJ1,CDK2/CyclinA complexed with a pyrazolopyridazine inhibitor,2008-09-17,,X-ray,,['Cyclin-A2'],['5BP'],[],,,10.1016/j.bmcl.2008.09.069
 3EOC,Cdk2/CyclinA complexed with a imidazo triazin-2-amine,2008-09-26,,X-ray,,['Cyclin-A2'],['T2A'],[],,,10.1016/j.bmcl.2008.09.100
-3EZR,CDK-2 with indazole inhibitor 17 bound at its active site,2008-10-23,CDK-2 with indazole inhibitor 17 bound at its active site,X-ray,,[],['EZR'],[],,,10.1016/j.bmcl.2008.11.105
-3EZV,CDK-2 with indazole inhibitor 9 bound at its active site,2008-10-23,CDK-2 with indazole inhibitor 9 bound at its active site,X-ray,,[],['EZV'],[],,,10.1016/j.bmcl.2008.11.105
-3F5X,CDK-2-Cyclin complex with indazole inhibitor 9 bound at its active site,2008-11-04,"Cell division protein kinase 2 (E.C.2.7.11.22), Cyclin-A2",X-ray,,['Cyclin-A2'],['EZV'],"['GOL', 'SO4']",,,10.1016/j.bmcl.2008.11.105
+3EZR,CDK-2 with indazole inhibitor 17 bound at its active site,2008-10-23,,X-ray,,[],['EZR'],[],,,10.1016/j.bmcl.2008.11.105
+3EZV,CDK-2 with indazole inhibitor 9 bound at its active site,2008-10-23,,X-ray,,[],['EZV'],[],,,10.1016/j.bmcl.2008.11.105
+3F5X,CDK-2-Cyclin complex with indazole inhibitor 9 bound at its active site,2008-11-04,,X-ray,,['Cyclin-A2'],['EZV'],"['GOL', 'SO4']",,,10.1016/j.bmcl.2008.11.105
 3FZ1,Crystal structure of a benzthiophene inhibitor bound to human Cyclin-dependent Kinase-2 (CDK-2),2009-01-23,,X-ray,,[],['B98'],[],,,10.1016/j.bmcl.2009.02.017
 3IG7,Novel CDK-5 inhibitors - crystal structure of inhibitor EFP with CDK-2,2009-07-27,Cell division protein kinase 2 (E.C.2.7.11.22),X-ray,,[],['EFP'],[],['ACE'],,10.1016/j.bmcl.2009.08.019
 3IGG,Novel CDK-5 inhibitors - crystal structure of inhibitor EFQ with CDK-2,2009-07-27,Cell division protein kinase 2 (E.C.2.7.11.22),X-ray,,[],['EFQ'],[],['ACE'],,10.1016/j.bmcl.2009.08.019
@@ -304,14 +304,14 @@ PDB ID,Title,Date,Description,Method,Resolution,Polymer Binders,Major Binders,Mi
 4BCQ,Structure of CDK2 in complex with cyclin A and a 2-amino-4-heteroaryl- pyrimidine inhibitor,2012-10-02,"CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22), CYCLIN-A2",X-ray,,"['CYCLIN-A2', 'CYCLIN-A2']",['TJF'],[],['TPO'],,10.1021/JM301495V
 4BGH,Crystal Structure of CDK2 in complex with pan-CDK Inhibitor,2013-03-26,CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22),X-ray,,[],['3I6'],[],,,10.1002/CMDC.201300096
 4BZD,Structure of CDK2 in complex with a benzimidazopyrimidine,2013-07-25,CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22),X-ray,,[],['D6I'],['ACT'],['ACE'],,
-4CFM,Structure-based design of C8-substituted O6-cyclohexylmethoxyguanine CDK1 and 2 inhibitors.,2013-11-18,"CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22, 2.7.11.23), CYCLIN-A2",X-ray,,['CYCLIN-A2'],['4QE'],[],['TPO'],,10.1021/JM401555V
-4CFN,Structure-based design of C8-substituted O6-cyclohexylmethoxyguanine CDK1 and 2 inhibitors.,2013-11-19,"CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22, 2.7.11.23), CYCLIN-A2",X-ray,,['CYCLIN-A2'],"['JYM', 'DTT']",[],['TPO'],,10.1021/JM401555V
-4CFU,Structure-based design of C8-substituted O6-cyclohexylmethoxyguanine CDK1 and 2 inhibitors.,2013-11-19,"CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22, 2.7.11.23), CYCLIN-A2",X-ray,,"['CYCLIN-A2', 'CYCLIN-A2']",['2WC'],['MG'],['TPO'],,10.1021/JM401555V
-4CFV,Structure-based design of C8-substituted O6-cyclohexylmethoxyguanine CDK1 and 2 inhibitors.,2013-11-19,"CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22, 2.7.11.23), CYCLIN-A2",X-ray,,['CYCLIN-A2'],['75X'],['MG'],['TPO'],,10.1021/JM401555V
-4CFW,Structure-based design of C8-substituted O6-cyclohexylmethoxyguanine CDK1 and 2 inhibitors.,2013-11-19,"CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22, 2.7.11.23), CYCLIN-A2",X-ray,,['CYCLIN-A2'],['SQ9'],[],['TPO'],,10.1021/JM401555V
-4CFX,Structure-based design of C8-substituted O6-cyclohexylmethoxyguanine CDK1 and 2 inhibitors.,2013-11-19,"CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22, 2.7.11.23), CYCLIN-A2",X-ray,,['CYCLIN-A2'],['G6T'],[],['TPO'],,10.1021/JM401555V
-4D1X,CDK2 in complex with Luciferin,2014-05-05,CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22),X-ray,,[],['ESJ'],[],,,10.1016/J.EJMECH.2015.02.035
-4D1Z,CDK2 in complex with a Luciferin derivate,2014-05-05,CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22),X-ray,,[],['WG8'],[],,,10.1016/J.EJMECH.2015.02.035
+4CFM,Structure-based design of C8-substituted O6-cyclohexylmethoxyguanine CDK1 and 2 inhibitors.,2013-11-18,,X-ray,,['CYCLIN-A2'],['4QE'],[],['TPO'],,10.1021/JM401555V
+4CFN,Structure-based design of C8-substituted O6-cyclohexylmethoxyguanine CDK1 and 2 inhibitors.,2013-11-19,,X-ray,,['CYCLIN-A2'],"['JYM', 'DTT']",[],['TPO'],,10.1021/JM401555V
+4CFU,Structure-based design of C8-substituted O6-cyclohexylmethoxyguanine CDK1 and 2 inhibitors.,2013-11-19,,X-ray,,"['CYCLIN-A2', 'CYCLIN-A2']",['2WC'],['MG'],['TPO'],,10.1021/JM401555V
+4CFV,Structure-based design of C8-substituted O6-cyclohexylmethoxyguanine CDK1 and 2 inhibitors.,2013-11-19,,X-ray,,['CYCLIN-A2'],['75X'],['MG'],['TPO'],,10.1021/JM401555V
+4CFW,Structure-based design of C8-substituted O6-cyclohexylmethoxyguanine CDK1 and 2 inhibitors.,2013-11-19,,X-ray,,['CYCLIN-A2'],['SQ9'],[],['TPO'],,10.1021/JM401555V
+4CFX,Structure-based design of C8-substituted O6-cyclohexylmethoxyguanine CDK1 and 2 inhibitors.,2013-11-19,,X-ray,,['CYCLIN-A2'],['G6T'],[],['TPO'],,10.1021/JM401555V
+4D1X,CDK2 in complex with Luciferin,2014-05-05,,X-ray,,[],['ESJ'],[],,,10.1016/J.EJMECH.2015.02.035
+4D1Z,CDK2 in complex with a Luciferin derivate,2014-05-05,,X-ray,,[],['WG8'],[],,,10.1016/J.EJMECH.2015.02.035
 4EK3,Crystal structure of apo CDK2,2012-04-09,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],[],[],['ACE'],,
 4EK4,Crystal structure of the cdk2 in complex with aminopyrazole inhibitor,2012-04-09,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['1CK'],['NA'],['ACE'],,
 4EK5,Crystal structure of the cdk2 in complex with aminopyrazole inhibitor,2012-04-09,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['03K'],[],['ACE'],,
@@ -353,70 +353,70 @@ PDB ID,Title,Date,Description,Method,Resolution,Polymer Binders,Major Binders,Mi
 4NJ3,Modulating the interaction between CDK2 and Cyclin A with a Quinoline-based inhibitor,2013-11-08,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['2KD'],[],"['ACE', 'CSD']",,10.1016/j.bmcl.2013.11.041
 4RJ3,CDK2 with EGFR inhibitor compound 8,2014-10-08,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['3QS'],['ACT'],['ALY'],,10.1021/jm501578n
 5A14,Human CDK2 with type II inhibitor,2015-04-27,"CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22, 2.7.11.1)",X-ray,,[],['LQ5'],[],['ACE'],,10.1021/ACSCHEMBIO.5B00398
-5AND,Crystal structure of CDK2 in complex with 2-imidazol-1-yl-1H- benzimidazole processed with the CrystalDirect automated mounting and cryo-cooling technology,2015-09-07,CYCLIN-DEPENDENT KINASE 2,X-ray,,[],['5JE'],[],,,10.1107/S2059798316000954
+5AND,Crystal structure of CDK2 in complex with 2-imidazol-1-yl-1H- benzimidazole processed with the CrystalDirect automated mounting and cryo-cooling technology,2015-09-07,,X-ray,,[],['5JE'],[],,,10.1107/S2059798316000954
 5ANE,Crystal structure of CDK2 in complex with 6-methoxy-7H-purine processed with the CrystalDirect automated mounting and cryo-cooling technology,2015-09-07,CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22),X-ray,,[],['SZL'],[],,,10.1107/S2059798316000954
 5ANG,Crystal structure of CDK2 in complex with 7-hydroxy-4-(morpholinomethyl)chromen-2-one processed with the CrystalDirect automated mounting and cryo-cooling technology,2015-09-07,CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22),X-ray,,[],['WY3'],[],,,10.1107/S2059798316000954
 5ANI,Crystal structure of CDK2 in complex with 6-chloro-7H-purine processed with the CrystalDirect automated mounting and cryo-cooling technology,2015-09-07,CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22),X-ray,,[],['ES4'],[],,,10.1107/S2059798316000954
 5ANJ,Crystal structure of CDK2 in complex with N-(9H-purin-6-yl)thiophene- 2-carboxamide processed with the CrystalDirect automated mounting and cryo-cooling technology,2015-09-07,CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22),X-ray,,[],['ZXC'],[],,,10.1107/S2059798316000954
 5ANK,"Crystal structure of CDK2 in complex with 2,4,6-trioxo-1-phenyl- hexahydropyrimidine-5-carboxamide processed with the CrystalDirect automated mounting and cryo-cooling technology",2015-09-07,CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22),X-ray,,[],['RJI'],[],,,10.1107/S2059798316000954
 5ANO,Crystal structure of CDK2 processed with the CrystalDirect automated mounting and cryo-cooling technology,2015-09-07,CYCLIN-DEPENDENT KINASE 2,X-ray,,[],[],[],,,10.1107/S2059798316000954
-5CYI,CDK2/Cyclin A covalent complex with 6-(cyclohexylmethoxy)-N-(4-(vinylsulfonyl)phenyl)-9H-purin-2-amine (NU6300),2015-07-30,"Cyclin-dependent kinase 2 (E.C.2.7.11.22), Cyclin-A2",X-ray,,['Cyclin-A2'],['55S'],[],['TPO'],,10.1016/j.chembiol.2015.07.018
+5CYI,CDK2/Cyclin A covalent complex with 6-(cyclohexylmethoxy)-N-(4-(vinylsulfonyl)phenyl)-9H-purin-2-amine (NU6300),2015-07-30,,X-ray,,['Cyclin-A2'],['55S'],[],['TPO'],,10.1016/j.chembiol.2015.07.018
 5D1J,"CRYSTAL STRUCTURE OF CYCLIN-DEPENDENT KINASE 2 (CDK2-WT) COMPLEX WITH N-[5-[[[5-(1,1-DIMETHYLETHYL)-2-OXAZOLYL] METHYL]THIO]-2-THIAZOLYL]-4-PIPERIDINECARBOXAMIDE (BMS-387032)",2015-08-04,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['56H'],[],,,10.1021/jm0305568
-5FP5,Structure of cyclin-dependent kinase 2 with small-molecule ligand 4- fluorobenzoic acid (AT222) in an alternate binding site.,2015-11-27,CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22),X-ray,,[],['1Y6'],['ACE'],,,10.1073/PNAS.1518946112
-5FP6,"Structure of cyclin-dependent kinase 2 with small-molecule ligand 3-(4,7-dichloro-1H-indol-3-yl)prop-2-yn-1-ol (AT17833) in an alternate binding site.",2015-11-27,CYCLIN-DEPENDENT KINASE 2 (E.C.2.7.11.22),X-ray,,[],['MFZ'],[],,,10.1073/PNAS.1518946112
+5FP5,Structure of cyclin-dependent kinase 2 with small-molecule ligand 4- fluorobenzoic acid (AT222) in an alternate binding site.,2015-11-27,,X-ray,,[],['1Y6'],['ACE'],,,10.1073/PNAS.1518946112
+5FP6,"Structure of cyclin-dependent kinase 2 with small-molecule ligand 3-(4,7-dichloro-1H-indol-3-yl)prop-2-yn-1-ol (AT17833) in an alternate binding site.",2015-11-27,,X-ray,,[],['MFZ'],[],,,10.1073/PNAS.1518946112
 5IEV,Crystal structure of BAY 1000394 (Roniciclib) bound to CDK2,2016-02-25,,X-ray,,[],['R0N'],[],,,10.1021/acschembio.6b00074
 5IEX,"Crystal structure of (R,S)-S-{4-[(5-Bromo-4-{[(2R,3R)-2-hydroxy-1-methylpropyl]oxy}- pyrimidin-2-yl)amino]phenyl}-S-cyclopropylsulfoximide bound to CDK2",2016-02-25,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['6AF'],[],,,10.1021/acschembio.6b00074
 5IEY,Crystal structure of a CDK inhibitor bound to CDK2,2016-02-25,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['6AE'],[],,,10.1021/acschembio.6b00074
 5IF1,Crystal structure apo CDK2/cyclin A,2016-02-25,"Cyclin-dependent kinase 2 (E.C.2.7.11.22), Cyclin-A2",X-ray,,['Cyclin-A2'],[],[],,,10.1021/acschembio.6b00074
-5JQ5,Crystal structure of CDK2 in complex with inhibitor ICEC0942,2016-05-04,CDK2 (E.C.2.7.11.22),X-ray,,[],['I74'],['ACT'],,,10.1002/cmdc.201600535
-5JQ8,Crystal structure of CDK2 in complex with inhibitor ICEC0943,2016-05-04,CDK2 (E.C.2.7.11.22),X-ray,,[],['I73'],[],,,10.1002/cmdc.201600535
+5JQ5,Crystal structure of CDK2 in complex with inhibitor ICEC0942,2016-05-04,,X-ray,,[],['I74'],['ACT'],,,10.1002/cmdc.201600535
+5JQ8,Crystal structure of CDK2 in complex with inhibitor ICEC0943,2016-05-04,,X-ray,,[],['I73'],[],,,10.1002/cmdc.201600535
 5K4J,Crystal Structure of CDK2 in complex with compound 22,2016-05-20,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['6QB'],[],,,10.1021/acs.jmedchem.6b00389
 5L2W,The X-ray co-crystal structure of human CDK2/CyclinE and Dinaciclib.,2016-08-02,,X-ray,,['G1/S-specific cyclin-E1'],['1QK'],['GOL'],['TPO'],,10.1158/1535-7163.MCT-16-0300
 5LMK,Structure of phopsho-CDK2-cyclin A in complex with an ATP-competitive inhibitor,2016-08-01,"Cyclin-dependent kinase 2 (E.C.2.7.11.22), Cyclin-A2",X-ray,,['Cyclin-A2'],"['6ZK', 'SGM']",['MG'],['TPO'],,10.1016/j.ejmech.2016.12.023
 5MHQ,CCT068127 in complex with CDK2,2016-11-25,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['8QT'],[],['KCX'],,10.1002/1878-0261.12148
-5NEV,CDK2/Cyclin A in complex with compound 73,2017-03-12,"Cyclin-dependent kinase 2 (E.C.2.7.11.22), Cyclin-A2",X-ray,,['Cyclin-A2'],['72L'],[],['TPO'],,10.1021/acs.jmedchem.6b01254
-5OO0,Cdk2(WT) covalent adduct with D28 at C177,2017-08-04,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['9YZ'],[],,,10.1002/anie.201711825
-5OO1,"Cdk2(F80C, C177A) covalent adduct with C37 at F80C",2017-08-04,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['9Z2'],[],,"['F80C', ' C177A']",
-5OO3,"Cdk2(F80C, C177A) with covalent ligand at F80C",2017-08-05,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['9ZB'],[],,,
-5OSJ,Cdk2(WT) with covalent adduct at C177,2017-08-17,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['AAK'],[],,,10.1002/anie.201711825
-5OSM,"Cdk2(F80C, C177A) with covalent adduct at C80",2017-08-17,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['AEQ'],[],,"['F80C', ' C177A']",10.1002/anie.201711825
+5NEV,CDK2/Cyclin A in complex with compound 73,2017-03-12,,X-ray,,['Cyclin-A2'],['72L'],[],['TPO'],,10.1021/acs.jmedchem.6b01254
+5OO0,Cdk2(WT) covalent adduct with D28 at C177,2017-08-04,,X-ray,,[],['9YZ'],[],,,10.1002/anie.201711825
+5OO1,"Cdk2(F80C, C177A) covalent adduct with C37 at F80C",2017-08-04,,X-ray,,[],['9Z2'],[],,"['F80C', ' C177A']",
+5OO3,"Cdk2(F80C, C177A) with covalent ligand at F80C",2017-08-05,,X-ray,,[],['9ZB'],[],,,
+5OSJ,Cdk2(WT) with covalent adduct at C177,2017-08-17,,X-ray,,[],['AAK'],[],,,10.1002/anie.201711825
+5OSM,"Cdk2(F80C, C177A) with covalent adduct at C80",2017-08-17,,X-ray,,[],['AEQ'],[],,"['F80C', ' C177A']",10.1002/anie.201711825
 5UQ1,Crystal structure of human Cdk2-Spy1 complex,2017-02-06,"Cyclin-dependent kinase 2 (E.C.2.7.11.22), Speedy protein A",X-ray,,['Speedy protein A'],[],[],,,10.15252/embj.201796905
 5UQ2,Crystal structure of human Cdk2-Spy1 complex,2017-02-06,"Cyclin-dependent kinase 2 (E.C.2.7.11.22), Speedy protein A",X-ray,,['Speedy protein A'],[],[],,,10.15252/embj.201796905
 5UQ3,Crystal structure of human Cdk2-Spy1-P27 ternary complex,2017-02-06,"Cyclin-dependent kinase 2 (E.C.2.7.11.22), Speedy protein A, Cyclin-dependent kinase inhibitor 1B",X-ray,,"['Speedy protein A', 'Cyclin-dependent kinase inhibitor 1B']",[],[],,,10.15252/embj.201796905
 6ATH,Cdk2/cyclin A/p27-KID-deltaC,2017-08-29,,X-ray,,"['Cyclin-A2', 'Cyclin-dependent kinase inhibitor 1B']",[],['SO4'],['TPO'],,10.1038/s41467-019-09446-w
-6GUB,CDK2/CyclinA in complex with Flavopiridol,2018-06-19,"Cyclin-dependent kinase 2 (E.C.2.7.11.22), Cyclin-A2",X-ray,,['Cyclin-A2'],['F9Z'],[],['TPO'],,10.1016/j.chembiol.2018.10.015
-6GUC,CDK2/CyclinA in complex with SU9516,2018-06-19,"Cyclin-dependent kinase 1 (E.C.2.7.11.22,2.7.11.23), G2/mitotic-specific cyclin-B1, Cyclin-dependent kinases regulatory subunit",X-ray,,['Cyclin-A2'],['SU9'],[],['TPO'],,10.1016/j.chembiol.2018.10.015
-6GUE,CDK2/CyclinA in complex with AZD5438,2018-06-19,"Cyclin-dependent kinase 1 (E.C.2.7.11.22,2.7.11.23), G2/mitotic-specific cyclin-B1, Cyclin-dependent kinases regulatory subunit",X-ray,,['Cyclin-A2'],['FB8'],[],['TPO'],,10.1016/j.chembiol.2018.10.015
-6GUF,CDK2/CyclinA in complex with CGP74514A,2018-06-19,"Cyclin-dependent kinase 1 (E.C.2.7.11.22,2.7.11.23), G2/mitotic-specific cyclin-B1, Cyclin-dependent kinases regulatory subunit",X-ray,,['Cyclin-A2'],['23D'],[],['TPO'],,10.1016/j.chembiol.2018.10.015
-6GUH,CDK2 in complex with AZD5438,2018-06-19,"Cyclin-dependent kinase 1 (E.C.2.7.11.22,2.7.11.23), G2/mitotic-specific cyclin-B1, Cyclin-dependent kinases regulatory subunit",X-ray,,[],['FB8'],['EDO'],,,10.1016/j.chembiol.2018.10.015
-6GUK,CDK2 in complex with CGP74514A,2018-06-19,"Cyclin-dependent kinase 1 (E.C.2.7.11.22,2.7.11.23), G2/mitotic-specific cyclin-B1, Cyclin-dependent kinases regulatory subunit",X-ray,,[],['FC8'],[],,,10.1016/j.chembiol.2018.10.015
-6GVA,"CDK2/cyclin A2 in complex with pyrazolo[4,3-d]pyrimidine inhibitor LGR4455",2018-06-20,"Cyclin-dependent kinase 2 (E.C.2.7.11.22), Cyclin-A2",X-ray,,['Cyclin-A2'],"['FCQ', 'PG4', 'SGM', 'PGE']","['EDO', 'CL', 'BR']",['TPO'],,10.1021/acs.jmedchem.9b00189
-6INL,Crystal structure of CDK2 IN complex with Inhibitor CVT-313,2018-10-25,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['AJR'],[],,,10.1107/S2053230X20009243
-6JGM,Crystal structure of CDK2 IN complex with Inhibitor NU-6140,2019-02-14,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['AQG'],[],,,
+6GUB,CDK2/CyclinA in complex with Flavopiridol,2018-06-19,,X-ray,,['Cyclin-A2'],['F9Z'],[],['TPO'],,10.1016/j.chembiol.2018.10.015
+6GUC,CDK2/CyclinA in complex with SU9516,2018-06-19,,X-ray,,['Cyclin-A2'],['SU9'],[],['TPO'],,10.1016/j.chembiol.2018.10.015
+6GUE,CDK2/CyclinA in complex with AZD5438,2018-06-19,,X-ray,,['Cyclin-A2'],['FB8'],[],['TPO'],,10.1016/j.chembiol.2018.10.015
+6GUF,CDK2/CyclinA in complex with CGP74514A,2018-06-19,,X-ray,,['Cyclin-A2'],['23D'],[],['TPO'],,10.1016/j.chembiol.2018.10.015
+6GUH,CDK2 in complex with AZD5438,2018-06-19,,X-ray,,[],['FB8'],['EDO'],,,10.1016/j.chembiol.2018.10.015
+6GUK,CDK2 in complex with CGP74514A,2018-06-19,,X-ray,,[],['FC8'],[],,,10.1016/j.chembiol.2018.10.015
+6GVA,"CDK2/cyclin A2 in complex with pyrazolo[4,3-d]pyrimidine inhibitor LGR4455",2018-06-20,,X-ray,,['Cyclin-A2'],"['FCQ', 'PG4', 'SGM', 'PGE']","['EDO', 'CL', 'BR']",['TPO'],,10.1021/acs.jmedchem.9b00189
+6INL,Crystal structure of CDK2 IN complex with Inhibitor CVT-313,2018-10-25,,X-ray,,[],['AJR'],[],,,10.1107/S2053230X20009243
+6JGM,Crystal structure of CDK2 IN complex with Inhibitor NU-6140,2019-02-14,,X-ray,,[],['AQG'],[],,,
 6OQI,"CDK2 in complex with Cpd14 (5-fluoro-4-(4-methyl-5,6,7,8-tetrahydro-4H-pyrazolo[1,5-a]azepin-3-yl)-N-(5-(4-methylpiperazin-1-yl)pyridin-2-yl)pyrimidin-2-amine)",2019-04-26,,X-ray,,[],['N14'],[],,,10.1016/j.bmcl.2019.06.021
 6P3W,Crystal structure of the Cyclin A-CDK2-ORC1 complex,2019-05-24,"Cyclin-dependent kinase 2 (E.C.2.7.11.22), Cyclin-A2, ORC1 Peptide",X-ray,,"['Cyclin-A2', 'ORC1 Peptide']",[],['PO4'],,,10.1002/pro.3689
-6Q3B,CDK2 in complex with FragLite2,2018-12-04,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['PYZ'],[],,,10.1021/acs.jmedchem.9b00304
-6Q3C,CDK2 in complex with FragLite1,2018-12-04,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['BYZ'],[],['OCS'],,10.1021/acs.jmedchem.9b00304
-6Q3F,CDK2 in complex with FragLite2,2018-12-04,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['HEW'],[],['OCS'],,10.1021/acs.jmedchem.9b00304
-6Q48,CDK2 in complex with FragLite7,2018-12-05,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['HHQ'],['DMS'],,,10.1021/acs.jmedchem.9b00304
-6Q49,CDK2 in complex with FragLite6,2018-12-05,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['HGQ'],['DMS'],,,10.1021/acs.jmedchem.9b00304
-6Q4A,CDK2 in complex with FragLite14,2018-12-05,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['HGW'],[],,,10.1021/acs.jmedchem.9b00304
-6Q4B,CDK2 in complex with FragLite13,2018-12-05,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['HHN'],[],,,10.1021/acs.jmedchem.9b00304
-6Q4C,CDK2 in complex with FragLite16,2018-12-05,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['HH8'],[],,,10.1021/acs.jmedchem.9b00304
-6Q4D,CDK2 in complex with FragLite31,2018-12-05,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['HHT'],[],,,10.1021/acs.jmedchem.9b00304
-6Q4E,CDK2 in complex with FragLite33,2018-12-05,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['HH5'],['DMS'],,,10.1021/acs.jmedchem.9b00304
-6Q4F,CDK2 in complex with FragLite32,2018-12-05,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['26D'],[],['OCS'],,10.1021/acs.jmedchem.9b00304
-6Q4G,CDK2 in complex with FragLite37,2018-12-05,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['HJK'],[],,,10.1021/acs.jmedchem.9b00304
-6Q4H,CDK2 in complex with FragLite36,2018-12-05,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['HGH'],['DMS'],,,10.1021/acs.jmedchem.9b00304
-6Q4I,CDK2 in complex with FragLite35,2018-12-05,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['HGK'],['DMS'],,,10.1021/acs.jmedchem.9b00304
-6Q4J,CDK2 in complex with FragLite34,2018-12-05,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['HHB'],['DMS'],,,10.1021/acs.jmedchem.9b00304
-6Q4K,CDK2 in complex with FragLite38,2018-12-05,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['HHW'],['EDO'],,,10.1021/acs.jmedchem.9b00304
+6Q3B,CDK2 in complex with FragLite2,2018-12-04,,X-ray,,[],['PYZ'],[],,,10.1021/acs.jmedchem.9b00304
+6Q3C,CDK2 in complex with FragLite1,2018-12-04,,X-ray,,[],['BYZ'],[],['OCS'],,10.1021/acs.jmedchem.9b00304
+6Q3F,CDK2 in complex with FragLite2,2018-12-04,,X-ray,,[],['HEW'],[],['OCS'],,10.1021/acs.jmedchem.9b00304
+6Q48,CDK2 in complex with FragLite7,2018-12-05,,X-ray,,[],['HHQ'],['DMS'],,,10.1021/acs.jmedchem.9b00304
+6Q49,CDK2 in complex with FragLite6,2018-12-05,,X-ray,,[],['HGQ'],['DMS'],,,10.1021/acs.jmedchem.9b00304
+6Q4A,CDK2 in complex with FragLite14,2018-12-05,,X-ray,,[],['HGW'],[],,,10.1021/acs.jmedchem.9b00304
+6Q4B,CDK2 in complex with FragLite13,2018-12-05,,X-ray,,[],['HHN'],[],,,10.1021/acs.jmedchem.9b00304
+6Q4C,CDK2 in complex with FragLite16,2018-12-05,,X-ray,,[],['HH8'],[],,,10.1021/acs.jmedchem.9b00304
+6Q4D,CDK2 in complex with FragLite31,2018-12-05,,X-ray,,[],['HHT'],[],,,10.1021/acs.jmedchem.9b00304
+6Q4E,CDK2 in complex with FragLite33,2018-12-05,,X-ray,,[],['HH5'],['DMS'],,,10.1021/acs.jmedchem.9b00304
+6Q4F,CDK2 in complex with FragLite32,2018-12-05,,X-ray,,[],['26D'],[],['OCS'],,10.1021/acs.jmedchem.9b00304
+6Q4G,CDK2 in complex with FragLite37,2018-12-05,,X-ray,,[],['HJK'],[],,,10.1021/acs.jmedchem.9b00304
+6Q4H,CDK2 in complex with FragLite36,2018-12-05,,X-ray,,[],['HGH'],['DMS'],,,10.1021/acs.jmedchem.9b00304
+6Q4I,CDK2 in complex with FragLite35,2018-12-05,,X-ray,,[],['HGK'],['DMS'],,,10.1021/acs.jmedchem.9b00304
+6Q4J,CDK2 in complex with FragLite34,2018-12-05,,X-ray,,[],['HHB'],['DMS'],,,10.1021/acs.jmedchem.9b00304
+6Q4K,CDK2 in complex with FragLite38,2018-12-05,,X-ray,,[],['HHW'],['EDO'],,,10.1021/acs.jmedchem.9b00304
 6RIJ,CDK2/cyclin A2 in complex with open-ring 5-nitrosopyrimidine inhibitor LC436,2019-04-24,"Cyclin-dependent kinase 2 (E.C.2.7.11.22), Cyclin-A2",X-ray,,['Cyclin-A2'],['K4W'],"['NA', 'GOL']",['TPO'],,
-6SG4,"Structure of CDK2/cyclin A M246Q, S247EN",2019-08-02,"Cyclin-dependent kinase 2 (E.C.2.7.11.22), Cyclin-A2",X-ray,,['Cyclin-A2'],[],[],['TPO'],,10.1016/j.jmb.2020.166795
-6YL1,Cdk2(F80C) with Covalent Adduct TK37 at F80C,2020-04-06,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['OWN'],[],,"['F80C', ' C177A']",10.1002/cbic.202000457
-6YL6,Cdk2(F80C),2020-04-06,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],[],[],,,10.1002/cbic.202000457
-6YLK,Cdk2(F80C) with Covalent Adduct TK22 at F80C,2020-04-07,Cyclin-dependent kinase 2 (E.C.2.7.11.22),X-ray,,[],['OY2'],[],,"['F80C', ' C177A']",10.1002/cbic.202000457
-7ACK,"CDK2/cyclin A2 in complex with an imidazo[1,2-c]pyrimidin-5-one inhibitor",2020-09-11,"Cyclin-dependent kinase 2 (E.C.2.7.11.22), Cyclin-A2",X-ray,,['Cyclin-A2'],['R7B'],"['EDO', 'NA', 'NO3']",['TPO'],,10.1016/j.ejmech.2021.113309
+6SG4,"Structure of CDK2/cyclin A M246Q, S247EN",2019-08-02,,X-ray,,['Cyclin-A2'],[],[],['TPO'],,10.1016/j.jmb.2020.166795
+6YL1,Cdk2(F80C) with Covalent Adduct TK37 at F80C,2020-04-06,,X-ray,,[],['OWN'],[],,"['F80C', ' C177A']",10.1002/cbic.202000457
+6YL6,Cdk2(F80C),2020-04-06,,X-ray,,[],[],[],,,10.1002/cbic.202000457
+6YLK,Cdk2(F80C) with Covalent Adduct TK22 at F80C,2020-04-07,,X-ray,,[],['OY2'],[],,"['F80C', ' C177A']",10.1002/cbic.202000457
+7ACK,"CDK2/cyclin A2 in complex with an imidazo[1,2-c]pyrimidin-5-one inhibitor",2020-09-11,,X-ray,,['Cyclin-A2'],['R7B'],"['EDO', 'NA', 'NO3']",['TPO'],,10.1016/j.ejmech.2021.113309
 7B5L,Ubiquitin ligation to F-box protein substrates by SCF-RBR E3-E3 super-assembly: NEDD8-CUL1-RBX1-SKP1-SKP2-CKSHS1-Cyclin A-CDK2-p27-UBE2L3~Ub~ARIH1. Transition State 1,2020-12-04,"Cullin-1, E3 ubiquitin-protein ligase ARIH1 (E.C.2.3.2.31), S-phase kinase-associated protein 2, Cyclin-dependent kinases regulatory subunit 1, S-phase kinase-associated protein 1, Polyubiquitin-C, NEDD8, E3 ubiquitin-protein ligase RBX1 (E.C.2.3.2.27,2.3.2.32), Ubiquitin-conjugating enzyme E2 L3 (E.C.2.3.2.23), Cyclin-dependent kinase 2 (E.C.2.7.11.22), Cyclin-A2, Cyclin-dependent kinase inhibitor 1B",EM,,"['Cullin-1', 'E3 ubiquitin-protein ligase ARIH1', 'S-phase kinase-associated protein 2', 'Cyclin-dependent kinases regulatory subunit 1', 'S-phase kinase-associated protein 1', 'Polyubiquitin-C', 'NEDD8', 'E3 ubiquitin-protein ligase RBX1', 'Ubiquitin-conjugating enzyme E2 L3', 'Cyclin-A2', 'Cyclin-dependent kinase inhibitor 1B']",['SY8'],['ZN'],['TPO'],,10.1038/s41586-021-03197-9
 7B5R,Ubiquitin ligation to F-box protein substrates by SCF-RBR E3-E3 super-assembly: CUL1-RBX1-SKP1-SKP2-CKSHS1-Cyclin A-CDK2-p27,2020-12-07,"Cullin-1, S-phase kinase-associated protein 2, Cyclin-dependent kinases regulatory subunit 1, S-phase kinase-associated protein 1, Cyclin-dependent kinase 2 (E.C.2.7.11.22), Cyclin-A2, Cyclin-dependent kinase inhibitor 1B",EM,,"['Cullin-1', 'S-phase kinase-associated protein 2', 'Cyclin-dependent kinases regulatory subunit 1', 'S-phase kinase-associated protein 1', 'Cyclin-A2', 'Cyclin-dependent kinase inhibitor 1B']",[],[],['TPO'],,10.1038/s41586-021-03197-9
 7B7S,"CDK2/cyclin A2 in complex with 3H-pyrazolo[4,3-f]quinoline-based derivative HSD1368",2020-12-11,,X-ray,,['Cyclin-A2'],"['T1T', 'SGM']","['NO3', 'SO4']",['TPO'],,10.1021/acs.jmedchem.1c00330
@@ -454,3 +454,4 @@ PDB ID,Title,Date,Description,Method,Resolution,Polymer Binders,Major Binders,Mi
 8H6T,"Complex structure of CDK2/Cyclin E1 and a potent, selective small molecule inhibitor",2022-10-18,,X-ray,,['G1/S-specific cyclin-E1'],['WZZ'],[],['TPO'],,10.1021/acsmedchemlett.2c00515
 8OR0,CAND1-CUL1-RBX1-SKP1-SKP2-CKS1-CDK2,2023-04-12,,EM,,"['Cullin-1', 'E3 ubiquitin-protein ligase RBX1', 'Cullin-associated NEDD8-dissociated protein 1', 'S-phase kinase-associated protein 1', 'S-phase kinase-associated protein 2', 'Cyclin-dependent kinases regulatory subunit 1']",[],['ZN'],,,10.1016/j.molcel.2023.05.034
 8OR4,Partially dissociated CAND1-CUL1-RBX1-SKP1-SKP2-CKS1-CDK2,2023-04-13,,EM,,"['Cullin-1', 'E3 ubiquitin-protein ligase RBX1', 'Cullin-associated NEDD8-dissociated protein 1', 'S-phase kinase-associated protein 1', 'S-phase kinase-associated protein 2', 'Cyclin-dependent kinases regulatory subunit 1']",[],[],,,10.1016/j.molcel.2023.05.034
+8OY2,Human cyclin-dependent kinase 2 in complex with inhibitor HB-29260,2023-05-03,,X-ray,,[],['W5W'],['GOL'],,,10.1073/pnas.2310522120
