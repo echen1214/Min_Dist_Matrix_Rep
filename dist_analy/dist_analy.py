@@ -100,7 +100,6 @@ def get_ca_dist_matrix(file: str, res_list: list, chain: str, save_dir: str = No
 
     return dist_matrix
 
-
 def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: ndarray = None,
                                res_list_2: list = None, unitcell: ndarray = None,
                                format='mat', no_adj: bool = True, min_dist: int = None,
@@ -289,8 +288,6 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
     return dist
 
 
-
-
 def get_atom_coords(heavy: bool, residues1: List, type):
     if heavy:
         atomcoords1 = np.array([x.select('heavy').getCoords() if isinstance(x, type) else None for x in residues1],
@@ -321,10 +318,39 @@ def get_res_obj(file, chain=None, res_list=None):
             res_obj.append(x)
     return (res_obj)
 
+def handle_ligand_files(file, ligand_file, ligand_chain, save_dir, *args, **kwargs):
+    if isinstance(ligand_file, list):
+        dist_matrix = []
+        for ligand in ligand_file:
+            dist_matrix_1 = build_shortest_receptor_ligand_matrix(file, ligand, ligand_chain, save_dir, *args, **kwargs)
+            dist_matrix.append(dist_matrix_1)
+        dist_matrix = np.array(dist_matrix)
+    elif isinstance(ligand_file, str):
+        dist_matrix = build_shortest_receptor_ligand_matrix(file, ligand_file, ligand_chain, save_dir, *args, **kwargs)
+
+    return dist_matrix
+
+def build_shortest_receptor_ligand_matrix(file, ligand_file, ligand_chain, save_dir, *args, **kwargs):
+    ligand = pdbfile.parsePDB(ligand_file, chain=ligand_chain)
+    if ligand.numResidues() > 1:
+        warnings.warn("Ligand is more than one residue")
+    lig_res = list(set(ligand.getResnums()))
+
+    dist_matrix = build_shortest_dist_matrix(*args, residues2=[ligand], res_list_2=lig_res, **kwargs).T[0]
+
+    if save_dir:
+        Path(save_dir).mkdir(parents=True, exist_ok=True)
+        res_name = list(set(ligand.getResnames()))
+        fn = file.split('/')[-1].split('.')[0]
+        rank = ligand_file.split('/')[-1].split('.')[0].split('_')[0]
+        fn = fn + "_" + rank + "_" + "_".join(["%s%i" % (name, int) for name, int in zip(res_name, lig_res)])
+        np.save(save_dir + fn, dist_matrix)
+    
+    return dist_matrix
 
 def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None,
                              min_dist: int = None, no_adj: bool = True,
-                             save_dir: str = None, ligand_file: str = None,
+                             save_dir: str = None, ligand_file: str|list = None,
                              ligand_chain: str = None):
     """ Generate shortest-distance distance matrix.
 
@@ -354,23 +380,15 @@ def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None
     res_obj = get_res_obj(file, chain, res_list)
 
     if ligand_file:
-        ligand = pdbfile.parsePDB(ligand_file, chain=ligand_chain)
-        if ligand.numResidues() > 1:
-            warnings.warn("Ligand is more than one residue")
-        lig_res = list(set(ligand.getResnums()))
-        dist_matrix = build_shortest_dist_matrix(res_obj, res_list, [ligand], lig_res, min_dist=min_dist, \
-                                                 no_adj=no_adj, heavy=True, mol=True)
+        dist_matrix = handle_ligand_files(file, ligand_file, ligand_chain, save_dir, res_obj, res_list, min_dist=min_dist, \
+                                        no_adj=no_adj, heavy=True, mol=True)
+
     else:
         dist_matrix = build_shortest_dist_matrix(res_obj, res_list, min_dist=min_dist, \
-                                                 no_adj=no_adj, heavy=True)
-    if save_dir:
-        Path(save_dir).mkdir(parents=True, exist_ok=True)
-        fn = file.split('/')[-1].split('.')[0]
-
-        if ligand_file:
-            res_name = list(set(ligand.getResnames()))
+                                        no_adj=no_adj, heavy=True)
+        if save_dir:
+            Path(save_dir).mkdir(parents=True, exist_ok=True)
             fn = file.split('/')[-1].split('.')[0]
-            rank = ligand_file.split('/')[-1].split('.')[0].split('_')[0]
-            fn = fn + "_" + rank + "_" + "_".join(["%s%i" % (name, int) for name, int in zip(res_name, lig_res)])
-        np.save(save_dir + fn, dist_matrix)
+            np.save(save_dir + fn, dist_matrix)
+                                                 
     return dist_matrix

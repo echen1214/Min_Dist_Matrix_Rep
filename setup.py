@@ -28,7 +28,8 @@ requirements = [
                 'sklearn',
                 'pypdb',
                 'ipykernel',
-                'anytree'
+                'anytree',
+                'py3Dmol',
 ]
 
 setup_requirements = ['pytest-runner', ]

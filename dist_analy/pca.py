@@ -53,8 +53,6 @@ COLOR_LIST = ['g','r','c','m','y','k','orange', 'pink', 'grey', 'lime', 'tan', '
 MARKER_LIST = ["o", "v", "s", "P", "*", "X", "d", ">", "2", "p", "+", 'x', '<', '|', '_', 'h', '8', 'H']
 DFLT_COL = "#808080"
 
-
-
 def hist_missing_residue(dist_mats: np.ndarray, res_list: list, res_get: list = None,\
                          axis: int = 1):
     """Plot the frequency that a residue is missing across a set of residue–residue
@@ -460,10 +458,14 @@ def pca_hdbscan_figure(a, labels: list, prob: list, var_ratio: list, family_map:
     unique_labels = set(labels)
     proba_map = {idx: prob[idx] for idx in range(len(labels))}
 
+    n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
+    plt.title(f"Estimated number of clusters: {n_clusters_}")
+
     for lab in unique_labels:
         if lab == -1:
             # Black used for noise.
             col = "black"
+            # continue
         else:
             col = COLOR_LIST[lab]
 
@@ -492,8 +494,6 @@ def pca_hdbscan_figure(a, labels: list, prob: list, var_ratio: list, family_map:
                     "x" if lab == -1 else "o", markerfacecolor=col,
                     markeredgecolor="k",)
     
-    n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
-    plt.title(f"Estimated number of clusters: {n_clusters_}")
     plt.xlabel(f"PC1: {var_ratio[0]*100:.1f}")
     plt.ylabel(f"PC2: {var_ratio[1]*100:.1f}")
     if family:
