@@ -4,6 +4,7 @@ import warnings
 from pathlib import Path
 from typing import List, Optional
 
+import time
 import numpy as np
 from numpy import array, empty, ndarray, zeros
 from prody.atomic import AtomGroup, Residue
@@ -100,6 +101,41 @@ def get_ca_dist_matrix(file: str, res_list: list, chain: str, save_dir: str = No
 
     return dist_matrix
 
+
+def parse_residue_list(residue_list, residue_type, heavy, residue_sizes, x_coords, y_coords, z_coords, needs_backbone_sizes = False, backbone_sizes = None):
+    for residue in residue_list:
+        if not residue:
+            residue_sizes.append(0)
+            if needs_backbone_sizes:
+               backbone_sizes.append(0)
+        if not isinstance(residue, residue_type):
+            continue
+        atoms = []
+        if heavy:
+            atoms = residue.select('heavy')
+        else:
+            atoms = residue
+
+        coords = []
+
+        backbone_atoms = atoms.select('backbone')
+        if backbone_atoms:
+            coords += list(backbone_atoms.getCoords())
+            if needs_backbone_sizes:
+                backbone_sizes.append(len(coords))
+
+        atoms = atoms.select('not backbone')
+        if atoms:
+            coords += list(atoms.getCoords())
+
+        # TODO: The repeated array appends might actually be expensive. Investigate pre-allocating these.
+        residue_sizes.append(len(coords))
+        for coord in coords:
+            x_coords.append(coord[0])
+            y_coords.append(coord[1])
+            z_coords.append(coord[2])
+
+
 def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: ndarray = None,
                                res_list_2: list = None, unitcell: ndarray = None,
                                format='mat', no_adj: bool = True, min_dist: int = None,
@@ -146,155 +182,120 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
         is provided, periodic boundary conditions will be taken into account.
 
     """
+    is_symmetric = not residues2
 
-    # if not isinstance(residues1, ndarray):
-    #     raise TypeError('residues1 must be an array')
-    # if not isinstance(residues1[0], Residue):
-    #     raise TypeError('array must contain Residue objects')
-
-    atomic_xyz_residue_1 = get_atom_coords(heavy, residues1, Residue)
-
-    if residues2 is None or np.array_equal(res_list_2,res_list_1):
-        # print("here")
-        symmetric = True
-        residues2 = residues1
-        res_list_2 = res_list_1
-        atomic_xyz_residue_2 = atomic_xyz_residue_1
+    # Parse coordinates from our residue objects.
+    residue_indices = res_list_1
+    residue_sizes1 = []
+    backbone_sizes = []
+    x_coords1 = []
+    y_coords1 = []
+    z_coords1 = []
+    residue_sizes2 = []
+    x_coords2 = []
+    y_coords2 = []
+    z_coords2 = []
+    parse_residue_list(residues1, Residue, heavy, residue_sizes1, x_coords1, y_coords1, z_coords1, True, backbone_sizes)
+    if residues2:
+        parse_residue_list(residues2, AtomGroup if mol else Residue, heavy, residue_sizes2, x_coords2, y_coords2, z_coords2, False, None)
     else:
-        symmetric = False
-        no_adj = False
-        if mol:
-            check = AtomGroup
-        else:
-            check = Residue
+        residue_sizes2 = residue_sizes1
+        x_coords2 = x_coords1
+        y_coords2 = y_coords1
+        z_coords2 = z_coords1
 
-        atomic_xyz_residue_2 = get_atom_coords(heavy, residues2, check)
-
-        # if not isinstance(residues2, ndarray):
-        #     raise TypeError('residues2 must be an array')
-        # if not isinstance(residues2[0], Residue):
-        #     raise TypeError('array must contain Residue objects')
-
-        # print(atomcoords1)
-    len1 = len(residues1)
-    len2 = len(residues2)
-
-    if unitcell is not None:
-        if not isinstance(unitcell, ndarray):
-            raise TypeError('unitcell must be an array')
-        elif unitcell.shape != (3,):
-            raise ValueError('unitcell.shape must be (3,)')
-
-    if format not in DISTMAT_FORMATS:
-        raise ValueError('format must be one of mat, rcd, or arr')
-
-    if format == 'mat':
-        dist = zeros((len1, len2))
+    # Vectorize our coordinates.
+    x_coords1 = np.array(x_coords1)
+    y_coords1 = np.array(y_coords1)
+    z_coords1 = np.array(z_coords1)
+    if residues2:
+        x_coords2 = np.array(x_coords2)
+        y_coords2 = np.array(y_coords2)
+        z_coords2 = np.array(z_coords2)
     else:
-        dist = []
-
-    if no_adj:
-        if symmetric:
-            no_adj_res = [res.select('not backbone') if isinstance(res, Residue) else None for res in residues1]
-            no_adj_res_coords = empty(len1, dtype=object)
-            no_adj_res_truthy = [False] * len1
-            for i, x in enumerate(no_adj_res):
-                if x:
-                    no_adj_res_coords[i] = x.getCoords()
-                    no_adj_res_truthy[i] = True
-
-    if symmetric:
-        for i, atoms_group_res1 in enumerate(atomic_xyz_residue_1[:-1]):
-            for j, atoms_group_res2 in enumerate(atomic_xyz_residue_2[i + 1:]):
-                j_1 = i + j + 1 # This is what, a pointer to the next residue? Why not just use j?
-                # Residue Block
-                if atoms_group_res1 is None or atoms_group_res2 is None:
-                    value = 0
-                else:
-                    res1_t = atoms_group_res1
-                    if no_adj and abs(res_list_2[j_1] - res_list_1[i]) == 1:
-                        if no_adj_res_truthy[i] and no_adj_res_truthy[j_1]:
-                            res1_t = no_adj_res_coords[i]
-                            atoms_group_res2 = no_adj_res_coords[j_1]
-                        else:
-                            res1_t = [np.array([5.0, 0.0, 0.0])]
-                            atoms_group_res2 = [np.array([0.0, 0.0, 0.0])]
-
-                    if unitcell is not None: # Legacy
-                        temp_dist = []
-                        for atom1 in res1_t:
-                            temp_dist.append(getDistance(atom1, atoms_group_res2, unitcell))
-                        value = np.min(temp_dist)
-                    else:
-                        value = np.min(distance_matrix(res1_t, atoms_group_res2))
-                    if min_dist and value < min_dist:
-                        value = min_dist
-
-
-                if format == 'mat':
-                    dist[i, j_1] = dist[j_1, i] = value
-                else:
-                    dist.append(value)
-        if format == 'rcd':
-            n_res1 = len(residues1)
-            n_res2 = len(residues2)
-            rc = array([(i, j) for i in range(n_res1) \
-                        for j in range(i + 1, n_res2)])
-            row, col = rc.T
-            dist = (row, col, dist)
-
+        x_coords2 = x_coords1
+        y_coords2 = y_coords1
+        z_coords2 = z_coords1
+    x_coords1 = np.tile(x_coords1, (x_coords2.shape[0], 1))
+    y_coords1 = np.tile(y_coords1, (y_coords2.shape[0], 1))
+    z_coords1 = np.tile(z_coords1, (z_coords2.shape[0], 1))
+    if residues2:
+        x_coords2 = np.tile(x_coords2, (x_coords1.shape[1], 1))
+        y_coords2 = np.tile(y_coords2, (y_coords1.shape[1], 1))
+        z_coords2 = np.tile(z_coords2, (z_coords1.shape[1], 1))
     else:
-        for i, atoms_group_res1 in enumerate(atomic_xyz_residue_1):
-            for j, atoms_group_res2 in enumerate(atomic_xyz_residue_2):
-                if atoms_group_res1 is None or atoms_group_res2 is None:
-                    value = 0
+        x_coords2 = x_coords1
+        y_coords2 = y_coords1
+        z_coords2 = z_coords1       
+
+    # Compute squared distance matrix.
+    # TODO: See if there's a numpy function to leverage that will compute the L2 norm in fewer operations.
+    # TODO: In the symmetric case, this computes both halves of the matrix when it only needs to compute one.
+    dist_matrix = np.square(x_coords1 - np.transpose(x_coords2))
+    dist_matrix += np.square(y_coords1 - np.transpose(y_coords2))
+    dist_matrix += np.square(z_coords1 - np.transpose(z_coords2))
+
+    # Perform no_adj logic, where we omit calculations between backbones of adjacent residues.
+    # This logic is unfortunately fairly scalar, but luckily it only applies to a fraction of the matrix, so it's pretty cheap.
+    if not residues2 and no_adj:
+        x = residue_sizes1[0]
+        y = 0
+        for i in range(1, len(residue_sizes1)):
+            if not residue_sizes1[i]:
+                continue
+            next_x = x + residue_sizes1[i]
+            next_y = x
+            # Just because two residues are adjacent in the residue data does
+            # not mean they are actually adjacent in the structure. We need to
+            # double check the residue indices before continuing to no_adj
+            # logic.
+            if residue_indices[i] == residue_indices[i-1] + 1:
+                # Glycine is exceptional, because it's all backbone. We just set all distances to 5 in this case
+                if residue_sizes1[i-1] == backbone_sizes[i-1] or residue_sizes1[i] == backbone_sizes[i]:
+                    dist_matrix[y:next_y, x:next_x] = 25.0 # The dist matrix is still squared.
                 else:
-                    res1_t = atoms_group_res1
-                    res2_t = atoms_group_res2
-                    if no_adj and abs(res_list_2[j] - res_list_1[i]) == 1:
-                        atom1_noadj = residues1[i].select('not backbone')
-                        atom2_noadj = residues2[j].select('not backbone')
-                        if atom1_noadj and atom2_noadj:
-                            res1_t = np.array([x.getCoords() for x in atom1_noadj])
-                            res2_t = np.array([x.getCoords() for x in atom2_noadj])
-                        else:
-                            res1_t = [np.array([5.0, 0.0, 0.0])]
-                            res2_t = [np.array([0.0, 0.0, 0.0])]
+                    dist_matrix[y:next_y, x:x+backbone_sizes[i-1]] = 90000.0 # Arbitrarily large number so min won't pick it
+                    dist_matrix[y:y+backbone_sizes[i], x+backbone_sizes[i-1]:next_x] = 90000.0
+            x = next_x
+            y = next_y
 
-                    if unitcell is not None: #Legacy
-                        temp_dist = []
-                        for atom1 in res1_t:
-                            for atom2 in res2_t:
-                                temp_dist.append(getDistance(atom1, atom2, unitcell))
-
-                        value = np.min(temp_dist)
-
-                    else:
-                        value = np.min(distance_matrix(res1_t, res2_t))
-                    if min_dist and value < min_dist:
-                        value = min_dist
-                if format == 'mat':
-                    dist[i, j] = value
-                else:
-                    dist.append(value)
-        if format == 'rcd':
-            n_res1 = len(residues1)
-            n_res2 = len(residues2)
-            rc = np.array([(i, j) for i in range(n_res1)
-                           for j in range(n_res2)])
-            row, col = rc.T
-            dist = (row, col, dist)
-
-    return dist
-
-
-def get_atom_coords(heavy: bool, residues1: List, type):
-    if heavy:
-        atomcoords1 = np.array([x.select('heavy').getCoords() if isinstance(x, type) else None for x in residues1],
-                               dtype=ndarray)
+    # Find shortest distances within each residue.
+    shortest_dist_matrix = np.zeros((len(residue_sizes2), len(residue_sizes1)))
+    y_idx = 0
+    base_x_idx = 0
+    if min_dist == None:
+        min_dist = 0
     else:
-        atomcoords1 = np.array([x.getCoords() if isinstance(x, type) else None for x in residues1], dtype=ndarray)
-    return atomcoords1
+        min_dist = min_dist**2 # The dist matrix is still squared.
+    for i in range(0, len(residue_sizes2)):
+        x_idx = 0
+        j_start = 0
+        if is_symmetric:
+            # This matrix is symmetric, so we only calculate the upper right triangle.
+            x_idx = y_idx + residue_sizes1[i]
+            j_start = i + 1
+        for j in range(j_start, len(residue_sizes1)):
+            if not residue_sizes2[i] or not residue_sizes1[j]:
+                # This protein is missing residues, so just set the corresponding matrix elements to 0 for now.
+                # TODO: This might be causing branch mispredictions. Try to find a way to leverage the "initial" param for np.min.
+                shortest_dist_matrix[i, j] = 0
+            else:
+                # TODO: The scalar "max()" call is less efficient than np.max, but we cannot replace missing residue 0s with min_dist.
+                # Maybe if we reach the end of the row without missing residues we should call np.max on the whole row?
+                shortest_dist_matrix[i, j] = max(np.min(dist_matrix[y_idx:y_idx+residue_sizes2[i], x_idx:x_idx+residue_sizes1[j]]), min_dist)
+            x_idx += residue_sizes1[j]
+        y_idx += residue_sizes2[i]
+
+    # Take the square root.
+    # Note that we do this after the min logic to cut down on the number of square roots we need to calculate.
+    shortest_dist_matrix = np.power(shortest_dist_matrix, 0.5)
+
+    # Fill in the other half of the matrix if symmetric.
+    # Normally we'd need to divide the diagonal by 2, but since this is a distance matrix, the diagonal should always be 0.
+    if is_symmetric:
+        shortest_dist_matrix += np.transpose(shortest_dist_matrix)
+
+    return shortest_dist_matrix
 
 def get_res_obj(file: str, chain: str=None, res_list: list=None):
     """ return list of `prody.Residue` objects corresponding the selected
@@ -338,7 +339,7 @@ def get_res_obj(file: str, chain: str=None, res_list: list=None):
 
     return (res_obj)
 
-def handle_ligand_files(file: str, ligand_file: str, ligand_chain: str, 
+def handle_ligand_files(file: str, ligand_files: str, ligand_chain: str, 
                         save_dir: str, save_fn: str, *args, **kwargs):
     """ handle whether or not a single ligand file or ligand list will be
     calculated
@@ -347,7 +348,7 @@ def handle_ligand_files(file: str, ligand_file: str, ligand_chain: str,
     ----------
     file : str
         receptor file name
-    ligand_file : str | list
+    ligand_files : str | list
         ligand file name or list
     ligand_chain : str
         ligand chain
@@ -363,14 +364,17 @@ def handle_ligand_files(file: str, ligand_file: str, ligand_chain: str,
         if a single file is passed, 1D np.array
         if a list of files is passed, 2D np.array
     """
-    if isinstance(ligand_file, list):
-        dist_matrix = []
-        for ligand in ligand_file:
-            dist_matrix_1 = build_shortest_receptor_ligand_matrix(file, ligand, ligand_chain, save_dir, save_fn, *args, **kwargs)
-            dist_matrix.append(dist_matrix_1)
-        dist_matrix = np.array(dist_matrix)
-    elif isinstance(ligand_file, str):
-        dist_matrix = build_shortest_receptor_ligand_matrix(file, ligand_file, ligand_chain, save_dir, save_fn, *args, **kwargs)
+    if isinstance(ligand_files, str):
+        ligand_files = [ligand_files]
+    ligands = []
+    ligand_list = []
+    for ligand_file in ligand_files:
+        ligands.append(pdbfile.parsePDB(ligand_file, chain=ligand_chain))
+        if ligands[-1].numResidues() > 1:
+            warnings.warn("Ligand is more than one residue")
+        ligand_list += list(set(ligands[-1].getResnums()))
+
+    dist_matrix = build_shortest_dist_matrix(*args, residues2=ligands, res_list_2=ligand_list, **kwargs)
 
     if save_dir:
         Path(save_dir).mkdir(parents=True, exist_ok=True)
@@ -386,42 +390,6 @@ def handle_ligand_files(file: str, ligand_file: str, ligand_chain: str,
     if save_fn:
         np.save(save_fn, dist_matrix)   
 
-    return dist_matrix
-
-def build_shortest_receptor_ligand_matrix(file: str, ligand_file:str|list, ligand_chain:str, \
-                                    save_dir: str, save_fn: str, *args, **kwargs):
-    """ Helper function to calculate ligand distance matrix
-    
-    passing in extra variables and extra keyword arguments will be passed
-    to `build_shortest_dist_matrix`
-    
-    Parameters
-    ----------
-    file : str
-        receptor file name
-    ligand_file : str | list
-        ligand file name or list
-    ligand_chain : str
-        ligand chain
-    save_dir : str
-        directory to save .npy file in 
-    save_fn : str
-        path to save .npy file in 
-
-    Returns
-    -------
-    np.array
-        shortest receptor–ligand distance vector
-        if a single file is passed, 1D np.array
-        if a list of files is passed, 2D np.array
-    """    
-    ligand = pdbfile.parsePDB(ligand_file, chain=ligand_chain)
-    if ligand.numResidues() > 1:
-        warnings.warn("Ligand is more than one residue")
-    lig_res = list(set(ligand.getResnums()))
-
-    dist_matrix = build_shortest_dist_matrix(*args, residues2=[ligand], res_list_2=lig_res, **kwargs).T[0]  
-    
     return dist_matrix
 
 def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None,
