@@ -36,7 +36,7 @@ def pdb_read_csv(csv_file: str, chain: bool = False):
     if chain:
         dict_items = ['PDB ID', 'Chain', 'Title', 'Date', 'Description', 'Method', 'Resolution', \
             'Polymer Binders', 'Major Binders', 'Minor Binders', \
-            'Modifications', 'Mutations', 'Paper DOI']
+            'Modifications', 'Mutations', 'Paper DOI', "UniProt ID"]
     else:
         dict_items = ['PDB ID', 'Title', 'Date', 'Description', 'Method', 'Resolution', \
             'Polymer Binders', 'Major Binders', 'Minor Binders', \
@@ -69,7 +69,7 @@ def pdb_chain_csv(pdb_list: list, uniprot: str, csv_file: str):
     # csv_data = []
     dict_items = ['PDB ID', 'Chain', 'Title', 'Date', 'Description', 'Method', 'Resolution', \
                   'Polymer Binders', 'Major Binders', 'Minor Binders', \
-                  'Modifications', 'Mutations', 'Paper DOI']
+                  'Modifications', 'Mutations', 'Paper DOI', 'UniProt ID']
     pdb_dict = {}
     for pdb in pdb_list:
         try:
@@ -136,7 +136,7 @@ def pdb_chain_csv(pdb_list: list, uniprot: str, csv_file: str):
                             try:
                                 pdb_dict[temp_pdb]["Polymer Binders"].append(chain_info_all[j]["rcsb_polymer_entity"]["pdbx_description"])
                             except KeyError:
-                                pdb_dict[temp_pdb]["Polymer Binders"].append(chain_info_all[j]["rcsb_polymer_entity"]["pdbx_description"])
+                                pdb_dict[temp_pdb]["Polymer Binders"].append(None)
 
                     try:
                         num_nonpoly_entity =  data["rcsb_entry_container_identifiers"]["non_polymer_entity_ids"]
@@ -146,22 +146,27 @@ def pdb_chain_csv(pdb_list: list, uniprot: str, csv_file: str):
                             if float(data_1["rcsb_nonpolymer_entity"]["formula_weight"]) > 0.1: # units kDa
                                     pdb_dict[temp_pdb]["Major Binders"].append(data_1["pdbx_entity_nonpoly"]["comp_id"])
                             else:
-                                    pdb_dict[temp_pdb]["Minor Binders"].append(data_1["pdbx_entity_nonpoly"]["comp_id"])
+                                    pdb_dict[temp_pdb]["Minor Binders"].append(None)
                     except KeyError:
                         print("unable to get binders of %s_%s"%(pdb,chain))
 
                     try:
-                        pdb_dict[pdb]["Paper DOI"] =  data["citation"][0]["pdbx_database_id_doi"]
+                        pdb_dict[temp_pdb]["Paper DOI"] = data["citation"][0]["pdbx_database_id_doi"]
                     except:
-                        pdb_dict[pdb]["Paper DOI"] = None
+                        pdb_dict[temp_pdb]["Paper DOI"] = None
 
-        except:
-            print("unable to get info for %s"%pdb)
+                    try:
+                        pdb_dict[temp_pdb]["UniProt ID"] = chain_info['rcsb_polymer_entity_container_identifiers']['uniprot_ids']
+                    except:
+                        pdb_dict[temp_pdb]["UniProt ID"] = None
+
+        except Exception as e:
+            print("%s unable to get info for %s"%(e, pdb))
+
     with open(csv_file, 'w') as f1:
         writer = csv.DictWriter(f1, fieldnames = dict_items)
         writer.writeheader()
         for pdb, values in pdb_dict.items():
-            # print(values)
             writer.writerow(values)
     return(pd.DataFrame.from_dict(pdb_dict.values()), pdb_dict)
 
@@ -320,10 +325,10 @@ def get_any_info(url_root: str, *url_append, **request_dict):
             url_root += str(app) +'/'
             # print(url_root)
         response = request_limited(url_root)
-
-    if request_dict:
+    elif request_dict:
         response = request_limited(url_root, params=request_dict)
-
+    else:
+        response = request_limited(url_root)
     #print(response.url)
     if response and response.status_code == 200:
         pass
