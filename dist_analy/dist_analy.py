@@ -296,7 +296,27 @@ def get_atom_coords(heavy: bool, residues1: List, type):
         atomcoords1 = np.array([x.getCoords() if isinstance(x, type) else None for x in residues1], dtype=ndarray)
     return atomcoords1
 
-def get_res_obj(file, chain=None, res_list=None):
+def get_res_obj(file: str, chain: str=None, res_list: list=None):
+    """ return list of `prody.Residue` objects corresponding the selected
+    chain and list of residue numbers
+
+    if no chain is passed then the `prody.Residue` objects corresponding
+    to entire file is returned
+
+    Parameters
+    ----------
+    file : str
+        pdb file name
+    chain : str, optional
+        chain, by default None
+    res_list :list, optional
+       list of residues, by default None
+
+    Returns
+    -------
+    list
+        list of `prody.Residue` objects
+    """    
     structure = pdbfile.parsePDB(file, chain=chain)
     hv = structure.getHierView()
 
@@ -315,10 +335,34 @@ def get_res_obj(file, chain=None, res_list=None):
         res_obj = []
         for x in obj:
             res_obj.append(x)
-            
+
     return (res_obj)
 
-def handle_ligand_files(file, ligand_file, ligand_chain, save_dir, save_fn, *args, **kwargs):
+def handle_ligand_files(file: str, ligand_file: str, ligand_chain: str, 
+                        save_dir: str, save_fn: str, *args, **kwargs):
+    """ handle whether or not a single ligand file or ligand list will be
+    calculated
+
+    Parameters
+    ----------
+    file : str
+        receptor file name
+    ligand_file : str | list
+        ligand file name or list
+    ligand_chain : str
+        ligand chain
+    save_dir : str
+        directory to save .npy file in 
+    save_fn : str
+        path to save .npy file in 
+
+    Returns
+    -------
+    np.array
+        shortest receptor–ligand distance vector
+        if a single file is passed, 1D np.array
+        if a list of files is passed, 2D np.array
+    """
     if isinstance(ligand_file, list):
         dist_matrix = []
         for ligand in ligand_file:
@@ -344,7 +388,33 @@ def handle_ligand_files(file, ligand_file, ligand_chain, save_dir, save_fn, *arg
 
     return dist_matrix
 
-def build_shortest_receptor_ligand_matrix(file, ligand_file, ligand_chain, save_dir, save_fn, *args, **kwargs):
+def build_shortest_receptor_ligand_matrix(file: str, ligand_file:str|list, ligand_chain:str, \
+                                    save_dir: str, save_fn: str, *args, **kwargs):
+    """ Helper function to calculate ligand distance matrix
+    
+    passing in extra variables and extra keyword arguments will be passed
+    to `build_shortest_dist_matrix`
+    
+    Parameters
+    ----------
+    file : str
+        receptor file name
+    ligand_file : str | list
+        ligand file name or list
+    ligand_chain : str
+        ligand chain
+    save_dir : str
+        directory to save .npy file in 
+    save_fn : str
+        path to save .npy file in 
+
+    Returns
+    -------
+    np.array
+        shortest receptor–ligand distance vector
+        if a single file is passed, 1D np.array
+        if a list of files is passed, 2D np.array
+    """    
     ligand = pdbfile.parsePDB(ligand_file, chain=ligand_chain)
     if ligand.numResidues() > 1:
         warnings.warn("Ligand is more than one residue")
@@ -356,14 +426,16 @@ def build_shortest_receptor_ligand_matrix(file, ligand_file, ligand_chain, save_
 
 def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None,
                              min_dist: int = None, no_adj: bool = True,
-                             save_dir: str = None, save_fn: str = None,  ligand_file: str|list = None,
+                             save_dir: str = None, save_fn: str = None, ligand_file: str|list = None,
                              ligand_chain: str = None):
     """ Generate shortest-distance distance matrix.
+
+    `save_dir` and `save_fn` are mutually exclusive
 
     Parameters
     ----------
     file : str
-        file name
+        receptor file name
     res_list : list
         list of residues to calculate distance matrix with
     chain: str
@@ -375,11 +447,19 @@ def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None
         value.
     save_dir: str, optional
         directory to save distance matrices to a binary file in NumPy .npy format
+    save_fn: str, optional
+        file to save distance matrices to a binary file in NumPy .npy format
+    ligand_file: list or str, optional
+        pass in a list or single string of ligand files to calculate ligand-receptor
+        shortest distance vector with respect to file
+    ligand_chain: str, optional
+        optional parameter that designating the ligand chain, if none passed and 
+        ligand_file pass, the entire ligand_file will be accepted by default
 
     Returns
     -------
     np.array
-        2D np.array of carbon alpha distance matrix
+        2D np.array of shortest distance matrix
 
     """
     if save_dir and save_fn:

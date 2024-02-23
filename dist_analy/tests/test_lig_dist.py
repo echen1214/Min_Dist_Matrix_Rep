@@ -15,6 +15,10 @@ pdb_path = "./datafiles/pdb_files/ligand_poses/"
 npy_path = "./datafiles/npy_files/ref_lig/"
 
 def test_no_chain_res_obj():
+    """
+    Check whether the distance matrix from two files, that differ
+    only in the chain designation, are the same
+    """
     rec_pdb = './datafiles/pdb_files/processed_pdb/1P2A_A_01.pdb'
     res_list = np.arange(1,299)
     
@@ -32,6 +36,10 @@ def test_no_chain_res_obj():
     [(f"{pdb_path}pdb_pose/1P2A_A_5BN_301.pdb", f"{npy_path}pdb_pose/1P2A_A_5BN_301.npy")]
 )
 def test_dd_lrd_pose_and_compare(pdb_file, npy_file):
+    """
+    Calculate individual poses from DiffDock + Lin_F9 local redocking and
+    compare to precalculated npy files
+    """
     rec_pdb = './datafiles/pdb_files/processed_pdb/1P2A_A_01.pdb'
     res_list = np.arange(1,299)
     mat = dist_analy.get_shortest_dist_matrix(rec_pdb, res_list, "A", ligand_file=pdb_file)
@@ -45,6 +53,10 @@ def test_dd_lrd_pose_and_compare(pdb_file, npy_file):
     f"./datafiles/npy_files/ref_lig/dd_lrd/1P2A_A_01_rank1-20_UNL1.npy")]
 )
 def test_dd_lrd_pose_bulk_and_compare(pdb_file_list, npy_file):
+    """
+    Calculate poses in bulk from DiffDock + Lin_F9 local redocking and
+    compare to precalculated bulk npy files
+    """
     rec_pdb = './datafiles/pdb_files/processed_pdb/1P2A_A_01.pdb'
     res_list = np.arange(1,299)
     mat = dist_analy.get_shortest_dist_matrix(rec_pdb, res_list, "A", ligand_file=pdb_file_list)
