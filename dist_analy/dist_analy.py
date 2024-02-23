@@ -100,7 +100,6 @@ def get_ca_dist_matrix(file: str, res_list: list, chain: str, save_dir: str = No
 
     return dist_matrix
 
-
 def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: ndarray = None,
                                res_list_2: list = None, unitcell: ndarray = None,
                                format='mat', no_adj: bool = True, min_dist: int = None,
@@ -289,8 +288,6 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
     return dist
 
 
-
-
 def get_atom_coords(heavy: bool, residues1: List, type):
     if heavy:
         atomcoords1 = np.array([x.select('heavy').getCoords() if isinstance(x, type) else None for x in residues1],
@@ -299,8 +296,27 @@ def get_atom_coords(heavy: bool, residues1: List, type):
         atomcoords1 = np.array([x.getCoords() if isinstance(x, type) else None for x in residues1], dtype=ndarray)
     return atomcoords1
 
+def get_res_obj(file: str, chain: str=None, res_list: list=None):
+    """ return list of `prody.Residue` objects corresponding the selected
+    chain and list of residue numbers
 
-def get_res_obj(file, chain=None, res_list=None):
+    if no chain is passed then the `prody.Residue` objects corresponding
+    to entire file is returned
+
+    Parameters
+    ----------
+    file : str
+        pdb file name
+    chain : str, optional
+        chain, by default None
+    res_list :list, optional
+       list of residues, by default None
+
+    Returns
+    -------
+    list
+        list of `prody.Residue` objects
+    """    
     structure = pdbfile.parsePDB(file, chain=chain)
     hv = structure.getHierView()
 
@@ -319,19 +335,107 @@ def get_res_obj(file, chain=None, res_list=None):
         res_obj = []
         for x in obj:
             res_obj.append(x)
+
     return (res_obj)
 
-
-def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None,
-                             min_dist: int = None, no_adj: bool = True,
-                             save_dir: str = None, ligand_file: str = None,
-                             ligand_chain: str = None):
-    """ Generate shortest-distance distance matrix.
+def handle_ligand_files(file: str, ligand_file: str, ligand_chain: str, 
+                        save_dir: str, save_fn: str, *args, **kwargs):
+    """ handle whether or not a single ligand file or ligand list will be
+    calculated
 
     Parameters
     ----------
     file : str
-        file name
+        receptor file name
+    ligand_file : str | list
+        ligand file name or list
+    ligand_chain : str
+        ligand chain
+    save_dir : str
+        directory to save .npy file in 
+    save_fn : str
+        path to save .npy file in 
+
+    Returns
+    -------
+    np.array
+        shortest receptor–ligand distance vector
+        if a single file is passed, 1D np.array
+        if a list of files is passed, 2D np.array
+    """
+    if isinstance(ligand_file, list):
+        dist_matrix = []
+        for ligand in ligand_file:
+            dist_matrix_1 = build_shortest_receptor_ligand_matrix(file, ligand, ligand_chain, save_dir, save_fn, *args, **kwargs)
+            dist_matrix.append(dist_matrix_1)
+        dist_matrix = np.array(dist_matrix)
+    elif isinstance(ligand_file, str):
+        dist_matrix = build_shortest_receptor_ligand_matrix(file, ligand_file, ligand_chain, save_dir, save_fn, *args, **kwargs)
+
+    if save_dir:
+        Path(save_dir).mkdir(parents=True, exist_ok=True)
+        res_name = list(set(ligand.getResnames()))
+        fn = file.split('/')[-1].split('.')[0]
+        rank = ligand_file.split('/')[-1].split('.')[0].split('_')[0]
+        if len(res_name) == len(lig_res):
+            fn = fn + "_".join(["%s%i" % (name, int) for name, int in zip(res_name, lig_res)])
+        else:
+            fn = fn + "".join(res_name) + "".join([str(i) for i in lig_res])
+        # print(fn)
+        np.save(save_dir + fn, dist_matrix)
+    if save_fn:
+        np.save(save_fn, dist_matrix)   
+
+    return dist_matrix
+
+def build_shortest_receptor_ligand_matrix(file: str, ligand_file:str|list, ligand_chain:str, \
+                                    save_dir: str, save_fn: str, *args, **kwargs):
+    """ Helper function to calculate ligand distance matrix
+    
+    passing in extra variables and extra keyword arguments will be passed
+    to `build_shortest_dist_matrix`
+    
+    Parameters
+    ----------
+    file : str
+        receptor file name
+    ligand_file : str | list
+        ligand file name or list
+    ligand_chain : str
+        ligand chain
+    save_dir : str
+        directory to save .npy file in 
+    save_fn : str
+        path to save .npy file in 
+
+    Returns
+    -------
+    np.array
+        shortest receptor–ligand distance vector
+        if a single file is passed, 1D np.array
+        if a list of files is passed, 2D np.array
+    """    
+    ligand = pdbfile.parsePDB(ligand_file, chain=ligand_chain)
+    if ligand.numResidues() > 1:
+        warnings.warn("Ligand is more than one residue")
+    lig_res = list(set(ligand.getResnums()))
+
+    dist_matrix = build_shortest_dist_matrix(*args, residues2=[ligand], res_list_2=lig_res, **kwargs).T[0]  
+    
+    return dist_matrix
+
+def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None,
+                             min_dist: int = None, no_adj: bool = True,
+                             save_dir: str = None, save_fn: str = None, ligand_file: str|list = None,
+                             ligand_chain: str = None):
+    """ Generate shortest-distance distance matrix.
+
+    `save_dir` and `save_fn` are mutually exclusive
+
+    Parameters
+    ----------
+    file : str
+        receptor file name
     res_list : list
         list of residues to calculate distance matrix with
     chain: str
@@ -343,34 +447,37 @@ def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None
         value.
     save_dir: str, optional
         directory to save distance matrices to a binary file in NumPy .npy format
+    save_fn: str, optional
+        file to save distance matrices to a binary file in NumPy .npy format
+    ligand_file: list or str, optional
+        pass in a list or single string of ligand files to calculate ligand-receptor
+        shortest distance vector with respect to file
+    ligand_chain: str, optional
+        optional parameter that designating the ligand chain, if none passed and 
+        ligand_file pass, the entire ligand_file will be accepted by default
 
     Returns
     -------
     np.array
-        2D np.array of carbon alpha distance matrix
+        2D np.array of shortest distance matrix
 
     """
+    if save_dir and save_fn:
+        raise ValueError("Cannot have save_dir and save_fn at the same time")
 
     res_obj = get_res_obj(file, chain, res_list)
 
     if ligand_file:
-        ligand = pdbfile.parsePDB(ligand_file, chain=ligand_chain)
-        if ligand.numResidues() > 1:
-            warnings.warn("Ligand is more than one residue")
-        lig_res = list(set(ligand.getResnums()))
-        dist_matrix = build_shortest_dist_matrix(res_obj, res_list, [ligand], lig_res, min_dist=min_dist, \
-                                                 no_adj=no_adj, heavy=True, mol=True)
+        dist_matrix = handle_ligand_files(file, ligand_file, ligand_chain, save_dir, save_fn, res_obj, res_list, \
+                                         min_dist=min_dist, no_adj=no_adj, heavy=True, mol=True)
+
     else:
         dist_matrix = build_shortest_dist_matrix(res_obj, res_list, min_dist=min_dist, \
-                                                 no_adj=no_adj, heavy=True)
-    if save_dir:
-        Path(save_dir).mkdir(parents=True, exist_ok=True)
-        fn = file.split('/')[-1].split('.')[0]
-
-        if ligand_file:
-            res_name = list(set(ligand.getResnames()))
+                                        no_adj=no_adj, heavy=True)
+        if save_dir:
+            Path(save_dir).mkdir(parents=True, exist_ok=True)
             fn = file.split('/')[-1].split('.')[0]
-            rank = ligand_file.split('/')[-1].split('.')[0].split('_')[0]
-            fn = fn + "_" + rank + "_" + "_".join(["%s%i" % (name, int) for name, int in zip(res_name, lig_res)])
-        np.save(save_dir + fn, dist_matrix)
+            np.save(save_dir + fn, dist_matrix)
+        if save_fn:
+            np.save(save_fn, dist_matrix)                                 
     return dist_matrix
