@@ -860,15 +860,7 @@ def plot_r1r2(c1: int, c2: int, r1r2_feat: list, labels: list, dist_mats: np.nda
     if not family:
         family = []
 
-    r1_feat, r2_feat = [], []
-    for feat in r1r2_feat:
-        if feat[-1] > 0:
-            r1_feat.append(feat)
-        else:
-            r2_feat.append(feat)
-
     plt.figure()
-    # index = 0
 
     unique_labels = set(labels)
     r1_feat = np.asarray([r1r2 for r1r2 in r1r2_feat if r1r2[4] > 0])
