@@ -111,7 +111,8 @@ class Dry_Apo_PDB(Select):
 
 class PDB_Processer:
     def __init__(self, NCAA:list = [], check_SIFTs:bool=True,
-                 check_database:bool = True, filter_warnings:bool = True):
+                 check_database:bool = True, filter_warnings:bool = True, 
+                 select: Select = Dry_Apo_PDB):
         """ PDB_Processer class constructor
 
         Parameters
@@ -138,7 +139,12 @@ class PDB_Processer:
         #     self.ftp.set_debuglevel(2)
         if filter_warnings:
             warnings.filterwarnings("ignore", category=PDBConstructionWarning)
-        self.select = Dry_Apo_PDB(*NCAA)
+        if select:
+            self.select = select
+            if NCAA:
+                warnings.warn("You supplied a NCAA list and select. The NCAA will not be included in the select class")
+        else:
+            self.select = Dry_Apo_PDB(*NCAA)
         self.io = PDBIO()
         self.parse = PDBParser()
         # create setters to change this?

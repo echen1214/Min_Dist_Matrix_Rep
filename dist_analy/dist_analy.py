@@ -378,7 +378,7 @@ def handle_ligand_files(file: str, ligand_files: str, ligand_chain: str,
 
     if save_dir:
         Path(save_dir).mkdir(parents=True, exist_ok=True)
-        res_name = list(set(ligand.getResnames()))
+        res_name = ligand_list
         fn = file.split('/')[-1].split('.')[0]
         rank = ligand_file.split('/')[-1].split('.')[0].split('_')[0]
         if len(res_name) == len(lig_res):
