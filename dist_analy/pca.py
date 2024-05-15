@@ -643,7 +643,7 @@ def plot_smd_distrib(cluster1: int, cluster2: int, feats: np.ndarray, min_feats:
     plt.figure()
     plt.scatter(min_smd[:,0],min_smd[:,1])
     plt.xlabel("Minimum distance pair across all structures")
-    plt.ylabel("%s$\mathregular{^{%i|%i}}$/(min_dist-%.2f)"%(std, cluster1+1, cluster2+1, norm))
+    plt.ylabel("%s$^{%i|%i}}$(min_dist-%.2f)"%(std, cluster1, cluster2, norm))
     plt.axvline(x=xcutoff, color="red")
     plt.axhline(y=0, color='black')
     plt.axhline(y=ycutoff, color='red', linestyle='dashed')
@@ -795,7 +795,7 @@ def plot_smd(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarr
             if i > top:
                 break
             x,y=triu_getXY(idx,m=len(res_list_list[0]),k=k)
-            feat_idx.append((x,y,idx,min_dist,smd_val))
+            feat_idx.append([x,y,idx,min_dist,smd_val])
             # out_text = "|"
             out_text = ""
             for i, (res_list, uniprot_seq) in enumerate(zip(res_list_list, uniprot_seq_list)):
@@ -827,7 +827,7 @@ def plot_smd(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarr
             # print(out_text)
     return feat_idx
 
-def plot_r1r2(c1: int, c2: int, r1r2_feat: list, inds_fc: list, dist_mats: np.ndarray, \
+def plot_r1r2(c1: int, c2: int, r1r2_feat: list, labels: list, dist_mats: np.ndarray, \
     pdb_prot_index: list = None, family: list = None):
     """For each distance matrix plot on R2 vs R1. The R1/R2 distances are selected
     following the calculation of the SMD/SSMD. The top distances are passed in
@@ -860,51 +860,35 @@ def plot_r1r2(c1: int, c2: int, r1r2_feat: list, inds_fc: list, dist_mats: np.nd
     if not family:
         family = []
 
-    r1_feat, r2_feat = [], []
-    for feat in r1r2_feat:
-        if feat[-1] > 0:
-            r1_feat.append(feat)
-        else:
-            r2_feat.append(feat)
-
     plt.figure()
-    ax = plt.axes()
-    index = 0
-    for i,ind_fc in enumerate(inds_fc):
-        for mat, ind in zip(dist_mats[ind_fc], ind_fc):
-            temp1 = 0
-            for r1 in r1_feat:
-                temp1 += mat[r1[0]][r1[1]]
-            temp2 = 0
-            for r2 in r2_feat:
-                temp2 += mat[r2[0]][r2[1]]
 
-            if len(pdb_prot_index) > 0:
-                if len(ind_fc) == 1:
-                    plt.scatter(temp1, temp2, color = DFLT_COL, marker = MARKER_LIST[pdb_prot_index[ind]])
-                else:
-                    plt.scatter(temp1, temp2, color = COLOR_LIST[index], marker = MARKER_LIST[pdb_prot_index[ind]])
-            else:
-                if len(ind_fc) == 1:
-                    plt.scatter(temp1, temp2, color = DFLT_COL)
-                else:
-                    plt.scatter(temp1, temp2, color = COLOR_LIST[index])
-        if len(ind_fc) > 1:
-            index+=1
-            # if temp1 > 11 and temp2 > 40:
-            #     print(ind)
+    unique_labels = set(labels)
+    r1_feat = np.asarray([r1r2 for r1r2 in r1r2_feat if r1r2[4] > 0])
+    temp1 = np.sum(dist_mats[:, r1_feat[:,0].astype(int), r1_feat[:,1].astype(int)],axis=1)
+    r2_feat = np.asarray([r1r2 for r1r2 in r1r2_feat if r1r2[4] < 0])
+    temp2 = np.sum(dist_mats[:, r2_feat[:,0].astype(int), r2_feat[:,1].astype(int)],axis=1)
 
-    # for mat in [dist_mats[x] for x in [253, 442,251, 256, 254]]:
-    #     temp1 = 0
-    #     for r1 in r1_feat:
-    #         temp1 += mat[r1[0]][r1[1]]
-    #     temp2 = 0
-    #     for r2 in r2_feat:
-    #         temp2 += mat[r2[0]][r2[1]]
-    #     plt.scatter(temp1, temp2, color = "lime", marker = "*")
+    for lab in unique_labels:
+        label_index = np.where(labels == lab)[0]
+        if lab == -1:
+            # Black used for noise.
+            col = "black"
+        elif len(label_index) == 1:
+            col = DFLT_COL
+        else:
+            col = COLOR_LIST[lab]
 
-    plt.xlabel(r'sum(R%s) ($\AA$)'%str(c2+1))
-    plt.ylabel(r'sum(R%s) ($\AA$)'%str(c1+1))
+        if family:
+            for mark in range(min(pdb_prot_index), max(pdb_prot_index)+1):
+                label_fam_index = np.intersect1d(label_index, np.where(np.asarray(family_map)==mark)[0])
+                plt.plot(a[label_fam_index, 0],a[label_fam_index, 1],
+                    "x" if lab == -1 else MARKER_LIST[pdb_prot_index[ind]], markerfacecolor=col,
+                    markeredgecolor="k",)
+        else:
+            plt.plot(temp1[label_index],temp2[label_index], "x" if lab == -1 else "o", markerfacecolor=col, markeredgecolor="k",)
+            
+    plt.xlabel(r'sum(R%s) ($\AA$)'%str(c2))
+    plt.ylabel(r'sum(R%s) ($\AA$)'%str(c1))
     if family:
         # plt.legend()
         legend_elements = [Line2D([], [], marker=mark, label=label, linestyle='None') for mark, label in zip(MARKER_LIST[:len(family)], family)]
@@ -912,7 +896,7 @@ def plot_r1r2(c1: int, c2: int, r1r2_feat: list, inds_fc: list, dist_mats: np.nd
         plt.legend(handles=legend_elements, bbox_to_anchor=(1.04,1), loc="upper left")
 
 def plot_stacked_histogram(r1: int, r2:int, dist_mats: list, res_lists: list, \
-    inds_fc: list, uniprot_seqs: list, color_texts: list = None, SMD:float=None):
+    labels: list, uniprot_seqs: list, color_texts: list = None, SMD:float=None):
     """ Plot the stacked histogram of the specified distance pair across the
     set of distance matrices colored on the plot based on their clustering. The
     title and residue labeling is colored based on the color_text objects.
@@ -944,22 +928,19 @@ def plot_stacked_histogram(r1: int, r2:int, dist_mats: list, res_lists: list, \
     min_val = 1000
     max_val = 0
     clust_value = []
-    for ind_fc in inds_fc:
-        value = []
-        for x in ind_fc:
-            mat = dist_mats[x]
-#         for mat in [mats[x] for x in ind_fc]:
-            if mat[r1,r2] != 0:
-                if mat[r1,r2] > max_val: max_val = mat[r1,r2]
-                if mat[r1,r2] < min_val: min_val = mat[r1,r2]
-                value.append(mat[r1,r2])
-#                 if mat[r1,r2] < 2.2:
-#                     print('pdb', x)
-        clust_value.append(value)
+
+    unique_labels = set(labels)
+    for lab in unique_labels:
+        label_index = np.where(labels == lab)[0]
+        clust_value.append(dist_mats[label_index, r1, r2])
+    flat = [v for l in clust_value for v in l]
+    max_val = np.max(flat)
+    min_val = np.min(flat)
+
     bins=np.arange(min_val-1,max_val+1,0.15)
    # print(bins)
     fig = plt.figure()
-    n,bins,patches = plt.hist(x=clust_value, bins=bins, stacked=True, color=COLOR_LIST[:len(inds_fc)] )
+    n,bins,patches = plt.hist(x=clust_value, bins=bins, stacked=True, color=COLOR_LIST[:len(unique_labels)])
     plt.xlabel('Distance')
     plt.ylabel('Frequency')
     title = ""

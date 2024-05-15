@@ -25,7 +25,6 @@ requirements = [
                 'pybel',
                 'colored',
                 'anytree',
-                'sklearn',
                 'pypdb',
                 'ipykernel',
                 'anytree',
