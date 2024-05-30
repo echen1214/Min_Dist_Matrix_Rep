@@ -8,6 +8,8 @@ import time
 import numpy as np
 from numpy import array, empty, ndarray, zeros
 from prody.atomic import AtomGroup, Residue
+from prody.atomic.chain import Chain
+from prody.atomic.segment import Segment
 from prody.measure import measure
 from prody.proteins import pdbfile
 from prody.utilities import getDistance
@@ -102,13 +104,13 @@ def get_ca_dist_matrix(file: str, res_list: list, chain: str, save_dir: str = No
     return dist_matrix
 
 
-def parse_residue_list(residue_list, residue_type, heavy, residue_sizes, x_coords, y_coords, z_coords, needs_backbone_sizes = False, backbone_sizes = None):
+def parse_residue_list(residue_list, heavy, residue_sizes, x_coords, y_coords, z_coords, needs_backbone_sizes = False, backbone_sizes = None):
     for residue in residue_list:
         if not residue:
             residue_sizes.append(0)
             if needs_backbone_sizes:
                backbone_sizes.append(0)
-        if not isinstance(residue, residue_type):
+        if not (isinstance(residue, Residue) or isinstance(residue, AtomGroup)):
             continue
         atoms = []
         if heavy:
@@ -195,9 +197,9 @@ def build_shortest_dist_matrix(residues1: ndarray, res_list_1: list, residues2: 
     x_coords2 = []
     y_coords2 = []
     z_coords2 = []
-    parse_residue_list(residues1, Residue, heavy, residue_sizes1, x_coords1, y_coords1, z_coords1, True, backbone_sizes)
+    parse_residue_list(residues1, heavy, residue_sizes1, x_coords1, y_coords1, z_coords1, True, backbone_sizes)
     if residues2:
-        parse_residue_list(residues2, AtomGroup if mol else Residue, heavy, residue_sizes2, x_coords2, y_coords2, z_coords2, False, None)
+        parse_residue_list(residues2, heavy, residue_sizes2, x_coords2, y_coords2, z_coords2, False, None)
     else:
         residue_sizes2 = residue_sizes1
         x_coords2 = x_coords1
@@ -328,10 +330,17 @@ def get_res_obj(file: str, chain: str=None, res_list: list=None):
 
     if res_list is not None:
         res_obj = np.empty(len(res_list), dtype=Residue)
-        for i, res in enumerate(res_list):
-            temp_obj = obj.getResidue(res)
-            if temp_obj:
-                res_obj[i] = temp_obj
+        if isinstance(obj, Chain):
+            for i, res in enumerate(res_list):
+                temp_obj = obj.getResidue(res)
+                if temp_obj:
+                    res_obj[i] = temp_obj
+        elif isinstance(obj, Segment):
+            for i, res in enumerate(res_list):
+                if res:
+                    temp_obj = obj.select(f"resnum {res}")
+                if temp_obj:
+                    res_obj[i] = temp_obj.toAtomGroup()
     else:
         res_obj = []
         for x in obj:
@@ -343,6 +352,11 @@ def handle_ligand_files(file: str, ligand_files: str, ligand_chain: str,
                         save_dir: str, save_fn: str, *args, **kwargs):
     """ handle whether or not a single ligand file or ligand list will be
     calculated
+
+    By default, a list of ligand_files passed in will be treated as a series
+    of docked poses as reflected by the naming convention. A single ligand_file
+    string will be treated as a single docked pose. If a ligand is more than one
+    residue, all of the ligands/residue numbers will be output in the name
 
     Parameters
     ----------
@@ -368,23 +382,26 @@ def handle_ligand_files(file: str, ligand_files: str, ligand_chain: str,
         ligand_files = [ligand_files]
     ligands = []
     ligand_list = []
+    ligand_resname = []
+
     for ligand_file in ligand_files:
-        ligands.append(pdbfile.parsePDB(ligand_file, chain=ligand_chain))
-        if ligands[-1].numResidues() > 1:
+        lig = pdbfile.parsePDB(ligand_file, chain=ligand_chain)
+        ligands.append(lig)
+        if lig.numResidues() > 1:
             warnings.warn("Ligand is more than one residue")
-        ligand_list += list(set(ligands[-1].getResnums()))
+        ligand_list.append([r.getResnum() for r in lig.iterResidues()])
+        ligand_resname.append([r.getResname() for r in lig.iterResidues()])
 
     dist_matrix = build_shortest_dist_matrix(*args, residues2=ligands, res_list_2=ligand_list, **kwargs)
 
     if save_dir:
         Path(save_dir).mkdir(parents=True, exist_ok=True)
-        res_name = ligand_list
         fn = file.split('/')[-1].split('.')[0]
         rank = ligand_file.split('/')[-1].split('.')[0].split('_')[0]
-        if len(res_name) == len(lig_res):
-            fn = fn + "_".join(["%s%i" % (name, int) for name, int in zip(res_name, lig_res)])
-        else:
-            fn = fn + "".join(res_name) + "".join([str(i) for i in lig_res])
+        # if (len(ligand_resname) == 1) & (len(ligand_list) == 1):
+        fn = fn + "_" + ligand_chain + "_" + "_".join([f"{name}{int}" for name, int in zip(ligand_resname[0], ligand_list[0])])
+        # else:
+        #     fn = fn + "".join(ligand_resname) + "".join([str(i) for i in ligand_list])
         # print(fn)
         np.save(save_dir + fn, dist_matrix)
     if save_fn:
