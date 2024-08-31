@@ -446,12 +446,15 @@ def get_pca(feats: np.ndarray, cumsum: float = 0.8):
     proj_coords = a[:,sel_axis]
     return proj_coords, var_ratio[sel_axis], npy_pca
 
-def pca_hdbscan(proj_coords, var_ratio, hdbscan_args: dict = dict(), family_map: list = None, family: list = None):
+def pca_hdbscan(proj_coords, var_ratio, hdbscan_args: dict = dict(), \
+    family_map: list = None, family: list = None, color_map = None):
     hdb = skc.HDBSCAN(**hdbscan_args).fit(proj_coords)
-    pca_hdbscan_figure(proj_coords,hdb.labels_, hdb.probabilities_, var_ratio, family_map, family)
+    pca_hdbscan_figure(proj_coords,hdb.labels_, hdb.probabilities_, var_ratio, family_map, family, color_map=color_map)
     return(hdb.labels_, hdb)
 
-def pca_hdbscan_figure(a, labels: list, prob: list, var_ratio: list, family_map: list = None, family: list = None, resize_by_prob=False):
+def pca_hdbscan_figure(a, labels: list, prob: list, var_ratio: list, \
+        family_map: list = None, family: list = None, resize_by_prob=False, \
+        color_map = None):
     ## inspired by https://scikit-learn.org/stable/auto_examples/cluster/plot_hdbscan.html#demo-of-hdbscan-clustering-algorithm
 
     plt.figure()
@@ -461,13 +464,18 @@ def pca_hdbscan_figure(a, labels: list, prob: list, var_ratio: list, family_map:
     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
     plt.title(f"Estimated number of clusters: {n_clusters_}")
 
+    if color_map is None:
+        color_list = COLOR_LIST
+    else:
+        color_list = [color_map(i/n_clusters_) for i in range(0, n_clusters_)]
+
     for lab in unique_labels:
         if lab == -1:
             # Black used for noise.
             col = "black"
             # continue
         else:
-            col = COLOR_LIST[lab]
+            col = color_list[lab]
 
         label_index = np.where(labels == lab)[0]
         # for ci in class_index:
@@ -962,7 +970,8 @@ def plot_stacked_histogram(r1: int, r2:int, dist_mats: list, res_lists: list, \
         plt.annotate("SMD: %.3f"%SMD, xy=(0.97, 0.95), xycoords='axes fraction', size=14, ha='right', va='top', )
 
 def run(dist_mats: np.ndarray, res_list: list, remove_missing: bool = True,
-        replace_zeros: str = None, family: list = None, cumsum=0.8, hdbscan_args: dict = dict()):
+        replace_zeros: str = None, family: list = None, cumsum=0.8, hdbscan_args: dict = dict(),
+        color_map = None):
     """ Pass in a list of the distance matrices and the corresponding residue
     lists and perform the hierarchical clustering and principal component
     analysis
@@ -1060,6 +1069,7 @@ def run(dist_mats: np.ndarray, res_list: list, remove_missing: bool = True,
         index_map = None
         feats_list = triu_flatten(dist_mats, len(res_list))
 
+    print(color_map)
     proj_coords, var_ratio, npy_pca = get_pca(feats_list, cumsum=cumsum)
-    labels, hdb = pca_hdbscan(proj_coords, var_ratio, hdbscan_args, index_map, family)
+    labels, hdb = pca_hdbscan(proj_coords, var_ratio, hdbscan_args, index_map, family, color_map=color_map)
     return(proj_coords, labels, dist_mats, res_list, ind_list, npy_pca, hdb)
