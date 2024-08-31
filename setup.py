@@ -29,6 +29,8 @@ requirements = [
                 'ipykernel',
                 'anytree',
                 'py3Dmol',
+                'rcsbsearchapi',
+                'altair'
 ]
 
 setup_requirements = ['pytest-runner', ]
