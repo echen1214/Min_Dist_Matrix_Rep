@@ -130,9 +130,9 @@ def py3Dmol_lig_pose(rec_fn_list:list, rec_chain_list:list, lig_fn_list: list=[]
     if lig_fn_list:
         for i, (rec, lig) in enumerate(zip(rec_fn_list, lig_fn_list)):
             models = add_model(models, i, rec, lig)
-    # else:
-    #     for i, rec in enumerate(rec_fn_list):
-    #         models = add_model(models, i, rec)       
+    else:
+        for i, rec in enumerate(rec_fn_list):
+            models = add_model(models, i, rec)       
     # print(models)
     view.addModelsAsFrames(models)
     for i, chain in enumerate(rec_chain_list):
@@ -142,7 +142,7 @@ def py3Dmol_lig_pose(rec_fn_list:list, rec_chain_list:list, lig_fn_list: list=[]
 
     view.zoomTo()
     view.show()
-    interact(view_setFrame, index=IntSlider(min=0,max=len(lig_fn_list)-1, step=1))
+    interact(view_setFrame, index=IntSlider(min=0,max=len(rec_chain_list)-1, step=1))
 
 def alt_pca_hdbscan_figure(df_proj:pd.DataFrame() , table_dict:dict =dict()):
     """
