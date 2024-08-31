@@ -463,10 +463,10 @@ def pca_hdbscan_figure(a, labels: list, prob: list, var_ratio: list, \
     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0)
     plt.title(f"Estimated number of clusters: {n_clusters_}")
 
-    if color_map is None:
-        color_list = COLOR_LIST
-    else:
-        color_list = [color_map(i/n_clusters_) for i in range(0, n_clusters_)]
+    # if color_list is None:
+    #     color_list = COLOR_LIST
+    # else:
+    #     color_list = [color_list(i/n_clusters_) for i in range(0, n_clusters_)]
 
     for lab in unique_labels:
         if lab == -1:
@@ -474,7 +474,6 @@ def pca_hdbscan_figure(a, labels: list, prob: list, var_ratio: list, \
             col = "black"
             # continue
         else:
-            col = color_list[lab]
             col = color_list[lab]
 
         label_index = np.where(labels == lab)[0]
@@ -1076,7 +1075,7 @@ def run(dist_mats: np.ndarray, res_list: list, remove_missing: bool = True,
         index_map = None
         feats_list = triu_flatten(dist_mats, len(res_list))
 
-    print(color_map)
+    # print(color_map)
     proj_coords, var_ratio, npy_pca = get_pca(feats_list, cumsum=cumsum)
     labels, hdb = pca_hdbscan(proj_coords, var_ratio, hdbscan_args, index_map, family, color_list=color_list)
     return(proj_coords, labels, dist_mats, res_list, ind_list, npy_pca, hdb)
