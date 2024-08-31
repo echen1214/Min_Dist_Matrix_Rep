@@ -7,12 +7,12 @@ import warnings
 from pathlib import Path
 from urllib.request import urlopen
 from urllib.error import URLError
-from Bio.PDB import PDBParser, Select, PDBIO
+from Bio.PDB import PDBParser, Select, PDBIO, Structure
 from Bio.PDB.PDBExceptions import PDBConstructionWarning
 from Bio.Seq import Seq
 from Bio.SeqRecord import SeqRecord
 from numpy import all
-import prody.atomic.chain
+# import prody.atomic.chain
 from dist_analy.util import pdb_info
 import matplotlib.pyplot as plt
 
@@ -111,7 +111,7 @@ class Dry_Apo_PDB(Select):
 
 class PDB_Processer:
     def __init__(self, NCAA:list = [], check_SIFTs:bool=True,
-                 check_database:bool = True, filter_warnings:bool = True):
+                 check_database:bool = True, filter_warnings:bool = True, select: Select = Dry_Apo_PDB,):
         """ PDB_Processer class constructor
 
         Parameters
@@ -125,6 +125,10 @@ class PDB_Processer:
             flag to check the RCSB database to match protein chains to UniProt accesion numbers
         filter_warnings : bool, default: True
             flag to filter PDBConstructionWarnings
+        select: Bio.PDBIO.Select, default Dry_Apo_PDB, 
+            a class that removes water and any residues that are not the canoncial or 
+            supplied list of non-canonical amino acids; can also provide None
+            https://biopython.org/docs/1.75/api/Bio.PDB.PDBIO.html
 
         Returns
         -------
@@ -138,7 +142,12 @@ class PDB_Processer:
         #     self.ftp.set_debuglevel(2)
         if filter_warnings:
             warnings.filterwarnings("ignore", category=PDBConstructionWarning)
-        self.select = Dry_Apo_PDB(*NCAA)
+        if select:
+            self.select = select
+            if NCAA:
+                warnings.warn("You supplied a NCAA list and select. The NCAA will not be included in the select class")
+        else:
+            self.select = Dry_Apo_PDB(*NCAA)
         self.io = PDBIO()
         self.parse = PDBParser()
         # create setters to change this?
@@ -329,7 +338,7 @@ class PDB_Processer:
                         truthy.append(key == repl_dict[key])
 
                     if all(truthy) == False:
-#                        print(repl_dict)
+                        # print("truthy", list(repl_dict.keys())[truthy.index(False)], repl_dict[list(repl_dict.keys())[truthy.index(False)]] )
                         self._replace_with_dict(prot, repl_dict)
                 # print([res._id[1] for res in list(prot.get_residues())])
                 self.io.set_structure(prot)
@@ -498,7 +507,7 @@ class PDB_Processer:
         return dict_repl
 
     @staticmethod
-    def _replace_with_dict(chain_object: prody.atomic.chain, replace_dict: dict):
+    def _replace_with_dict(chain_object: Structure, replace_dict: dict):
         """ Reassign residue numbering of chain object by the replace dictionary
         An error may occur when renumbering the residues of the chain object to
         a residue number that has already been assigned. To circumvent this,
@@ -507,7 +516,7 @@ class PDB_Processer:
 
         Parameters
         ----------
-        chain_object : prody.atomic.chain
+        chain_object : Bio.PDB.structure
             chain object of the protein
         replace_dict : dict
             dictionary of SIFTs mapping
@@ -552,13 +561,14 @@ class PDB_Processer:
 
         count = 0
         org_res_list = []
+        # print(replace_dict)
+
         for residue in reversed(list(chain_object.get_residues())):
             res_id = list(residue.id)
             org_res_list.append(res_id[1])
             res_id[1] = -999 + count
             residue.id = tuple(res_id)
             count += 1
- #            print(replace_dict)
         for residue, org_res in zip(reversed(list(chain_object.get_residues())), org_res_list):
             res_id = list(residue.id)
             if str(org_res) in replace_dict:
@@ -566,4 +576,4 @@ class PDB_Processer:
                 # print(repl_id, "2")
                 res_id[1] = int(repl_id)
                 residue.id = tuple(res_id)
-   # print([ x for x in chain_object.get_residues()])
+    # print([ x for x in chain_object.get_residues()])

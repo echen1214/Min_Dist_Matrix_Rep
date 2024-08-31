@@ -446,12 +446,14 @@ def get_pca(feats: np.ndarray, cumsum: float = 0.8):
     proj_coords = a[:,sel_axis]
     return proj_coords, var_ratio[sel_axis], npy_pca
 
-def pca_hdbscan(proj_coords, var_ratio, hdbscan_args: dict = dict(), family_map: list = None, family: list = None):
+def pca_hdbscan(proj_coords, var_ratio, hdbscan_args: dict = dict(), family_map: list = None, family: list = None, color_list: list=COLOR_LIST):
     hdb = skc.HDBSCAN(**hdbscan_args).fit(proj_coords)
-    pca_hdbscan_figure(proj_coords,hdb.labels_, hdb.probabilities_, var_ratio, family_map, family)
+    pca_hdbscan_figure(proj_coords,hdb.labels_, hdb.probabilities_, var_ratio, family_map, family, color_list=color_list)
     return(hdb.labels_, hdb)
 
-def pca_hdbscan_figure(a, labels: list, prob: list, var_ratio: list, family_map: list = None, family: list = None, resize_by_prob=False):
+def pca_hdbscan_figure(a, labels: list, prob: list, var_ratio: list, \
+                       family_map: list = None, family: list = None, \
+                       resize_by_prob=False, color_list=COLOR_LIST):
     ## inspired by https://scikit-learn.org/stable/auto_examples/cluster/plot_hdbscan.html#demo-of-hdbscan-clustering-algorithm
 
     plt.figure()
@@ -467,7 +469,7 @@ def pca_hdbscan_figure(a, labels: list, prob: list, var_ratio: list, family_map:
             col = "black"
             # continue
         else:
-            col = COLOR_LIST[lab]
+            col = color_list[lab]
 
         label_index = np.where(labels == lab)[0]
         # for ci in class_index:
@@ -607,7 +609,7 @@ def calc_cluster_smd(cluster1_inds: list, cluster2_inds: list, feats: np.ndarray
     return (smd_new, min_dist)
 
 def plot_smd_distrib(cluster1: int, cluster2: int, feats: np.ndarray, min_feats: np.ndarray, \
-                        smd: np.ndarray, xcutoff: int=3.5, ycutoff: int=5, \
+                        smd: np.ndarray, xmax_cutoff: int=3.5, xmin_cutoff: int=1.8,  ycutoff: int=5, \
                         norm: int = 1.5, std: str = "SMD"):
     """Plots the distribution of SMD vs minimum distance. Each data point
     represented one distance pair
@@ -624,8 +626,10 @@ def plot_smd_distrib(cluster1: int, cluster2: int, feats: np.ndarray, min_feats:
         array of 1D flattened distance matrices
     smd : np.ndarray
         array of SMD/SSMD values for each distance pair
-    xcutoff : int
-        distance cutoff value
+    xmax_cutoff : int
+        max distance cutoff value
+    xmin_cutoff : int
+        min distance cutoff value
     ycutoff : int
         SMD cutoff value
     norm : int, default: 1.5
@@ -643,13 +647,15 @@ def plot_smd_distrib(cluster1: int, cluster2: int, feats: np.ndarray, min_feats:
     plt.figure()
     plt.scatter(min_smd[:,0],min_smd[:,1])
     plt.xlabel("Minimum distance pair across all structures")
-    plt.ylabel("%s$^{%i|%i}}$(min_dist-%.2f)"%(std, cluster1, cluster2, norm))
-    plt.axvline(x=xcutoff, color="red")
+    plt.ylabel("%s$^{%i|%i}}$/(min_dist-%.2f)"%(std, cluster1, cluster2, norm))
+    plt.axvline(x=xmax_cutoff, color="red")
+    plt.axvline(x=xmin_cutoff, color="red")
+
     plt.axhline(y=0, color='black')
     plt.axhline(y=ycutoff, color='red', linestyle='dashed')
     plt.axhline(y=-ycutoff, color='red', linestyle='dashed')
-    if xcutoff > 10:
-        plt.xlim(-0.5,xcutoff)
+    if xmax_cutoff > 10:
+        plt.xlim(-0.5,xmax_cutoff)
     else:
         plt.xlim(-0.5, 10)
 
@@ -712,10 +718,11 @@ class color_text:
 def plot_smd(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarray, \
                 smd: np.ndarray, res_list_list: list, uniprot_seq_list: list, color_obj_list: list = None, \
                 prot_list: list = None, \
-                top: int = 10, xcutoff:int = 3.5, ycutoff:int = 5, norm: int = 1.5, \
+                top: int = 10, xmax_cutoff:int = 3.5, xmin_cutoff:int = 1.8, \
+                ycutoff:int = 5, norm: int = 1.5, \
                 std: str = 'SMD', k: int = 1):
     """ Plots SMD vs minimum distance. Returns the residue–residue ID of the top SMD ranking distance pairs
-    given a minimum distance cutoff (xcutoff) and a minimum absolute SMD
+    given a minimum distance cutoff (xmax_cutoff) and a minimum absolute SMD
     value (ycutoff).
 
     Can also plot SSMD vs minimum distance
@@ -739,8 +746,10 @@ def plot_smd(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarr
     uniprot_seq : str
         string of one letter amino acid codes that reflect the sequence which
         the residue numbering is based off of
-    xcutoff : int
-        distance cutoff value
+    xmax_cutoff : int
+        max distance cutoff value
+    xmin_cutoff : int
+        min distance cutoff value
     ycutoff : int
         smd cutoff value
     norm : int, default: 1.5
@@ -765,11 +774,11 @@ def plot_smd(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarr
                           or strictly standardized mean difference `SSMD`')
 
     plot_smd_distrib(cluster1, cluster2, feats, min_dist, smd, \
-                        xcutoff=xcutoff, ycutoff=ycutoff, norm=norm, std=std)
+                        xmax_cutoff=xmax_cutoff, ycutoff=ycutoff, norm=norm, std=std)
 
     # top_ind = 0
     feat_idx = []
-    filter_cut = (abs(smd) > ycutoff) & (min_dist < xcutoff)
+    filter_cut = (abs(smd) > ycutoff) & (min_dist < xmax_cutoff) & (min_dist > xmin_cutoff)
     filter_idx = np.where(filter_cut == True)[0]
     filter_z = smd[filter_idx]
     filter_dist = min_dist[filter_idx]
@@ -786,7 +795,7 @@ def plot_smd(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarr
     #     out_all += ":-:| :-:|<br>"
 
     for z_rank, clust, rank in zip([z_pos, z_neg], [cluster2, cluster1], [-1,1]):
-        print("cluster %i stabilizing interactions"%(clust+1))
+        print("cluster %i stabilizing interactions"%(clust))
         z_sort_idx = np.argsort(filter_z[z_rank])[::rank]
         idx_sort = filter_idx[z_rank][z_sort_idx]
         dist_sort = filter_dist[z_rank][z_sort_idx]
@@ -828,7 +837,7 @@ def plot_smd(cluster1: int, cluster2: int, feats: np.ndarray, min_dist: np.ndarr
     return feat_idx
 
 def plot_r1r2(c1: int, c2: int, r1r2_feat: list, labels: list, dist_mats: np.ndarray, \
-    pdb_prot_index: list = None, family: list = None):
+    pdb_prot_index: list = None, family: list = None, color_list = COLOR_LIST):
     """For each distance matrix plot on R2 vs R1. The R1/R2 distances are selected
     following the calculation of the SMD/SSMD. The top distances are passed in
     as r1r2_feat. The clustering is defined by inds_fc.
@@ -876,7 +885,7 @@ def plot_r1r2(c1: int, c2: int, r1r2_feat: list, labels: list, dist_mats: np.nda
         elif len(label_index) == 1:
             col = DFLT_COL
         else:
-            col = COLOR_LIST[lab]
+            col = color_list[lab]
 
         if family:
             for mark in range(min(pdb_prot_index), max(pdb_prot_index)+1):
@@ -896,7 +905,7 @@ def plot_r1r2(c1: int, c2: int, r1r2_feat: list, labels: list, dist_mats: np.nda
         plt.legend(handles=legend_elements, bbox_to_anchor=(1.04,1), loc="upper left")
 
 def plot_stacked_histogram(r1: int, r2:int, dist_mats: list, res_lists: list, \
-    labels: list, uniprot_seqs: list, color_texts: list = None, SMD:float=None):
+    labels: list, uniprot_seqs: list, color_texts: list = None, SMD:float=None, color_list = COLOR_LIST):
     """ Plot the stacked histogram of the specified distance pair across the
     set of distance matrices colored on the plot based on their clustering. The
     title and residue labeling is colored based on the color_text objects.
@@ -940,7 +949,7 @@ def plot_stacked_histogram(r1: int, r2:int, dist_mats: list, res_lists: list, \
     bins=np.arange(min_val-1,max_val+1,0.15)
    # print(bins)
     fig = plt.figure()
-    n,bins,patches = plt.hist(x=clust_value, bins=bins, stacked=True, color=COLOR_LIST[:len(unique_labels)])
+    n,bins,patches = plt.hist(x=clust_value, bins=bins, stacked=True, color=color_list [:len(unique_labels)])
     plt.xlabel('Distance')
     plt.ylabel('Frequency')
     title = ""
@@ -959,10 +968,11 @@ def plot_stacked_histogram(r1: int, r2:int, dist_mats: list, res_lists: list, \
             fig.text(text_center+0.05,0.90, res2, ha="center", va="bottom", size="x-large")
     if SMD:
 #         plt.legend("SMD: %.3f"%SMD)
-        plt.annotate("SMD: %.3f"%SMD, xy=(0.97, 0.95), xycoords='axes fraction', size=14, ha='right', va='top', )
+        plt.annotate("nSMD: %.3f"%SMD, xy=(0.97, 0.95), xycoords='axes fraction', size=14, ha='right', va='top', )
 
 def run(dist_mats: np.ndarray, res_list: list, remove_missing: bool = True,
-        replace_zeros: str = None, family: list = None, cumsum=0.8, hdbscan_args: dict = dict()):
+        replace_zeros: str = None, family: list = None, cumsum=0.8, color_list=COLOR_LIST,
+        hdbscan_args: dict = dict()):
     """ Pass in a list of the distance matrices and the corresponding residue
     lists and perform the hierarchical clustering and principal component
     analysis
@@ -1061,5 +1071,5 @@ def run(dist_mats: np.ndarray, res_list: list, remove_missing: bool = True,
         feats_list = triu_flatten(dist_mats, len(res_list))
 
     proj_coords, var_ratio, npy_pca = get_pca(feats_list, cumsum=cumsum)
-    labels, hdb = pca_hdbscan(proj_coords, var_ratio, hdbscan_args, index_map, family)
+    labels, hdb = pca_hdbscan(proj_coords, var_ratio, hdbscan_args, index_map, family, color_list=color_list)
     return(proj_coords, labels, dist_mats, res_list, ind_list, npy_pca, hdb)

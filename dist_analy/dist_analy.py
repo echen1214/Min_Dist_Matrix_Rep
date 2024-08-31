@@ -394,7 +394,7 @@ def handle_ligand_files(file: str, ligand_files: str, ligand_chain: str,
 
 def get_shortest_dist_matrix(file: str, res_list: list = None, chain: str = None,
                              min_dist: int = None, no_adj: bool = True,
-                             save_dir: str = None, save_fn: str = None, ligand_file: str|list = None,
+                             save_dir: str = None, save_fn: str = None, ligand_file: str = None,
                              ligand_chain: str = None):
     """ Generate shortest-distance distance matrix.
 
