@@ -111,7 +111,8 @@ class Dry_Apo_PDB(Select):
 
 class PDB_Processer:
     def __init__(self, NCAA:list = [], check_SIFTs:bool=True,
-                 check_database:bool = True, filter_warnings:bool = True, select: Select = Dry_Apo_PDB,):
+                 check_database:bool = True, filter_warnings:bool = True, 
+                 select: Select = Dry_Apo_PDB):
         """ PDB_Processer class constructor
 
         Parameters
