@@ -40,7 +40,7 @@ def pdb_read_csv(csv_file: str, chain: bool = False):
     else:
         dict_items = ['PDB ID', 'Title', 'Date', 'Description', 'Method', 'Resolution', \
             'Polymer Binders', 'Major Binders', 'Minor Binders', \
-            'Modifications', 'Mutations', "UniProt ID", 'Paper DOI']
+            'Modifications', 'Mutations', 'Paper DOI']
     df = pd.read_csv(csv_file, header=0, usecols=dict_items)
     for col in ['Polymer Binders', 'Major Binders', 'Minor Binders','Modifications', 'Mutations',]:
         df[col] = df[col].apply(lambda x: ast.literal_eval(x) if type(x)==str else [])

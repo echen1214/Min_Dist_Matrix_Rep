@@ -652,7 +652,7 @@ def plot_smd_distrib(cluster1: int, cluster2: int, feats: np.ndarray, min_feats:
     plt.figure()
     plt.scatter(min_smd[:,0],min_smd[:,1])
     plt.xlabel("Minimum distance pair across all structures")
-    plt.ylabel("%s$^{%i|%i}}$/(min_dist-%.2f)"%(std, cluster1, cluster2, norm))
+    plt.ylabel("%s$^{%i|%i}$/(min_dist-%.2f)"%(std, cluster1, cluster2, norm))
     plt.axvline(x=xmax_cutoff, color="red")
     plt.axvline(x=xmin_cutoff, color="red")
 
