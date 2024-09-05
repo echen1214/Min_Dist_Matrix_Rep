@@ -19,7 +19,7 @@ requirements = [
                 'scipy>=1.1.0',
                 'requests>=2.25.0',
                 'pandas',
-                'scikit-learn',
+                'scikit-learn==1.3.0',
                 'matplotlib',
                 'urllib3',
                 'pybel',
@@ -30,7 +30,9 @@ requirements = [
                 'anytree',
                 'py3Dmol',
                 'rcsbsearchapi',
-                'altair'
+                'altair',
+                'ipywidgets',
+                'anywidget'
 ]
 
 setup_requirements = ['pytest-runner', ]
