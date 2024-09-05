@@ -99,16 +99,13 @@ SOURCE  55 EXPRESSION_SYSTEM_VARIANT: PLYSS
 KEYWDS    CELL CYCLE, CYCLIN-DEPENDENT KINASE, SIGNALLING, UBIQUITINATION       
 EXPDTA    ELECTRON MICROSCOPY                                                   
 AUTHOR    R.J.ROWLAND,M.SALAMINA,J.A.ENDICOTT,M.E.NOBLE                         
-REVDAT   2   19-JUL-23 8BYA    1       JRNL                                     
 REVDAT   1   28-JUN-23 8BYA    0                                                
-JRNL        AUTH   R.J.ROWLAND,R.HEATH,D.MASKELL,R.F.THOMPSON,N.A.RANSON,       
-JRNL        AUTH 2 J.N.BLAZA,J.A.ENDICOTT,M.E.M.NOBLE,M.SALAMINA                
+JRNL        AUTH   R.J.ROWLAND,M.SALAMINA,R.HEATH,D.MASKELL,R.THOMPSON,         
+JRNL        AUTH 2 N.RANSON,J.BLAZA,J.A.ENDICOTT,M.E.NOBLE                      
 JRNL        TITL   CRYO-EM STRUCTURE OF SKP1-SKP2-CKS1 IN COMPLEX WITH          
-JRNL        TITL 2 CDK2-CYCLIN A-P27KIP1.                                       
-JRNL        REF    SCI REP                       V.  13 10718 2023              
+JRNL        TITL 2 CDK2-CYCLIN A-P27KIP1                                        
+JRNL        REF    SCI REP                                    2023              
 JRNL        REFN                   ESSN 2045-2322                               
-JRNL        PMID   37400515                                                     
-JRNL        DOI    10.1038/S41598-023-37609-9                                   
 REMARK   2                                                                      
 REMARK   2 RESOLUTION.    3.38 ANGSTROMS.                                       
 REMARK   3                                                                      

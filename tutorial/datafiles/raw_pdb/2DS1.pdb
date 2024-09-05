@@ -1,5 +1,6 @@
 HEADER    TRANSFERASE                             17-JUN-06   2DS1              
-TITLE     HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE CDK4 INHIBITOR     
+TITLE     HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE CDK4               
+TITLE    2 INHIBITOR                                                            
 COMPND    MOL_ID: 1;                                                            
 COMPND   2 MOLECULE: CELL DIVISION PROTEIN KINASE 2;                            
 COMPND   3 CHAIN: A;                                                            
@@ -20,25 +21,25 @@ SOURCE  10 EXPRESSION_SYSTEM_PLASMID: PBACPAK9
 KEYWDS    PROTEIN KINASE, CELL CYCLE, INHIBITION, TRANSFERASE                   
 EXPDTA    X-RAY DIFFRACTION                                                     
 AUTHOR    M.IKUTA                                                               
-REVDAT   3   10-NOV-21 2DS1    1       COMPND REMARK SEQADV HETNAM              
-REVDAT   3 2                   1       HETSYN                                   
 REVDAT   2   24-FEB-09 2DS1    1       VERSN                                    
 REVDAT   1   19-JUN-07 2DS1    0                                                
-JRNL        AUTH   N.KAWANISHI,T.SUGIMOTO,J.SHIBATA,K.NAKAMURA,K.MASUTANI,      
-JRNL        AUTH 2 M.IKUTA,H.HIRAI                                              
-JRNL        TITL   STRUCTURE-BASED DRUG DESIGN OF A HIGHLY POTENT CDK1,2,4,6    
-JRNL        TITL 2 INHIBITOR WITH NOVEL MACROCYCLIC QUINOXALIN-2-ONE STRUCTURE  
+JRNL        AUTH   N.KAWANISHI,T.SUGIMOTO,J.SHIBATA,K.NAKAMURA,                 
+JRNL        AUTH 2 K.MASUTANI,M.IKUTA,H.HIRAI                                   
+JRNL        TITL   STRUCTURE-BASED DRUG DESIGN OF A HIGHLY POTENT               
+JRNL        TITL 2 CDK1,2,4,6 INHIBITOR WITH NOVEL MACROCYCLIC                  
+JRNL        TITL 3 QUINOXALIN-2-ONE STRUCTURE                                   
 JRNL        REF    BIOORG.MED.CHEM.LETT.         V.  16  5122 2006              
 JRNL        REFN                   ISSN 0960-894X                               
 JRNL        PMID   16876403                                                     
 JRNL        DOI    10.1016/J.BMCL.2006.07.026                                   
+REMARK   1                                                                      
 REMARK   2                                                                      
 REMARK   2 RESOLUTION.    2.00 ANGSTROMS.                                       
 REMARK   3                                                                      
 REMARK   3 REFINEMENT.                                                          
 REMARK   3   PROGRAM     : CNS                                                  
 REMARK   3   AUTHORS     : BRUNGER,ADAMS,CLORE,DELANO,GROS,GROSSE-              
-REMARK   3               : KUNSTLEVE,JIANG,KUSZEWSKI,NILGES,PANNU,              
+REMARK   3               : KUNSTLEVE,JIANG,KUSZEWSKI,NILGES, PANNU,             
 REMARK   3               : READ,RICE,SIMONSON,WARREN                            
 REMARK   3                                                                      
 REMARK   3  REFINEMENT TARGET : NULL                                            
@@ -129,10 +130,10 @@ REMARK   3  TOPOLOGY FILE  1   : NULL
 REMARK   3                                                                      
 REMARK   3  OTHER REFINEMENT REMARKS: NULL                                      
 REMARK   4                                                                      
-REMARK   4 2DS1 COMPLIES WITH FORMAT V. 3.30, 13-JUL-11                         
+REMARK   4 2DS1 COMPLIES WITH FORMAT V. 3.15, 01-DEC-08                         
 REMARK 100                                                                      
 REMARK 100 THIS ENTRY HAS BEEN PROCESSED BY PDBJ ON 20-JUN-06.                  
-REMARK 100 THE DEPOSITION ID IS D_1000025774.                                   
+REMARK 100 THE RCSB ID CODE IS RCSB025774.                                      
 REMARK 200                                                                      
 REMARK 200 EXPERIMENTAL DETAILS                                                 
 REMARK 200  EXPERIMENT TYPE                : X-RAY DIFFRACTION                  
@@ -152,7 +153,7 @@ REMARK 200  OPTICS                         : NULL
 REMARK 200                                                                      
 REMARK 200  DETECTOR TYPE                  : IMAGE PLATE                        
 REMARK 200  DETECTOR MANUFACTURER          : RIGAKU RAXIS IV                    
-REMARK 200  INTENSITY-INTEGRATION SOFTWARE : MOSFLM                             
+REMARK 200  INTENSITY-INTEGRATION SOFTWARE : NULL                               
 REMARK 200  DATA SCALING SOFTWARE          : MOSFLM                             
 REMARK 200                                                                      
 REMARK 200  NUMBER OF UNIQUE REFLECTIONS   : 19250                              
@@ -187,8 +188,8 @@ REMARK 280 CRYSTAL
 REMARK 280 SOLVENT CONTENT, VS   (%): 39.26                                     
 REMARK 280 MATTHEWS COEFFICIENT, VM (ANGSTROMS**3/DA): 2.02                     
 REMARK 280                                                                      
-REMARK 280 CRYSTALLIZATION CONDITIONS: 800MM HEPES, PH 7.4, VAPOR DIFFUSION,    
-REMARK 280  HANGING DROP, TEMPERATURE 277K                                      
+REMARK 280 CRYSTALLIZATION CONDITIONS: 800MM HEPES, PH 7.4, VAPOR               
+REMARK 280  DIFFUSION, HANGING DROP, TEMPERATURE 277K                           
 REMARK 290                                                                      
 REMARK 290 CRYSTALLOGRAPHIC SYMMETRY                                            
 REMARK 290 SYMMETRY OPERATORS FOR SPACE GROUP: P 21 21 21                       
@@ -284,15 +285,18 @@ REMARK 800 SITE_DESCRIPTION: BINDING SITE FOR RESIDUE 1CD A 501
 REMARK 900                                                                      
 REMARK 900 RELATED ENTRIES                                                      
 REMARK 900 RELATED ID: 1GIH   RELATED DB: PDB                                   
-REMARK 900 HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE CDK4 INHIBITOR    
+REMARK 900 HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE CDK4              
+REMARK 900 INHIBITOR                                                            
 REMARK 900 RELATED ID: 1GII   RELATED DB: PDB                                   
-REMARK 900 HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE CDK4 INHIBITOR    
+REMARK 900 HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE CDK4              
+REMARK 900 INHIBITOR                                                            
 REMARK 900 RELATED ID: 1GIJ   RELATED DB: PDB                                   
-REMARK 900 HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE CDK4 INHIBITOR    
+REMARK 900 HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE CDK4              
+REMARK 900 INHIBITOR                                                            
 DBREF  2DS1 A    1   298  UNP    P24941   CDK2_HUMAN       1    298             
-SEQADV 2DS1 HIS A   82  UNP  P24941    PHE    82 ENGINEERED MUTATION            
-SEQADV 2DS1 VAL A   83  UNP  P24941    LEU    83 ENGINEERED MUTATION            
-SEQADV 2DS1 THR A   89  UNP  P24941    LYS    89 ENGINEERED MUTATION            
+SEQADV 2DS1 HIS A   82  UNP  P24941    PHE    82 ENGINEERED                     
+SEQADV 2DS1 VAL A   83  UNP  P24941    LEU    83 ENGINEERED                     
+SEQADV 2DS1 THR A   89  UNP  P24941    LYS    89 ENGINEERED                     
 SEQRES   1 A  298  MET GLU ASN PHE GLN LYS VAL GLU LYS ILE GLY GLU GLY          
 SEQRES   2 A  298  THR TYR GLY VAL VAL TYR LYS ALA ARG ASN LYS LEU THR          
 SEQRES   3 A  298  GLY GLU VAL VAL ALA LEU LYS LYS ILE ARG LEU ASP THR          
@@ -319,11 +323,12 @@ SEQRES  23 A  298  GLN ASP VAL THR LYS PRO VAL PRO HIS LEU ARG LEU
 HET    1CD  A 501      30                                                       
 HETNAM     1CD (13R,15S)-13-METHYL-16-OXA-8,9,12,22,24-                         
 HETNAM   2 1CD  PENTAAZAHEXACYCLO[15.6.2.16,9.1,12,15.0,2,7.0,21,               
-HETNAM   3 1CD  25]HEPTACOSA-1(24),2,4,6,17(25 ),18,20-HEPTAENE-23,26-          
+HETNAM   3 1CD  25]HEPTACOSA-1(24),2,4,6,17(25),18,20-HEPTAENE-23,26-           
 HETNAM   4 1CD  DIONE                                                           
-HETSYN     1CD 5H,10H-17,19-(IMINOMETHANO)-4,6:9,12-DIMETHANODIBENZ[B,          
-HETSYN   2 1CD  F][1,4,8,9,12]OXATETRAAZACYCLOPENTADECINE-20,23-DIONE,          
-HETSYN   3 1CD  7,8,11,12- TETRAHYDRO-10-METHYL-,(10R,12S)                      
+HETSYN     1CD 5H,10H-17,19-(IMINOMETHANO)-4,6:9,12-                            
+HETSYN   2 1CD  DIMETHANODIBENZ[B,F][1,4,8,9,                                   
+HETSYN   3 1CD  12]OXATETRAAZACYCLOPENTADECINE-20,23-DIONE,7,8,11,12-           
+HETSYN   4 1CD  TETRAHYDRO-10-METHYL-,(10R,12S)                                 
 FORMUL   2  1CD    C22 H21 N5 O3                                                
 FORMUL   3  HOH   *140(H2 O)                                                    
 HELIX    1   1 PRO A   45  LYS A   56  1                                  12    
@@ -2891,5 +2896,5 @@ CONECT 2359 2355 2357 2360
 CONECT 2360 2359 2362                                                           
 CONECT 2361 2357                                                                
 CONECT 2362 2334 2360                                                           
-MASTER      257    0    1   13    8    0    4    6 2501    1   30   23          
+MASTER      261    0    1   13    8    0    4    6 2501    1   30   23          
 END                                                                             

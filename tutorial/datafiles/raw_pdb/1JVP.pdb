@@ -1,6 +1,6 @@
 HEADER    TRANSFERASE                             31-AUG-01   1JVP              
-TITLE     CRYSTAL STRUCTURE OF HUMAN CDK2 (UNPHOSPHORYLATED) IN COMPLEX WITH    
-TITLE    2 PKF049-365                                                           
+TITLE     CRYSTAL STRUCTURE OF HUMAN CDK2 (UNPHOSPHORYLATED) IN                 
+TITLE    2 COMPLEX WITH PKF049-365                                              
 COMPND    MOL_ID: 1;                                                            
 COMPND   2 MOLECULE: CELL DIVISION PROTEIN KINASE 2;                            
 COMPND   3 CHAIN: P;                                                            
@@ -16,21 +16,20 @@ SOURCE   6 EXPRESSION_SYSTEM_COMMON: FALL ARMYWORM;
 SOURCE   7 EXPRESSION_SYSTEM_TAXID: 7108;                                       
 SOURCE   8 EXPRESSION_SYSTEM_CELL_LINE: H5 (TRICHOPLUSIA NI);                   
 SOURCE   9 EXPRESSION_SYSTEM_VECTOR_TYPE: BACULOVIRUS                           
-KEYWDS    PROTEIN KINASE, CELL DIVISION, CELL CYCLE, ENZYME INHIBITORS, DRUG    
-KEYWDS   2 DESIGN, TRANSFERASE                                                  
+KEYWDS    PROTEIN KINASE, CELL DIVISION, CELL CYCLE, ENZYME                     
+KEYWDS   2 INHIBITORS, DRUG DESIGN, TRANSFERASE                                 
 EXPDTA    X-RAY DIFFRACTION                                                     
 AUTHOR    J.M.RONDEAU                                                           
-REVDAT   3   22-SEP-21 1JVP    1       COMPND REMARK HET    HETNAM              
-REVDAT   3 2                   1       FORMUL ATOM                              
 REVDAT   2   24-FEB-09 1JVP    1       VERSN                                    
 REVDAT   1   21-DEC-01 1JVP    0                                                
 JRNL        AUTH   P.FURET,T.MEYER,A.STRAUSS,S.RACCUGLIA,J.M.RONDEAU            
-JRNL        TITL   STRUCTURE-BASED DESIGN AND PROTEIN X-RAY ANALYSIS OF A       
-JRNL        TITL 2 PROTEIN KINASE INHIBITOR.                                    
+JRNL        TITL   STRUCTURE-BASED DESIGN AND PROTEIN X-RAY ANALYSIS            
+JRNL        TITL 2 OF A PROTEIN KINASE INHIBITOR.                               
 JRNL        REF    BIOORG.MED.CHEM.LETT.         V.  12   221 2002              
 JRNL        REFN                   ISSN 0960-894X                               
 JRNL        PMID   11755359                                                     
 JRNL        DOI    10.1016/S0960-894X(01)00715-6                                
+REMARK   1                                                                      
 REMARK   2                                                                      
 REMARK   2 RESOLUTION.    1.53 ANGSTROMS.                                       
 REMARK   3                                                                      
@@ -69,9 +68,9 @@ REMARK   3   BIN FREE R VALUE TEST SET COUNT     : 503
 REMARK   3   ESTIMATED ERROR OF BIN FREE R VALUE : 0.014                        
 REMARK   3                                                                      
 REMARK   3  NUMBER OF NON-HYDROGEN ATOMS USED IN REFINEMENT.                    
-REMARK   3   PROTEIN ATOMS            : 2265                                    
+REMARK   3   PROTEIN ATOMS            : 2409                                    
 REMARK   3   NUCLEIC ACID ATOMS       : 0                                       
-REMARK   3   HETEROGEN ATOMS          : 18                                      
+REMARK   3   HETEROGEN ATOMS          : 36                                      
 REMARK   3   SOLVENT ATOMS            : 264                                     
 REMARK   3                                                                      
 REMARK   3  B VALUES.                                                           
@@ -96,9 +95,9 @@ REMARK   3   ESD FROM C-V SIGMAA          (A) : 0.20
 REMARK   3                                                                      
 REMARK   3  RMS DEVIATIONS FROM IDEAL VALUES.                                   
 REMARK   3   BOND LENGTHS                 (A) : 0.008                           
-REMARK   3   BOND ANGLES            (DEGREES) : 1.700                           
+REMARK   3   BOND ANGLES            (DEGREES) : 1.70                            
 REMARK   3   DIHEDRAL ANGLES        (DEGREES) : 25.00                           
-REMARK   3   IMPROPER ANGLES        (DEGREES) : 0.690                           
+REMARK   3   IMPROPER ANGLES        (DEGREES) : 0.69                            
 REMARK   3                                                                      
 REMARK   3  ISOTROPIC THERMAL MODEL : RESTRAINED                                
 REMARK   3                                                                      
@@ -121,14 +120,14 @@ REMARK   3  TOPOLOGY FILE  1   : TOPHCSDX.PRO
 REMARK   3  TOPOLOGY FILE  2   : TOPH19.SOL                                     
 REMARK   3  TOPOLOGY FILE  3   : NULL                                           
 REMARK   3                                                                      
-REMARK   3  OTHER REFINEMENT REMARKS: TWO ALTERNATE CONFORMATIONS BUILT FOR     
-REMARK   3  LIGAND AND ALSO FOR KINASE RESIDUES 81 TO 85 WHICH MAKE NON-        
-REMARK   3  BONDED CONTACTS TO THE LIGAND                                       
+REMARK   3  OTHER REFINEMENT REMARKS: TWO ALTERNATE CONFORMATIONS BUILT         
+REMARK   3  FOR LIGAND AND ALSO FOR KINASE RESIDUES 81 TO 85 WHICH MAKE         
+REMARK   3  NON-BONDED CONTACTS TO THE LIGAND                                   
 REMARK   4                                                                      
-REMARK   4 1JVP COMPLIES WITH FORMAT V. 3.30, 13-JUL-11                         
+REMARK   4 1JVP COMPLIES WITH FORMAT V. 3.15, 01-DEC-08                         
 REMARK 100                                                                      
-REMARK 100 THIS ENTRY HAS BEEN PROCESSED BY RCSB ON 17-SEP-01.                  
-REMARK 100 THE DEPOSITION ID IS D_1000014238.                                   
+REMARK 100 THIS ENTRY HAS BEEN PROCESSED BY RCSB ON 19-SEP-01.                  
+REMARK 100 THE RCSB ID CODE IS RCSB014238.                                      
 REMARK 200                                                                      
 REMARK 200 EXPERIMENTAL DETAILS                                                 
 REMARK 200  EXPERIMENT TYPE                : X-RAY DIFFRACTION                  
@@ -143,8 +142,8 @@ REMARK 200  BEAMLINE                       : BM1A
 REMARK 200  X-RAY GENERATOR MODEL          : NULL                               
 REMARK 200  MONOCHROMATIC OR LAUE    (M/L) : M                                  
 REMARK 200  WAVELENGTH OR RANGE        (A) : 0.873                              
-REMARK 200  MONOCHROMATOR                  : SAGITALLY FOCUSED, CHANNEL-CUT     
-REMARK 200                                   SI (111)                           
+REMARK 200  MONOCHROMATOR                  : SAGITALLY FOCUSED, CHANNEL-        
+REMARK 200                                   CUT SI (111)                       
 REMARK 200  OPTICS                         : NULL                               
 REMARK 200                                                                      
 REMARK 200  DETECTOR TYPE                  : IMAGE PLATE                        
@@ -279,7 +278,6 @@ REMARK 500
 REMARK 500  M RES CSSEQI        PSI       PHI                                   
 REMARK 500    ARG P 126      -21.84     82.69                                   
 REMARK 500    TYR P 179       71.69   -110.95                                   
-REMARK 500    PRO P 254       50.04   -102.22                                   
 REMARK 500                                                                      
 REMARK 500 REMARK: NULL                                                         
 REMARK 600                                                                      
@@ -292,7 +290,7 @@ REMARK 800
 REMARK 800 SITE                                                                 
 REMARK 800 SITE_IDENTIFIER: AC1                                                 
 REMARK 800 EVIDENCE_CODE: SOFTWARE                                              
-REMARK 800 SITE_DESCRIPTION: BINDING SITE FOR RESIDUE 89E P 301                 
+REMARK 800 SITE_DESCRIPTION: BINDING SITE FOR RESIDUE LIG P 301                 
 DBREF  1JVP P    1   298  UNP    P24941   CDK2_HUMAN       1    298             
 SEQRES   1 P  298  MET GLU ASN PHE GLN LYS VAL GLU LYS ILE GLY GLU GLY          
 SEQRES   2 P  298  THR TYR GLY VAL VAL TYR LYS ALA ARG ASN LYS LEU THR          
@@ -317,9 +315,9 @@ SEQRES  20 P  298  PHE SER LYS VAL VAL PRO PRO LEU ASP GLU ASP GLY ARG
 SEQRES  21 P  298  SER LEU LEU SER GLN MET LEU HIS TYR ASP PRO ASN LYS          
 SEQRES  22 P  298  ARG ILE SER ALA LYS ALA ALA LEU ALA HIS PRO PHE PHE          
 SEQRES  23 P  298  GLN ASP VAL THR LYS PRO VAL PRO HIS LEU ARG LEU              
-HET    89E  P 301      36                                                       
-HETNAM     89E 3-PYRIDIN-4-YL-2,4-DIHYDROINDENO[1,2-C]PYRAZOLE                  
-FORMUL   2  89E    C15 H11 N3                                                   
+HET    LIG  P 301      36                                                       
+HETNAM     LIG 3-PYRIDIN-4-YL-2,4-DIHYDRO-INDENO[1,2-.C.]PYRAZOLE               
+FORMUL   2  LIG    C15 H11 N3                                                   
 FORMUL   3  HOH   *264(H2 O)                                                    
 HELIX    1   1 PRO P   45  LYS P   56  1                                  12    
 HELIX    2   2 LEU P   87  SER P   94  1                                   8    
@@ -342,7 +340,6 @@ SHEET    5   A 5 LEU P  66  THR P  72 -1  N  ASP P  68   O  VAL P  79
 SHEET    1   B 3 GLN P  85  ASP P  86  0                                        
 SHEET    2   B 3 LEU P 133  ILE P 135 -1  O  ILE P 135   N  GLN P  85           
 SHEET    3   B 3 ILE P 141  LEU P 143 -1  O  LYS P 142   N  LEU P 134           
-CISPEP   1 PRO P  253    PRO P  254          0        -0.03                     
 SITE     1 AC1 11 ILE P  10  ALA P  31  PHE P  80  GLU P  81                    
 SITE     2 AC1 11 PHE P  82  LEU P  83  HIS P  84  GLN P  85                    
 SITE     3 AC1 11 LEU P 134  ASP P 145  HOH P 556                               
@@ -2763,42 +2760,42 @@ ATOM   2407  CD1 LEU P 298      12.575  31.623   2.717  1.00 56.03           C
 ATOM   2408  CD2 LEU P 298      12.019  30.498   4.888  1.00 54.12           C  
 ATOM   2409  OXT LEU P 298      13.736  27.719   0.438  1.00 59.17           O  
 TER    2410      LEU P 298                                                      
-HETATM 2411  N1 189E P 301       1.803  32.306   7.312  0.50 18.51           N  
-HETATM 2412  N1 289E P 301       2.992  30.799   6.763  0.50 18.83           N  
-HETATM 2413  N3 189E P 301       0.645  32.788   7.881  0.50 18.68           N  
-HETATM 2414  N3 289E P 301       1.936  31.573   7.179  0.50 18.86           N  
-HETATM 2415  C4 189E P 301       0.168  31.899   8.610  0.50 18.69           C  
-HETATM 2416  C4 289E P 301       1.287  30.924   8.019  0.50 20.19           C  
-HETATM 2417  C5 189E P 301       0.864  30.842   8.618  0.50 18.69           C  
-HETATM 2418  C5 289E P 301       1.769  29.776   8.238  0.50 19.63           C  
-HETATM 2419  C6 189E P 301       1.907  31.064   7.816  0.50 18.90           C  
-HETATM 2420  C6 289E P 301       2.850  29.664   7.465  0.50 19.40           C  
-HETATM 2421  C7 189E P 301       3.017  30.083   7.516  0.50 17.88           C  
-HETATM 2422  C7 289E P 301       3.771  28.464   7.383  0.50 20.86           C  
-HETATM 2423  C8 189E P 301       3.044  28.832   8.130  0.50 18.50           C  
-HETATM 2424  C8 289E P 301       3.536  27.328   8.158  0.50 21.36           C  
-HETATM 2425  C10189E P 301       4.086  27.947   7.838  0.50 18.58           C  
-HETATM 2426  C10289E P 301       4.403  26.237   8.052  0.50 21.99           C  
-HETATM 2427  N12189E P 301       5.063  28.293   6.965  0.50 19.71           N  
-HETATM 2428  N12289E P 301       5.463  26.274   7.210  0.50 21.70           N  
-HETATM 2429  C13189E P 301       5.055  29.504   6.364  0.50 17.07           C  
-HETATM 2430  C13289E P 301       5.711  27.370   6.455  0.50 20.81           C  
-HETATM 2431  C15189E P 301       4.034  30.422   6.625  0.50 18.55           C  
-HETATM 2432  C15289E P 301       4.872  28.485   6.524  0.50 21.36           C  
-HETATM 2433  C17189E P 301       0.318  29.709   9.502  0.50 18.22           C  
-HETATM 2434  C17289E P 301       0.996  28.931   9.265  0.50 19.34           C  
-HETATM 2435  C20189E P 301      -0.973  30.537  10.007  0.50 17.87           C  
-HETATM 2436  C20289E P 301      -0.124  30.058   9.556  0.50 19.74           C  
-HETATM 2437  C21189E P 301      -1.023  31.810   9.468  0.50 19.02           C  
-HETATM 2438  C21289E P 301       0.080  31.205   8.807  0.50 20.31           C  
-HETATM 2439  C22189E P 301      -2.032  32.727   9.739  0.50 19.07           C  
-HETATM 2440  C22289E P 301      -0.735  32.325   8.868  0.50 20.88           C  
-HETATM 2441  C24189E P 301      -3.039  32.304  10.624  0.50 18.50           C  
-HETATM 2442  C24289E P 301      -1.828  32.254   9.750  0.50 21.67           C  
-HETATM 2443  C26189E P 301      -3.006  31.007  11.187  0.50 17.68           C  
-HETATM 2444  C26289E P 301      -2.057  31.090  10.522  0.50 20.12           C  
-HETATM 2445  C28189E P 301      -1.967  30.105  10.882  0.50 17.42           C  
-HETATM 2446  C28289E P 301      -1.202  29.974  10.432  0.50 19.68           C  
+HETATM 2411  N1 1LIG P 301       1.803  32.306   7.312  0.50 18.51           N  
+HETATM 2412  N1 2LIG P 301       2.992  30.799   6.763  0.50 18.83           N  
+HETATM 2413  N3 1LIG P 301       0.645  32.788   7.881  0.50 18.68           N  
+HETATM 2414  N3 2LIG P 301       1.936  31.573   7.179  0.50 18.86           N  
+HETATM 2415  C4 1LIG P 301       0.168  31.899   8.610  0.50 18.69           C  
+HETATM 2416  C4 2LIG P 301       1.287  30.924   8.019  0.50 20.19           C  
+HETATM 2417  C5 1LIG P 301       0.864  30.842   8.618  0.50 18.69           C  
+HETATM 2418  C5 2LIG P 301       1.769  29.776   8.238  0.50 19.63           C  
+HETATM 2419  C6 1LIG P 301       1.907  31.064   7.816  0.50 18.90           C  
+HETATM 2420  C6 2LIG P 301       2.850  29.664   7.465  0.50 19.40           C  
+HETATM 2421  C7 1LIG P 301       3.017  30.083   7.516  0.50 17.88           C  
+HETATM 2422  C7 2LIG P 301       3.771  28.464   7.383  0.50 20.86           C  
+HETATM 2423  C8 1LIG P 301       3.044  28.832   8.130  0.50 18.50           C  
+HETATM 2424  C8 2LIG P 301       3.536  27.328   8.158  0.50 21.36           C  
+HETATM 2425  C101LIG P 301       4.086  27.947   7.838  0.50 18.58           C  
+HETATM 2426  C102LIG P 301       4.403  26.237   8.052  0.50 21.99           C  
+HETATM 2427  N121LIG P 301       5.063  28.293   6.965  0.50 19.71           N  
+HETATM 2428  N122LIG P 301       5.463  26.274   7.210  0.50 21.70           N  
+HETATM 2429  C131LIG P 301       5.055  29.504   6.364  0.50 17.07           C  
+HETATM 2430  C132LIG P 301       5.711  27.370   6.455  0.50 20.81           C  
+HETATM 2431  C151LIG P 301       4.034  30.422   6.625  0.50 18.55           C  
+HETATM 2432  C152LIG P 301       4.872  28.485   6.524  0.50 21.36           C  
+HETATM 2433  C171LIG P 301       0.318  29.709   9.502  0.50 18.22           C  
+HETATM 2434  C172LIG P 301       0.996  28.931   9.265  0.50 19.34           C  
+HETATM 2435  C201LIG P 301      -0.973  30.537  10.007  0.50 17.87           C  
+HETATM 2436  C202LIG P 301      -0.124  30.058   9.556  0.50 19.74           C  
+HETATM 2437  C211LIG P 301      -1.023  31.810   9.468  0.50 19.02           C  
+HETATM 2438  C212LIG P 301       0.080  31.205   8.807  0.50 20.31           C  
+HETATM 2439  C221LIG P 301      -2.032  32.727   9.739  0.50 19.07           C  
+HETATM 2440  C222LIG P 301      -0.735  32.325   8.868  0.50 20.88           C  
+HETATM 2441  C241LIG P 301      -3.039  32.304  10.624  0.50 18.50           C  
+HETATM 2442  C242LIG P 301      -1.828  32.254   9.750  0.50 21.67           C  
+HETATM 2443  C261LIG P 301      -3.006  31.007  11.187  0.50 17.68           C  
+HETATM 2444  C262LIG P 301      -2.057  31.090  10.522  0.50 20.12           C  
+HETATM 2445  C281LIG P 301      -1.967  30.105  10.882  0.50 17.42           C  
+HETATM 2446  C282LIG P 301      -1.202  29.974  10.432  0.50 19.68           C  
 HETATM 2447  O   HOH P 302      -1.542  28.740  28.799  1.00  8.46           O  
 HETATM 2448  O   HOH P 303      -1.219  30.793  25.364  1.00  8.71           O  
 HETATM 2449  O   HOH P 304      13.084  35.828  11.846  1.00  9.17           O  
@@ -3099,5 +3096,5 @@ CONECT 2443 2441 2445
 CONECT 2444 2442 2446                                                           
 CONECT 2445 2435 2443                                                           
 CONECT 2446 2436 2444                                                           
-MASTER      262    0    1   13    8    0    3    6 2547    1   36   23          
+MASTER      262    0    1   13    8    0    3    6 2709    1   36   23          
 END                                                                             

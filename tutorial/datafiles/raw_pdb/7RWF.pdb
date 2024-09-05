@@ -18,12 +18,18 @@ KEYWDS    SERINE/THREONINE-PROTEIN KINASE DNA REPAIR MEIOSIS ALLOSTERIC
 KEYWDS   2 INHIBITOR DRUG DEVELOPMENT, CELL CYCLE                               
 EXPDTA    X-RAY DIFFRACTION                                                     
 AUTHOR    L.SUN,E.SCHONBRUNN                                                    
+REVDAT   2   14-JUN-23 7RWF    1       JRNL                                     
 REVDAT   1   24-AUG-22 7RWF    0                                                
-JRNL        AUTH   L.SUN,E.SCHONBRUNN                                           
-JRNL        TITL   DEVELOPMENT OF SELECTIVE TIGHT-BINDING ALLOSTERIC INHIBITORS 
-JRNL        TITL 2 OF CYCLIN-DEPENDENT KINASE 2(CDK2)                           
-JRNL        REF    TO BE PUBLISHED                                              
-JRNL        REFN                                                                
+JRNL        AUTH   E.B.FABER,L.SUN,J.TANG,E.ROBERTS,S.GANESHKUMAR,N.WANG,       
+JRNL        AUTH 2 D.RASMUSSEN,A.MAJUMDAR,L.E.HIRSCH,K.JOHN,A.YANG,H.KHALID,    
+JRNL        AUTH 3 J.E.HAWKINSON,N.M.LEVINSON,V.CHENNATHUKUZHI,D.A.HARKI,       
+JRNL        AUTH 4 E.SCHONBRUNN,G.I.GEORG                                       
+JRNL        TITL   DEVELOPMENT OF ALLOSTERIC AND SELECTIVE CDK2 INHIBITORS FOR  
+JRNL        TITL 2 CONTRACEPTION WITH NEGATIVE COOPERATIVITY TO CYCLIN BINDING. 
+JRNL        REF    NAT COMMUN                    V.  14  3213 2023              
+JRNL        REFN                   ESSN 2041-1723                               
+JRNL        PMID   37270540                                                     
+JRNL        DOI    10.1038/S41467-023-38732-X                                   
 REMARK   2                                                                      
 REMARK   2 RESOLUTION.    1.50 ANGSTROMS.                                       
 REMARK   3                                                                      

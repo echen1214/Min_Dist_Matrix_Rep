@@ -1,5 +1,6 @@
 HEADER    TRANSFERASE                             06-FEB-01   1GII              
-TITLE     HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE CDK4 INHIBITOR     
+TITLE     HUMAN CYCLIN DEPENDENT KINASE 2 COMPLEXED WITH THE CDK4               
+TITLE    2 INHIBITOR                                                            
 COMPND    MOL_ID: 1;                                                            
 COMPND   2 MOLECULE: CELL DIVISION PROTEIN KINASE 2;                            
 COMPND   3 CHAIN: A;                                                            
@@ -17,19 +18,19 @@ SOURCE   7 EXPRESSION_SYSTEM_TAXID: 7108
 KEYWDS    PROTEIN KINASE, CELL CYCLE, INHIBITION, TRANSFERASE                   
 EXPDTA    X-RAY DIFFRACTION                                                     
 AUTHOR    M.IKUTA,S.NISHIMURA                                                   
-REVDAT   4   27-OCT-21 1GII    1       REMARK SEQADV                            
 REVDAT   3   24-FEB-09 1GII    1       VERSN                                    
 REVDAT   2   06-NOV-02 1GII    1       JRNL                                     
 REVDAT   1   06-FEB-02 1GII    0                                                
-JRNL        AUTH   M.IKUTA,K.KAMATA,K.FUKASAWA,T.HONMA,T.MACHIDA,H.HIRAI,       
-JRNL        AUTH 2 I.SUZUKI-TAKAHASHI,T.HAYAMA,S.NISHIMURA                      
+JRNL        AUTH   M.IKUTA,K.KAMATA,K.FUKASAWA,T.HONMA,T.MACHIDA,               
+JRNL        AUTH 2 H.HIRAI,I.SUZUKI-TAKAHASHI,T.HAYAMA,S.NISHIMURA              
 JRNL        TITL   CRYSTALLOGRAPHIC APPROACH TO IDENTIFICATION OF               
-JRNL        TITL 2 CYCLIN-DEPENDENT KINASE 4 (CDK4)-SPECIFIC INHIBITORS BY      
-JRNL        TITL 3 USING CDK4 MIMIC CDK2 PROTEIN.                               
+JRNL        TITL 2 CYCLIN-DEPENDENT KINASE 4 (CDK4)-SPECIFIC                    
+JRNL        TITL 3 INHIBITORS BY USING CDK4 MIMIC CDK2 PROTEIN.                 
 JRNL        REF    J.BIOL.CHEM.                  V. 276 27548 2001              
 JRNL        REFN                   ISSN 0021-9258                               
 JRNL        PMID   11335721                                                     
 JRNL        DOI    10.1074/JBC.M102060200                                       
+REMARK   1                                                                      
 REMARK   2                                                                      
 REMARK   2 RESOLUTION.    2.00 ANGSTROMS.                                       
 REMARK   3                                                                      
@@ -118,10 +119,10 @@ REMARK   3  TOPOLOGY FILE  1   : NULL
 REMARK   3                                                                      
 REMARK   3  OTHER REFINEMENT REMARKS: NULL                                      
 REMARK   4                                                                      
-REMARK   4 1GII COMPLIES WITH FORMAT V. 3.30, 13-JUL-11                         
+REMARK   4 1GII COMPLIES WITH FORMAT V. 3.15, 01-DEC-08                         
 REMARK 100                                                                      
 REMARK 100 THIS ENTRY HAS BEEN PROCESSED BY RCSB ON 14-FEB-01.                  
-REMARK 100 THE DEPOSITION ID IS D_1000001553.                                   
+REMARK 100 THE RCSB ID CODE IS RCSB001553.                                      
 REMARK 200                                                                      
 REMARK 200 EXPERIMENTAL DETAILS                                                 
 REMARK 200  EXPERIMENT TYPE                : X-RAY DIFFRACTION                  
@@ -141,7 +142,7 @@ REMARK 200  OPTICS                         : NULL
 REMARK 200                                                                      
 REMARK 200  DETECTOR TYPE                  : IMAGE PLATE                        
 REMARK 200  DETECTOR MANUFACTURER          : NULL                               
-REMARK 200  INTENSITY-INTEGRATION SOFTWARE : DENZO, CCP4                        
+REMARK 200  INTENSITY-INTEGRATION SOFTWARE : DENZO                              
 REMARK 200  DATA SCALING SOFTWARE          : CCP4                               
 REMARK 200                                                                      
 REMARK 200  NUMBER OF UNIQUE REFLECTIONS   : 19273                              
@@ -176,8 +177,8 @@ REMARK 280 CRYSTAL
 REMARK 280 SOLVENT CONTENT, VS   (%): 42.19                                     
 REMARK 280 MATTHEWS COEFFICIENT, VM (ANGSTROMS**3/DA): 2.13                     
 REMARK 280                                                                      
-REMARK 280 CRYSTALLIZATION CONDITIONS: HEPES, SODIUM CHLORIDE, PH 7.2, VAPOR    
-REMARK 280  DIFFUSION, HANGING DROP, TEMPERATURE 278K                           
+REMARK 280 CRYSTALLIZATION CONDITIONS: HEPES, SODIUM CHLORIDE, PH 7.2,          
+REMARK 280  VAPOR DIFFUSION, HANGING DROP, TEMPERATURE 278K                     
 REMARK 290                                                                      
 REMARK 290 CRYSTALLOGRAPHIC SYMMETRY                                            
 REMARK 290 SYMMETRY OPERATORS FOR SPACE GROUP: P 21 21 21                       
@@ -312,9 +313,9 @@ REMARK 900 1GIH CONTAINS THE WILD TYPE PROTEIN, WITH LIGAND
 REMARK 900 RELATED ID: 1GIJ   RELATED DB: PDB                                   
 REMARK 900 1GIJ CONTAINS THE SAME MUTANT PROTEIN, WITH LIGAND                   
 DBREF  1GII A    1   298  UNP    P24941   CDK2_HUMAN       1    298             
-SEQADV 1GII HIS A   82  UNP  P24941    PHE    82 ENGINEERED MUTATION            
-SEQADV 1GII VAL A   83  UNP  P24941    LEU    83 ENGINEERED MUTATION            
-SEQADV 1GII THR A   89  UNP  P24941    LYS    89 ENGINEERED MUTATION            
+SEQADV 1GII HIS A   82  UNP  P24941    PHE    82 ENGINEERED                     
+SEQADV 1GII VAL A   83  UNP  P24941    LEU    83 ENGINEERED                     
+SEQADV 1GII THR A   89  UNP  P24941    LYS    89 ENGINEERED                     
 SEQRES   1 A  298  MET GLU ASN PHE GLN LYS VAL GLU LYS ILE GLY GLU GLY          
 SEQRES   2 A  298  THR TYR GLY VAL VAL TYR LYS ALA ARG ASN LYS LEU THR          
 SEQRES   3 A  298  GLY GLU VAL VAL ALA LEU LYS LYS ILE ARG LEU ASP THR          
@@ -339,10 +340,10 @@ SEQRES  21 A  298  SER LEU LEU SER GLN MET LEU HIS TYR ASP PRO ASN LYS
 SEQRES  22 A  298  ARG ILE SER ALA LYS ALA ALA LEU ALA HIS PRO PHE PHE          
 SEQRES  23 A  298  GLN ASP VAL THR LYS PRO VAL PRO HIS LEU ARG LEU              
 HET    1PU  A 501      23                                                       
-HETNAM     1PU 1-(5-OXO-2,3,5,9B-TETRAHYDRO-1H-PYRROLO[2,1-A]ISOINDOL-          
-HETNAM   2 1PU  9-YL)-3-PYRIDIN-2-YL-UREA                                       
-HETSYN     1PU N'-(PYRROLIDINO[2,1-B]ISOINDOLIN-4-ON-8-YL)-N-(PYRIDIN-          
-HETSYN   2 1PU  2-YL)UREA                                                       
+HETNAM     1PU 1-(5-OXO-2,3,5,9B-TETRAHYDRO-1H-PYRROLO[2,1-                     
+HETNAM   2 1PU  A]ISOINDOL-9-YL)-3-PYRIDIN-2-YL-UREA                            
+HETSYN     1PU N'-(PYRROLIDINO[2,1-B]ISOINDOLIN-4-ON-8-YL)-N-                   
+HETSYN   2 1PU  (PYRIDIN-2-YL)UREA                                              
 FORMUL   2  1PU    C17 H16 N4 O2                                                
 FORMUL   3  HOH   *75(H2 O)                                                     
 HELIX    1   1 PRO A   45  LEU A   58  1                                  14    
@@ -2741,5 +2742,5 @@ CONECT 2263 2261 2265
 CONECT 2264 2262 2266                                                           
 CONECT 2265 2263 2266                                                           
 CONECT 2266 2264 2265                                                           
-MASTER      281    0    1   13    8    0    3    6 2340    1   23   23          
+MASTER      282    0    1   13    8    0    3    6 2340    1   23   23          
 END                                                                             

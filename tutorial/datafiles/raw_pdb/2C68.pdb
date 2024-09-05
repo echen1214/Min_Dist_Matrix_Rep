@@ -21,7 +21,6 @@ KEYWDS   2 CYCLE, MITOSIS, PHOSPHORYLATION, TRIAZOLOPYRIMIDINE INHIBITOR, CELL
 KEYWDS   3 DIVISION, KINASE, POLYMORPHISM, NUCLEOTIDE-BINDING                   
 EXPDTA    X-RAY DIFFRACTION                                                     
 AUTHOR    C.M.RICHARDSON,P.DOKURNO,J.B.MURRAY,A.E.SURGENOR                      
-REVDAT   7   04-MAY-22 2C68    1       COMPND REMARK FORMUL                     
 REVDAT   6   24-APR-19 2C68    1       SOURCE                                   
 REVDAT   5   30-JAN-19 2C68    1       REMARK                                   
 REVDAT   4   14-OCT-15 2C68    1       SOURCE REMARK VERSN  HETSYN              
@@ -670,7 +669,7 @@ HET    CT6  A1297      24
 HETNAM     CT6 (5Z)-5-(3-BROMOCYCLOHEXA-2,5-DIEN-1-YLIDENE)-N-                  
 HETNAM   2 CT6  (PYRIDIN-4-YLMETHYL)-1,5-DIHYDROPYRAZOLO[1,5-                   
 HETNAM   3 CT6  A]PYRIMIDIN-7-AMINE                                             
-FORMUL   2  CT6    C18 H14 BR N5                                                
+FORMUL   2  CT6    C18 H15 BR N5 1+                                             
 FORMUL   3  HOH   *267(H2 O)                                                    
 HELIX    1   1 PRO A   45  LYS A   56  1                                  12    
 HELIX    2   2 LEU A   87  SER A   94  1                                   8    

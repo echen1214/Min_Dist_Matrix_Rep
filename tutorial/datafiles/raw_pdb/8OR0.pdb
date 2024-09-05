@@ -98,13 +98,12 @@ KEYWDS    CAND1, SUBSTRATE RECEPTOR EXCHANGE FACTOR, CULLIN-RING LIGASE, CRL,
 KEYWDS   2 SCF, LIGASE, NEDDYLATION, DCNL1 CO-E3, UBIQUITIN SIGNALING           
 EXPDTA    ELECTRON MICROSCOPY                                                   
 AUTHOR    M.SHAABAN,J.A.CLAPPERTON,S.DING,M.E.MAEOTS,R.I.ENCHEV                 
-REVDAT   2   19-JUL-23 8OR0    1       JRNL                                     
 REVDAT   1   28-JUN-23 8OR0    0                                                
 JRNL        AUTH   M.SHAABAN,J.A.CLAPPERTON,S.DING,S.KUNZELMANN,M.E.MAEOTS,     
 JRNL        AUTH 2 S.L.MASLEN,J.M.SKEHEL,R.I.ENCHEV                             
 JRNL        TITL   STRUCTURAL AND MECHANISTIC INSIGHTS INTO THE CAND1-MEDIATED  
 JRNL        TITL 2 SCF SUBSTRATE RECEPTOR EXCHANGE.                             
-JRNL        REF    MOL.CELL                      V.  83  2332 2023              
+JRNL        REF    MOL.CELL                                   2023              
 JRNL        REFN                   ISSN 1097-2765                               
 JRNL        PMID   37339624                                                     
 JRNL        DOI    10.1016/J.MOLCEL.2023.05.034                                 

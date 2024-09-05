@@ -1,5 +1,6 @@
 HEADER    TRANSFERASE                             29-AUG-07   2R3R              
-TITLE     CRYSTAL STRUCTURE OF CYCLIN-DEPENDENT KINASE 2 WITH INHIBITOR         
+TITLE     CRYSTAL STRUCTURE OF CYCLIN-DEPENDENT KINASE 2 WITH                   
+TITLE    2 INHIBITOR                                                            
 COMPND    MOL_ID: 1;                                                            
 COMPND   2 MOLECULE: CELL DIVISION PROTEIN KINASE 2;                            
 COMPND   3 CHAIN: A;                                                            
@@ -14,31 +15,34 @@ SOURCE   5 GENE: CDK2;
 SOURCE   6 EXPRESSION_SYSTEM: UNIDENTIFIED BACULOVIRUS;                         
 SOURCE   7 EXPRESSION_SYSTEM_TAXID: 10469;                                      
 SOURCE   8 EXPRESSION_SYSTEM_STRAIN: SF9                                        
-KEYWDS    SERINE/THREONINE-PROTEIN KINASE, CELL CYCLE, INHIBITION, CYCLIN-      
-KEYWDS   2 DEPENDENT KINASE, CANCER, ATP-BINDING, CELL DIVISION, MITOSIS,       
-KEYWDS   3 NUCLEOTIDE-BINDING, PHOSPHORYLATION, POLYMORPHISM, TRANSFERASE       
+KEYWDS    SERINE/THREONINE-PROTEIN KINASE, CELL CYCLE, INHIBITION,              
+KEYWDS   2 CYCLIN-DEPENDENT KINASE, CANCER, ATP-BINDING, CELL DIVISION,         
+KEYWDS   3 MITOSIS, NUCLEOTIDE-BINDING, PHOSPHORYLATION, POLYMORPHISM,          
+KEYWDS   4 TRANSFERASE                                                          
 EXPDTA    X-RAY DIFFRACTION                                                     
 AUTHOR    T.O.FISCHMANN,A.W.HRUZA,V.M.MADISON,J.S.DUCA                          
-REVDAT   4   28-JUL-21 2R3R    1       REMARK LINK                              
 REVDAT   3   24-FEB-09 2R3R    1       VERSN                                    
 REVDAT   2   18-MAR-08 2R3R    1       JRNL                                     
 REVDAT   1   22-JAN-08 2R3R    0                                                
-JRNL        AUTH   T.O.FISCHMANN,A.HRUZA,J.S.DUCA,L.RAMANATHAN,T.MAYHOOD,       
-JRNL        AUTH 2 W.T.WINDSOR,H.V.LE,T.J.GUZI,M.P.DWYER,K.PARUCH,R.J.DOLL,     
-JRNL        AUTH 3 E.LEES,D.PARRY,W.SEGHEZZI,V.MADISON                          
-JRNL        TITL   STRUCTURE-GUIDED DISCOVERY OF CYCLIN-DEPENDENT KINASE        
-JRNL        TITL 2 INHIBITORS.                                                  
+JRNL        AUTH   T.O.FISCHMANN,A.HRUZA,J.S.DUCA,L.RAMANATHAN,                 
+JRNL        AUTH 2 T.MAYHOOD,W.T.WINDSOR,H.V.LE,T.J.GUZI,M.P.DWYER,             
+JRNL        AUTH 3 K.PARUCH,R.J.DOLL,E.LEES,D.PARRY,W.SEGHEZZI,                 
+JRNL        AUTH 4 V.MADISON                                                    
+JRNL        TITL   STRUCTURE-GUIDED DISCOVERY OF CYCLIN-DEPENDENT               
+JRNL        TITL 2 KINASE INHIBITORS.                                           
 JRNL        REF    BIOPOLYMERS                   V.  89   372 2008              
 JRNL        REFN                   ISSN 0006-3525                               
 JRNL        PMID   17937404                                                     
 JRNL        DOI    10.1002/BIP.20868                                            
 REMARK   1                                                                      
 REMARK   1 REFERENCE 1                                                          
-REMARK   1  AUTH   M.P.DWYER,K.PARUCH,C.ALVAREZ,R.J.DOLL,K.KEERTIKAR,J.DUCA,    
-REMARK   1  AUTH 2 T.O.FISCHMANN,A.HRUZA,V.MADISON,E.LEES,D.PARRY,W.SEGHEZZI,   
-REMARK   1  AUTH 3 N.SGAMBELLONE,F.SHANAHAN,D.WISWELL,T.J.GUZI                  
-REMARK   1  TITL   VERSATILE TEMPLATES FOR THE DEVELOPMENT OF NOVEL KINASE      
-REMARK   1  TITL 2 INHIBITORS: DISCOVERY OF NOVEL CDK INHIBITORS.               
+REMARK   1  AUTH   M.P.DWYER,K.PARUCH,C.ALVAREZ,R.J.DOLL,K.KEERTIKAR,           
+REMARK   1  AUTH 2 J.DUCA,T.O.FISCHMANN,A.HRUZA,V.MADISON,E.LEES,               
+REMARK   1  AUTH 3 D.PARRY,W.SEGHEZZI,N.SGAMBELLONE,F.SHANAHAN,                 
+REMARK   1  AUTH 4 D.WISWELL,T.J.GUZI                                           
+REMARK   1  TITL   VERSATILE TEMPLATES FOR THE DEVELOPMENT OF NOVEL             
+REMARK   1  TITL 2 KINASE INHIBITORS: DISCOVERY OF NOVEL CDK                    
+REMARK   1  TITL 3 INHIBITORS.                                                  
 REMARK   1  REF    BIOORG.MED.CHEM.LETT.         V.  17  6216 2007              
 REMARK   1  REFN                   ISSN 0960-894X                               
 REMARK   1  PMID   17904366                                                     
@@ -48,26 +52,24 @@ REMARK   2 RESOLUTION.    1.47 ANGSTROMS.
 REMARK   3                                                                      
 REMARK   3 REFINEMENT.                                                          
 REMARK   3   PROGRAM     : BUSTER-TNT                                           
-REMARK   3   AUTHORS     : BRICOGNE,BLANC,BRANDL,FLENSBURG,KELLER,              
-REMARK   3               : PACIOREK,ROVERSI,SMART,VONRHEIN,WOMACK,              
-REMARK   3               : MATTHEWS,TEN EYCK,TRONRUD                            
+REMARK   3   AUTHORS     : BLANC,ROVERSI,VONRHEIN,BRICOGNE,TRONRUD,             
+REMARK   3               : TEN EYCK,MATTHEWS                                    
 REMARK   3                                                                      
 REMARK   3  DATA USED IN REFINEMENT.                                            
 REMARK   3   RESOLUTION RANGE HIGH (ANGSTROMS) : 1.47                           
 REMARK   3   RESOLUTION RANGE LOW  (ANGSTROMS) : 42.70                          
 REMARK   3   DATA CUTOFF            (SIGMA(F)) : 0.000                          
-REMARK   3   COMPLETENESS FOR RANGE        (%) : 99.6                           
+REMARK   3   COMPLETENESS FOR RANGE        (%) : 1.0                            
 REMARK   3   NUMBER OF REFLECTIONS             : 46839                          
 REMARK   3                                                                      
-REMARK   3  FIT TO DATA USED IN REFINEMENT.                                     
-REMARK   3   CROSS-VALIDATION METHOD           : THROUGHOUT                     
-REMARK   3   FREE R VALUE TEST SET SELECTION   : RANDOM                         
-REMARK   3   R VALUE     (WORKING + TEST SET)  : 0.188                          
-REMARK   3   R VALUE            (WORKING SET)  : 0.187                          
-REMARK   3   FREE R VALUE                      : 0.211                          
-REMARK   3   FREE R VALUE TEST SET SIZE   (%)  : NULL                           
-REMARK   3   FREE R VALUE TEST SET COUNT       : 2388                           
-REMARK   3   ESTIMATED ERROR OF FREE R VALUE   : NULL                           
+REMARK   3  USING DATA ABOVE SIGMA CUTOFF.                                      
+REMARK   3   CROSS-VALIDATION METHOD          : THROUGHOUT                      
+REMARK   3   FREE R VALUE TEST SET SELECTION  : RANDOM                          
+REMARK   3   R VALUE     (WORKING + TEST SET) : 0.188                           
+REMARK   3   R VALUE            (WORKING SET) : 0.187                           
+REMARK   3   FREE R VALUE                     : 0.211                           
+REMARK   3   FREE R VALUE TEST SET SIZE   (%) : NULL                            
+REMARK   3   FREE R VALUE TEST SET COUNT      : 2388                            
 REMARK   3                                                                      
 REMARK   3  FIT IN THE HIGHEST RESOLUTION BIN.                                  
 REMARK   3   TOTAL NUMBER OF BINS USED               : NULL                     
@@ -81,12 +83,12 @@ REMARK   3   BIN R VALUE               (WORKING SET) : NULL
 REMARK   3   BIN FREE R VALUE                        : NULL                     
 REMARK   3   BIN FREE R VALUE TEST SET SIZE      (%) : NULL                     
 REMARK   3   BIN FREE R VALUE TEST SET COUNT         : NULL                     
-REMARK   3   ESTIMATED ERROR OF BIN FREE R VALUE     : NULL                     
+REMARK   3   ESTIMATED ERROR OF FREE R VALUE         : NULL                     
 REMARK   3                                                                      
 REMARK   3  NUMBER OF NON-HYDROGEN ATOMS USED IN REFINEMENT.                    
-REMARK   3   PROTEIN ATOMS            : 2339                                    
+REMARK   3   PROTEIN ATOMS            : 2410                                    
 REMARK   3   NUCLEIC ACID ATOMS       : 0                                       
-REMARK   3   HETEROGEN ATOMS          : 24                                      
+REMARK   3   HETEROGEN ATOMS          : 27                                      
 REMARK   3   SOLVENT ATOMS            : 228                                     
 REMARK   3                                                                      
 REMARK   3  B VALUES.                                                           
@@ -101,52 +103,30 @@ REMARK   3    B13 (A**2) : NULL
 REMARK   3    B23 (A**2) : NULL                                                 
 REMARK   3                                                                      
 REMARK   3  ESTIMATED COORDINATE ERROR.                                         
-REMARK   3   ESD FROM LUZZATI PLOT                    (A) : NULL                
-REMARK   3   DPI (BLOW EQ-10) BASED ON R VALUE        (A) : NULL                
-REMARK   3   DPI (BLOW EQ-9) BASED ON FREE R VALUE    (A) : NULL                
-REMARK   3   DPI (CRUICKSHANK) BASED ON R VALUE       (A) : NULL                
-REMARK   3   DPI (CRUICKSHANK) BASED ON FREE R VALUE  (A) : NULL                
-REMARK   3                                                                      
-REMARK   3   REFERENCES: BLOW, D. (2002) ACTA CRYST D58, 792-797                
-REMARK   3               CRUICKSHANK, D.W.J. (1999) ACTA CRYST D55, 583-601     
+REMARK   3   ESD FROM LUZZATI PLOT        (A) : NULL                            
 REMARK   3                                                                      
 REMARK   3 CORRELATION COEFFICIENTS.                                            
 REMARK   3   CORRELATION COEFFICIENT FO-FC      : NULL                          
 REMARK   3   CORRELATION COEFFICIENT FO-FC FREE : NULL                          
 REMARK   3                                                                      
-REMARK   3   NUMBER OF GEOMETRIC FUNCTION TERMS DEFINED : 15                    
-REMARK   3   TERM                          COUNT    WEIGHT   FUNCTION.          
-REMARK   3    BOND LENGTHS              : NULL   ; NULL   ; NULL                
-REMARK   3    BOND ANGLES               : NULL   ; NULL   ; NULL                
-REMARK   3    TORSION ANGLES            : NULL   ; NULL   ; NULL                
-REMARK   3    TRIGONAL CARBON PLANES    : NULL   ; NULL   ; NULL                
-REMARK   3    GENERAL PLANES            : NULL   ; NULL   ; NULL                
-REMARK   3    ISOTROPIC THERMAL FACTORS : NULL   ; NULL   ; NULL                
-REMARK   3    BAD NON-BONDED CONTACTS   : NULL   ; NULL   ; NULL                
-REMARK   3    IMPROPER TORSIONS         : NULL   ; NULL   ; NULL                
-REMARK   3    PSEUDOROTATION ANGLES     : NULL   ; NULL   ; NULL                
-REMARK   3    CHIRAL IMPROPER TORSION   : NULL   ; NULL   ; NULL                
-REMARK   3    SUM OF OCCUPANCIES        : NULL   ; NULL   ; NULL                
-REMARK   3    UTILITY DISTANCES         : NULL   ; NULL   ; NULL                
-REMARK   3    UTILITY ANGLES            : NULL   ; NULL   ; NULL                
-REMARK   3    UTILITY TORSION           : NULL   ; NULL   ; NULL                
-REMARK   3    IDEAL-DIST CONTACT TERM   : NULL   ; NULL   ; NULL                
+REMARK   3  RMS DEVIATIONS FROM IDEAL VALUES        RMS   WEIGHT   COUNT        
+REMARK   3   BOND LENGTHS                 (A) : NULL   ; NULL  ; NULL           
+REMARK   3   BOND ANGLES            (DEGREES) : NULL   ; NULL  ; NULL           
+REMARK   3   TORSION ANGLES         (DEGREES) : NULL   ; NULL  ; NULL           
+REMARK   3   PSEUDOROTATION ANGLES  (DEGREES) : NULL   ; NULL  ; NULL           
+REMARK   3   TRIGONAL CARBON PLANES       (A) : NULL   ; NULL  ; NULL           
+REMARK   3   GENERAL PLANES               (A) : NULL   ; NULL  ; NULL           
+REMARK   3   ISOTROPIC THERMAL FACTORS (A**2) : NULL   ; NULL  ; NULL           
+REMARK   3   NON-BONDED CONTACTS          (A) : NULL   ; NULL  ; NULL           
 REMARK   3                                                                      
-REMARK   3   RMS DEVIATIONS FROM IDEAL VALUES.                                  
-REMARK   3    BOND LENGTHS                       (A) : NULL                     
-REMARK   3    BOND ANGLES                  (DEGREES) : NULL                     
-REMARK   3    PEPTIDE OMEGA TORSION ANGLES (DEGREES) : NULL                     
-REMARK   3    OTHER TORSION ANGLES         (DEGREES) : NULL                     
-REMARK   3                                                                      
-REMARK   3  TLS DETAILS                                                         
-REMARK   3   NUMBER OF TLS GROUPS  : NULL                                       
+REMARK   3  INCORRECT CHIRAL-CENTERS (COUNT) : NULL                             
 REMARK   3                                                                      
 REMARK   3  OTHER REFINEMENT REMARKS: BUSTER-TNT                                
 REMARK   4                                                                      
-REMARK   4 2R3R COMPLIES WITH FORMAT V. 3.30, 13-JUL-11                         
+REMARK   4 2R3R COMPLIES WITH FORMAT V. 3.15, 01-DEC-08                         
 REMARK 100                                                                      
-REMARK 100 THIS ENTRY HAS BEEN PROCESSED BY RCSB ON 20-SEP-07.                  
-REMARK 100 THE DEPOSITION ID IS D_1000044387.                                   
+REMARK 100 THIS ENTRY HAS BEEN PROCESSED BY RCSB ON 24-SEP-07.                  
+REMARK 100 THE RCSB ID CODE IS RCSB044387.                                      
 REMARK 200                                                                      
 REMARK 200 EXPERIMENTAL DETAILS                                                 
 REMARK 200  EXPERIMENT TYPE                : X-RAY DIFFRACTION                  
@@ -201,9 +181,9 @@ REMARK 280 CRYSTAL
 REMARK 280 SOLVENT CONTENT, VS   (%): 38.91                                     
 REMARK 280 MATTHEWS COEFFICIENT, VM (ANGSTROMS**3/DA): 2.01                     
 REMARK 280                                                                      
-REMARK 280 CRYSTALLIZATION CONDITIONS: 50 MM NA-HEPES PH 7.4, 50 MM AMMONIUM    
-REMARK 280  ACETATE, 8% PEG 4000, 4% GLYCEROL, 1 MM TCEP, VAPOR DIFFUSION,      
-REMARK 280  TEMPERATURE 298K                                                    
+REMARK 280 CRYSTALLIZATION CONDITIONS: 50 MM NA-HEPES PH 7.4, 50 MM             
+REMARK 280  AMMONIUM ACETATE, 8% PEG 4000, 4% GLYCEROL, 1 MM TCEP, VAPOR        
+REMARK 280  DIFFUSION, TEMPERATURE 298K                                         
 REMARK 290                                                                      
 REMARK 290 CRYSTALLOGRAPHIC SYMMETRY                                            
 REMARK 290 SYMMETRY OPERATORS FOR SPACE GROUP: P 21 21 21                       
@@ -273,7 +253,7 @@ REMARK 465     GLU A    42
 REMARK 465     GLY A    43                                                      
 REMARK 470                                                                      
 REMARK 470 MISSING ATOM                                                         
-REMARK 470 THE FOLLOWING RESIDUES HAVE MISSING ATOMS (M=MODEL NUMBER;           
+REMARK 470 THE FOLLOWING RESIDUES HAVE MISSING ATOMS(M=MODEL NUMBER;            
 REMARK 470 RES=RESIDUE NAME; C=CHAIN IDENTIFIER; SSEQ=SEQUENCE NUMBER;          
 REMARK 470 I=INSERTION CODE):                                                   
 REMARK 470   M RES CSSEQI  ATOMS                                                
@@ -297,7 +277,6 @@ REMARK 500  M RES CSSEQI        PSI       PHI
 REMARK 500    LYS A  24       -7.61    -50.89                                   
 REMARK 500    LEU A  25      -77.58   -106.92                                   
 REMARK 500    ARG A 126      -12.52     78.13                                   
-REMARK 500    ARG A 126      -19.72     82.34                                   
 REMARK 500    ASP A 127       46.64   -141.80                                   
 REMARK 500    HIS A 161        1.60     80.15                                   
 REMARK 500    TYR A 179       51.55   -116.75                                   
@@ -376,7 +355,7 @@ SHEET    5   A 5 LEU A  66  THR A  72 -1  N  ILE A  70   O  TYR A  77
 SHEET    1   B 3 GLN A  85  ASP A  86  0                                        
 SHEET    2   B 3 LEU A 133  ILE A 135 -1  O  ILE A 135   N  GLN A  85           
 SHEET    3   B 3 ILE A 141  LEU A 143 -1  O  LYS A 142   N  LEU A 134           
-LINK         C   ACE A   0                 N   MET A   1     1555   1555  1.33  
+LINK         N   MET A   1                 C   ACE A   0     1555   1555  1.33  
 CISPEP   1 PRO A  253    PRO A  254          0         2.56                     
 SITE     1 AC1 11 ILE A  10  VAL A  18  ALA A  31  LYS A  33                    
 SITE     2 AC1 11 PHE A  80  GLU A  81  PHE A  82  LEU A  83                    
@@ -3082,5 +3061,5 @@ CONECT 2435 2434 2436
 CONECT 2436 2435 2437                                                           
 CONECT 2437 2425 2436                                                           
 CONECT 2438 2415                                                                
-MASTER      291    0    2   13    8    0    3    6 2591    1   28   23          
+MASTER      268    0    2   13    8    0    3    6 2665    1   28   23          
 END                                                                             

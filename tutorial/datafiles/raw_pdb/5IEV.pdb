@@ -22,13 +22,12 @@ KEYWDS   5 TUMOR, TRANSFERASE
 EXPDTA    X-RAY DIFFRACTION                                                     
 AUTHOR    P.AYAZ,D.ANDRES,D.A.KWIATKOWSKI,C.KOLBE,P.LIENAU,G.SIEMEISTER,        
 AUTHOR   2 U.LUECKING,C.M.STEGMANN                                              
-REVDAT   5   26-OCT-22 5IEV    1       COMPND SOURCE JRNL   FORMUL              
 REVDAT   4   16-OCT-19 5IEV    1       REMARK                                   
 REVDAT   3   29-JUN-16 5IEV    1       JRNL                                     
 REVDAT   2   04-MAY-16 5IEV    1       JRNL                                     
 REVDAT   1   27-APR-16 5IEV    0                                                
 JRNL        AUTH   P.AYAZ,D.ANDRES,D.A.KWIATKOWSKI,C.C.KOLBE,P.LIENAU,          
-JRNL        AUTH 2 G.SIEMEISTER,U.LUECKING,C.M.STEGMANN                         
+JRNL        AUTH 2 G.SIEMEISTER,U.LUCKING,C.M.STEGMANN                          
 JRNL        TITL   CONFORMATIONAL ADAPTION MAY EXPLAIN THE SLOW DISSOCIATION    
 JRNL        TITL 2 KINETICS OF RONICICLIB (BAY 1000394), A TYPE I CDK INHIBITOR 
 JRNL        TITL 3 WITH KINETIC SELECTIVITY FOR CDK2 AND CDK9.                  
@@ -404,7 +403,7 @@ SEQRES  23 A  298  GLN ASP VAL THR LYS PRO VAL PRO HIS LEU ARG LEU
 HET    R0N  A1001      29                                                       
 HETNAM     R0N RONICICLIB                                                       
 HETSYN     R0N BAY 1000394                                                      
-FORMUL   2  R0N    C18 H21 F3 N4 O3 S                                           
+FORMUL   2  R0N    C18 H23 F3 N4 O3 S                                           
 FORMUL   3  HOH   *154(H2 O)                                                    
 HELIX    1 AA1 PRO A   45  LEU A   58  1                                  14    
 HELIX    2 AA2 LEU A   87  SER A   94  1                                   8    

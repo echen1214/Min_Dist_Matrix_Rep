@@ -21,21 +21,12 @@ SOURCE   9 EXPRESSION_SYSTEM_VECTOR_TYPE: BACULOVIRUS
 KEYWDS    KINASE, TRANSFERASE, TRANSFERASE-TRANSFERASE INHIBITOR COMPLEX        
 EXPDTA    X-RAY DIFFRACTION                                                     
 AUTHOR    J.M.MURRAY                                                            
-REVDAT   2   11-AUG-21 6OQI    1       JRNL                                     
 REVDAT   1   29-JUL-20 6OQI    0                                                
-JRNL        AUTH   S.M.BRONNER,K.A.MERRICK,J.MURRAY,L.SALPHATI,J.G.MOFFAT,      
-JRNL        AUTH 2 J.PANG,C.J.SNEERINGER,N.DOMPE,P.CYR,H.PURKEY,G.L.BOENIG,     
-JRNL        AUTH 3 J.LI,A.KOLESNIKOV,R.LAROUCHE-GAUTHIER,K.W.LAI,X.SHEN,        
-JRNL        AUTH 4 S.AUBERT-NICOL,Y.C.CHEN,J.CHEONG,J.J.CRAWFORD,M.HAFNER,      
-JRNL        AUTH 5 P.HAGHSHENAS,A.JAKALIAN,J.P.LECLERC,N.K.LIM,T.O'BRIEN,       
-JRNL        AUTH 6 E.G.PLISE,H.SHALAN,C.STURINO,J.WAI,Y.XIAO,J.YIN,L.ZHAO,      
-JRNL        AUTH 7 S.GOULD,A.OLIVERO,T.P.HEFFRON                                
+JRNL        AUTH   J.M.MURRAY                                                   
 JRNL        TITL   DESIGN OF A BRAIN-PENETRANT CDK4/6 INHIBITOR FOR             
-JRNL        TITL 2 GLIOBLASTOMA.                                                
-JRNL        REF    BIOORG.MED.CHEM.LETT.         V.  29  2294 2019              
-JRNL        REFN                   ESSN 1464-3405                               
-JRNL        PMID   31307887                                                     
-JRNL        DOI    10.1016/J.BMCL.2019.06.021                                   
+JRNL        TITL 2 GLIOBLASTOMA                                                 
+JRNL        REF    TO BE PUBLISHED                                              
+JRNL        REFN                                                                
 REMARK   2                                                                      
 REMARK   2 RESOLUTION.    2.00 ANGSTROMS.                                       
 REMARK   3                                                                      

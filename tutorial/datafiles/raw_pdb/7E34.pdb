@@ -47,16 +47,13 @@ SOURCE  27 EXPRESSION_SYSTEM_PLASMID: PGEX-6P1
 KEYWDS    TELOMERE, MEIOSIS, KINASE, CELL CYCLE                                 
 EXPDTA    X-RAY DIFFRACTION                                                     
 AUTHOR    Y.CHEN,C.HUANG,J.WU,M.LEI                                             
-REVDAT   2   10-NOV-21 7E34    1       JRNL                                     
 REVDAT   1   14-APR-21 7E34    0                                                
-JRNL        AUTH   Y.CHEN,Y.WANG,J.CHEN,W.ZUO,Y.FAN,S.HUANG,Y.LIU,G.CHEN,Q.LI,  
-JRNL        AUTH 2 J.LI,J.WU,Q.BIAN,C.HUANG,M.LEI                               
-JRNL        TITL   THE SUN1-SPDYA INTERACTION PLAYS AN ESSENTIAL ROLE IN        
-JRNL        TITL 2 MEIOSIS PROPHASE I.                                          
-JRNL        REF    NAT COMMUN                    V.  12  3176 2021              
-JRNL        REFN                   ESSN 2041-1723                               
-JRNL        PMID   34039995                                                     
-JRNL        DOI    10.1038/S41467-021-23550-W                                   
+JRNL        AUTH   Y.CHEN,C.HUANG,J.WU,M.LEI                                    
+JRNL        TITL   THE SUN1-SPEEDY A INTERACTION PLAYS AN ESSENTIAL ROLE IN     
+JRNL        TITL 2 TELOMERE STABILITY AND STRUCTURE AT THE NUCLEAR MEMBRANE     
+JRNL        TITL 3 DURING MEIOSIS                                               
+JRNL        REF    TO BE PUBLISHED                                              
+JRNL        REFN                                                                
 REMARK   2                                                                      
 REMARK   2 RESOLUTION.    3.19 ANGSTROMS.                                       
 REMARK   3                                                                      

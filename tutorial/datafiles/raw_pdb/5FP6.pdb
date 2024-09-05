@@ -1,7 +1,7 @@
 HEADER    TRANSFERASE                             27-NOV-15   5FP6              
-TITLE     STRUCTURE OF CYCLIN-DEPENDENT KINASE 2 WITH SMALL-MOLECULE LIGAND 3-  
-TITLE    2 (4,7-DICHLORO-1H-INDOL-3-YL)PROP-2-YN-1-OL (AT17833) IN AN ALTERNATE 
-TITLE    3 BINDING SITE.                                                        
+TITLE     STRUCTURE OF CYCLIN-DEPENDENT KINASE 2 WITH SMALL-MOLECULE            
+TITLE    2 LIGAND 3-(4,7-DICHLORO-1H-INDOL-3-YL)PROP-2-YN-1-OL (AT17833)        
+TITLE    3 IN AN ALTERNATE BINDING SITE.                                        
 COMPND    MOL_ID: 1;                                                            
 COMPND   2 MOLECULE: CYCLIN-DEPENDENT KINASE 2;                                 
 COMPND   3 CHAIN: A;                                                            
@@ -22,7 +22,6 @@ KEYWDS    TRANSFERASE, KINASE, MITOSIS, CELL CYCLE, FRAGMENT SCREENING,
 KEYWDS   2 ALTERNATE BINDING SITE.                                              
 EXPDTA    X-RAY DIFFRACTION                                                     
 AUTHOR    H.JHOTI,R.F.LUDLOW,M.O'REILLY,H.K.SAINI,I.J.TICKLE,M.VERDONK          
-REVDAT   3   28-APR-21 5FP6    1       REMARK                                   
 REVDAT   2   13-JAN-16 5FP6    1       JRNL                                     
 REVDAT   1   23-DEC-15 5FP6    0                                                
 JRNL        AUTH   R.F.LUDLOW,M.L.VERDONK,H.K.SAINI,I.J.TICKLE,H.JHOTI          
@@ -32,18 +31,17 @@ JRNL        REF    PROC.NATL.ACAD.SCI.USA        V. 112 15910 2015
 JRNL        REFN                   ISSN 0027-8424                               
 JRNL        PMID   26655740                                                     
 JRNL        DOI    10.1073/PNAS.1518946112                                      
-REMARK   1                                                                      
 REMARK   1 REFERENCE 1                                                          
 REMARK   1  AUTH   P.G.WYATT,A.J.WOODHEAD,V.BERDINI,J.A.BOULSTRIDGE,M.G.CARR,   
 REMARK   1  AUTH 2 D.M.CROSS,D.J.DAVIS,L.A.DEVINE,T.R.EARLY,R.E.FELTELL,        
 REMARK   1  AUTH 3 E.J.LEWIS,R.L.MCMENAMIN,E.F.NAVARRO,M.A.O'BRIEN,M.O'REILLY,  
 REMARK   1  AUTH 4 M.REULE,G.SAXTY,L.C.A.SEAVERS,D.SMITH,M.S.SQUIRES,           
 REMARK   1  AUTH 5 G.TREWARTHA,M.T.WALKER,A.J.WOOLFORD                          
-REMARK   1  TITL   IDENTIFICATION OF                                            
-REMARK   1  TITL 2 N-(4-PIPERIDINYL)-4-(2,6-DICHLOROBENZOYLAMINO)               
-REMARK   1  TITL 3 -1H-PYRAZOLE-3-CARBOXAMIDE (AT7519), A NOVEL CYCLIN          
-REMARK   1  TITL 4 DEPENDENT KINASE INHIBITOR USING FRAGMENT-BASED X-RAY        
-REMARK   1  TITL 5 CRYSTALLOGRAPHY AND STRUCTURE BASED DRUG DESIGN.             
+REMARK   1  TITL   IDENTIFICATION OF N-(4-PIPERIDINYL)-4-(2,6-                  
+REMARK   1  TITL 2 DICHLOROBENZOYLAMINO)-1H-PYRAZOLE-3-CARBOXAMIDE (AT7519), A  
+REMARK   1  TITL 3 NOVEL CYCLIN DEPENDENT KINASE INHIBITOR USING FRAGMENT-      
+REMARK   1  TITL 4 BASED X-RAY CRYSTALLOGRAPHY AND STRUCTURE BASED DRUG         
+REMARK   1  TITL 5 DESIGN.                                                      
 REMARK   1  REF    J.MED.CHEM.                   V.  51  4986 2008              
 REMARK   1  REFN                   ISSN 0022-2623                               
 REMARK   1  PMID   18656911                                                     
@@ -54,23 +52,23 @@ REMARK   3
 REMARK   3 REFINEMENT.                                                          
 REMARK   3   PROGRAM     : BUSTER 2.11.6                                        
 REMARK   3   AUTHORS     : BRICOGNE,BLANC,BRANDL,FLENSBURG,KELLER,              
-REMARK   3               : PACIOREK,ROVERSI,SHARFF,SMART,VONRHEIN,              
-REMARK   3               : WOMACK,MATTHEWS,TEN EYCK,TRONRUD                     
+REMARK   3               : PACIOREK,ROVERSI,SHARFF,SMART,VONRHEIN,WOMACK;       
+REMARK   3               : MATTHEWS,TEN EYCK,TRONRUD                            
 REMARK   3                                                                      
 REMARK   3  DATA USED IN REFINEMENT.                                            
 REMARK   3   RESOLUTION RANGE HIGH (ANGSTROMS) : 1.85                           
 REMARK   3   RESOLUTION RANGE LOW  (ANGSTROMS) : 32.29                          
-REMARK   3   DATA CUTOFF            (SIGMA(F)) : 0.000                          
-REMARK   3   COMPLETENESS FOR RANGE        (%) : 94.3                           
+REMARK   3   DATA CUTOFF            (SIGMA(F)) : 0.0                            
+REMARK   3   COMPLETENESS FOR RANGE        (%) : 94.28                          
 REMARK   3   NUMBER OF REFLECTIONS             : 23282                          
 REMARK   3                                                                      
 REMARK   3  FIT TO DATA USED IN REFINEMENT.                                     
 REMARK   3   CROSS-VALIDATION METHOD           : THROUGHOUT                     
 REMARK   3   FREE R VALUE TEST SET SELECTION   : RANDOM                         
-REMARK   3   R VALUE     (WORKING + TEST SET)  : 0.209                          
-REMARK   3   R VALUE            (WORKING SET)  : 0.207                          
-REMARK   3   FREE R VALUE                      : 0.240                          
-REMARK   3   FREE R VALUE TEST SET SIZE   (%)  : 4.910                          
+REMARK   3   R VALUE     (WORKING + TEST SET)  : 0.2086                         
+REMARK   3   R VALUE            (WORKING SET)  : 0.2070                         
+REMARK   3   FREE R VALUE                      : 0.2403                         
+REMARK   3   FREE R VALUE TEST SET SIZE   (%)  : 4.91                           
 REMARK   3   FREE R VALUE TEST SET COUNT       : 1142                           
 REMARK   3   ESTIMATED ERROR OF FREE R VALUE   : NULL                           
 REMARK   3                                                                      
@@ -89,7 +87,7 @@ REMARK   3   BIN FREE R VALUE TEST SET COUNT         : 86
 REMARK   3   ESTIMATED ERROR OF BIN FREE R VALUE     : NULL                     
 REMARK   3                                                                      
 REMARK   3  NUMBER OF NON-HYDROGEN ATOMS USED IN REFINEMENT.                    
-REMARK   3   PROTEIN ATOMS            : 2176                                    
+REMARK   3   PROTEIN ATOMS            : 2177                                    
 REMARK   3   NUCLEIC ACID ATOMS       : 0                                       
 REMARK   3   HETEROGEN ATOMS          : 30                                      
 REMARK   3   SOLVENT ATOMS            : 337                                     
@@ -98,12 +96,12 @@ REMARK   3  B VALUES.
 REMARK   3   FROM WILSON PLOT           (A**2) : 27.83                          
 REMARK   3   MEAN B VALUE      (OVERALL, A**2) : 30.85                          
 REMARK   3   OVERALL ANISOTROPIC B VALUE.                                       
-REMARK   3    B11 (A**2) : 1.91280                                              
-REMARK   3    B22 (A**2) : -4.67950                                             
-REMARK   3    B33 (A**2) : 2.76670                                              
-REMARK   3    B12 (A**2) : 0.00000                                              
-REMARK   3    B13 (A**2) : 0.00000                                              
-REMARK   3    B23 (A**2) : 0.00000                                              
+REMARK   3    B11 (A**2) : 1.9128                                               
+REMARK   3    B22 (A**2) : -4.6795                                              
+REMARK   3    B33 (A**2) : 2.7667                                               
+REMARK   3    B12 (A**2) : 0.0000                                               
+REMARK   3    B13 (A**2) : 0.0000                                               
+REMARK   3    B23 (A**2) : 0.0000                                               
 REMARK   3                                                                      
 REMARK   3  ESTIMATED COORDINATE ERROR.                                         
 REMARK   3   ESD FROM LUZZATI PLOT                    (A) : 0.264               
@@ -115,27 +113,27 @@ REMARK   3
 REMARK   3   REFERENCES: BLOW, D. (2002) ACTA CRYST D58, 792-797                
 REMARK   3               CRUICKSHANK, D.W.J. (1999) ACTA CRYST D55, 583-601     
 REMARK   3                                                                      
-REMARK   3 CORRELATION COEFFICIENTS.                                            
-REMARK   3   CORRELATION COEFFICIENT FO-FC      : 0.940                         
-REMARK   3   CORRELATION COEFFICIENT FO-FC FREE : 0.927                         
+REMARK   3  CORRELATION COEFFICIENTS.                                           
+REMARK   3   CORRELATION COEFFICIENT FO-FC      : 0.9397                        
+REMARK   3   CORRELATION COEFFICIENT FO-FC FREE : 0.9269                        
 REMARK   3                                                                      
 REMARK   3   NUMBER OF GEOMETRIC FUNCTION TERMS DEFINED : 15                    
 REMARK   3   TERM                          COUNT    WEIGHT   FUNCTION.          
-REMARK   3    BOND LENGTHS              : 2279   ; 2.000  ; HARMONIC            
-REMARK   3    BOND ANGLES               : 3109   ; 2.000  ; HARMONIC            
-REMARK   3    TORSION ANGLES            : 747    ; 2.000  ; SINUSOIDAL          
-REMARK   3    TRIGONAL CARBON PLANES    : 44     ; 2.000  ; HARMONIC            
-REMARK   3    GENERAL PLANES            : 342    ; 16.000 ; HARMONIC            
-REMARK   3    ISOTROPIC THERMAL FACTORS : 2279   ; 20.000 ; HARMONIC            
-REMARK   3    BAD NON-BONDED CONTACTS   : NULL   ; NULL   ; NULL                
-REMARK   3    IMPROPER TORSIONS         : NULL   ; NULL   ; NULL                
-REMARK   3    PSEUDOROTATION ANGLES     : NULL   ; NULL   ; NULL                
-REMARK   3    CHIRAL IMPROPER TORSION   : 294    ; 5.000  ; SEMIHARMONIC        
-REMARK   3    SUM OF OCCUPANCIES        : NULL   ; NULL   ; NULL                
-REMARK   3    UTILITY DISTANCES         : NULL   ; NULL   ; NULL                
-REMARK   3    UTILITY ANGLES            : NULL   ; NULL   ; NULL                
-REMARK   3    UTILITY TORSION           : NULL   ; NULL   ; NULL                
-REMARK   3    IDEAL-DIST CONTACT TERM   : 2965   ; 4.000  ; SEMIHARMONIC        
+REMARK   3    BOND LENGTHS              :   2279 ;   2.00 ;  HARMONIC           
+REMARK   3    BOND ANGLES               :   3109 ;   2.00 ;  HARMONIC           
+REMARK   3    TORSION ANGLES            :    747 ;   2.00 ;  SINUSOIDAL         
+REMARK   3    TRIGONAL CARBON PLANES    :     44 ;   2.00 ;  HARMONIC           
+REMARK   3    GENERAL PLANES            :    342 ;  16.00 ;  HARMONIC           
+REMARK   3    ISOTROPIC THERMAL FACTORS :   2279 ;  20.00 ;  HARMONIC           
+REMARK   3    BAD NON-BONDED CONTACTS   :   NULL ;   NULL ;  NULL               
+REMARK   3    IMPROPER TORSIONS         :   NULL ;   NULL ;  NULL               
+REMARK   3    PSEUDOROTATION ANGLES     :   NULL ;   NULL ;  NULL               
+REMARK   3    CHIRAL IMPROPER TORSION   :    294 ;   5.00 ;  SEMIHARMONIC       
+REMARK   3    SUM OF OCCUPANCIES        :   NULL ;   NULL ;  NULL               
+REMARK   3    UTILITY DISTANCES         :   NULL ;   NULL ;  NULL               
+REMARK   3    UTILITY ANGLES            :   NULL ;   NULL ;  NULL               
+REMARK   3    UTILITY TORSION           :   NULL ;   NULL ;  NULL               
+REMARK   3    IDEAL-DIST CONTACT TERM   :   2965 ;   4.00 ;  SEMIHARMONIC       
 REMARK   3                                                                      
 REMARK   3   RMS DEVIATIONS FROM IDEAL VALUES.                                  
 REMARK   3    BOND LENGTHS                       (A) : 0.012                    
@@ -143,11 +141,11 @@ REMARK   3    BOND ANGLES                  (DEGREES) : 0.65
 REMARK   3    PEPTIDE OMEGA TORSION ANGLES (DEGREES) : 5.72                     
 REMARK   3    OTHER TORSION ANGLES         (DEGREES) : 18.51                    
 REMARK   3                                                                      
-REMARK   3  TLS DETAILS                                                         
+REMARK   3  TLS DETAILS.                                                        
 REMARK   3   NUMBER OF TLS GROUPS  : 3                                          
 REMARK   3                                                                      
 REMARK   3   TLS GROUP : 1                                                      
-REMARK   3    SELECTION: { A|1 - A|83 }                                         
+REMARK   3    SELECTION: { A|1  - A|83  }                                       
 REMARK   3    ORIGIN FOR THE GROUP (A):   17.6028    2.1880   64.7304           
 REMARK   3    T TENSOR                                                          
 REMARK   3     T11:   -0.0765 T22:    0.0627                                    
@@ -163,7 +161,7 @@ REMARK   3     S21:   -0.0103 S22:   -0.0099 S23:    0.0406
 REMARK   3     S31:   -0.0024 S32:   -0.0254 S33:    0.0136                     
 REMARK   3                                                                      
 REMARK   3   TLS GROUP : 2                                                      
-REMARK   3    SELECTION: { A|130 - A|164 }                                      
+REMARK   3    SELECTION: { A|130  - A|164  }                                    
 REMARK   3    ORIGIN FOR THE GROUP (A):   31.9230    2.5875   57.7899           
 REMARK   3    T TENSOR                                                          
 REMARK   3     T11:    0.0071 T22:    0.0198                                    
@@ -179,7 +177,7 @@ REMARK   3     S21:    0.0133 S22:   -0.0049 S23:    0.0074
 REMARK   3     S31:   -0.0084 S32:    0.0068 S33:    0.0016                     
 REMARK   3                                                                      
 REMARK   3   TLS GROUP : 3                                                      
-REMARK   3    SELECTION: { A|84 - A|129 A|165 - A|294 }                         
+REMARK   3    SELECTION: { A|84  - A|129  A|165  - A|294  }                     
 REMARK   3    ORIGIN FOR THE GROUP (A):   33.4831    6.6684   41.8204           
 REMARK   3    T TENSOR                                                          
 REMARK   3     T11:   -0.0484 T22:   -0.0213                                    
@@ -195,12 +193,12 @@ REMARK   3     S21:    0.0039 S22:   -0.0137 S23:    0.0096
 REMARK   3     S31:   -0.0522 S32:    0.0531 S33:    0.0058                     
 REMARK   3                                                                      
 REMARK   3  OTHER REFINEMENT REMARKS: IDEAL-DIST CONTACT TERM CONTACT SETUP.    
-REMARK   3  ALL ATOMS HAVE CCP4 ATOM TYPE FROM LIBRARY                          
+REMARK   3    ALL ATOMS HAVE CCP4 ATOM TYPE FROM LIBRARY                        
 REMARK   4                                                                      
 REMARK   4 5FP6 COMPLIES WITH FORMAT V. 3.30, 13-JUL-11                         
 REMARK 100                                                                      
-REMARK 100 THIS ENTRY HAS BEEN PROCESSED BY PDBE ON 27-NOV-15.                  
-REMARK 100 THE DEPOSITION ID IS D_1290065636.                                   
+REMARK 100 THIS ENTRY HAS BEEN PROCESSED BY PDBE ON 12-DEC-15.                  
+REMARK 100 THE PDBE ID CODE IS EBI-65636.                                       
 REMARK 200                                                                      
 REMARK 200 EXPERIMENTAL DETAILS                                                 
 REMARK 200  EXPERIMENT TYPE                : X-RAY DIFFRACTION                  
@@ -219,30 +217,30 @@ REMARK 200  MONOCHROMATOR                  : NULL
 REMARK 200  OPTICS                         : MIRROR                             
 REMARK 200                                                                      
 REMARK 200  DETECTOR TYPE                  : CCD                                
-REMARK 200  DETECTOR MANUFACTURER          : RIGAKU CCD                         
-REMARK 200  INTENSITY-INTEGRATION SOFTWARE : D*TREK 9.7                         
+REMARK 200  DETECTOR MANUFACTURER          : RIGAKU                             
+REMARK 200  INTENSITY-INTEGRATION SOFTWARE : DSTARTREK 9.7                      
 REMARK 200  DATA SCALING SOFTWARE          : DTSCALE                            
 REMARK 200                                                                      
 REMARK 200  NUMBER OF UNIQUE REFLECTIONS   : 24694                              
-REMARK 200  RESOLUTION RANGE HIGH      (A) : 1.850                              
-REMARK 200  RESOLUTION RANGE LOW       (A) : 32.300                             
-REMARK 200  REJECTION CRITERIA  (SIGMA(I)) : -3.700                             
+REMARK 200  RESOLUTION RANGE HIGH      (A) : 1.85                               
+REMARK 200  RESOLUTION RANGE LOW       (A) : 32.30                              
+REMARK 200  REJECTION CRITERIA  (SIGMA(I)) : -3.7                               
 REMARK 200                                                                      
 REMARK 200 OVERALL.                                                             
 REMARK 200  COMPLETENESS FOR RANGE     (%) : 94.3                               
-REMARK 200  DATA REDUNDANCY                : NULL                               
-REMARK 200  R MERGE                    (I) : 0.04000                            
+REMARK 200  DATA REDUNDANCY                : 0                                  
+REMARK 200  R MERGE                    (I) : 0.04                               
 REMARK 200  R SYM                      (I) : NULL                               
-REMARK 200  <I/SIGMA(I)> FOR THE DATA SET  : 13.2000                            
+REMARK 200  <I/SIGMA(I)> FOR THE DATA SET  : 13.20                              
 REMARK 200                                                                      
 REMARK 200 IN THE HIGHEST RESOLUTION SHELL.                                     
 REMARK 200  HIGHEST RESOLUTION SHELL, RANGE HIGH (A) : 1.85                     
 REMARK 200  HIGHEST RESOLUTION SHELL, RANGE LOW  (A) : 1.92                     
 REMARK 200  COMPLETENESS FOR SHELL     (%) : 63.3                               
 REMARK 200  DATA REDUNDANCY IN SHELL       : NULL                               
-REMARK 200  R MERGE FOR SHELL          (I) : 0.22000                            
+REMARK 200  R MERGE FOR SHELL          (I) : 0.22                               
 REMARK 200  R SYM FOR SHELL            (I) : NULL                               
-REMARK 200  <I/SIGMA(I)> FOR SHELL         : 2.000                              
+REMARK 200  <I/SIGMA(I)> FOR SHELL         : 2.00                               
 REMARK 200                                                                      
 REMARK 200 DIFFRACTION PROTOCOL: SINGLE WAVELENGTH                              
 REMARK 200 METHOD USED TO DETERMINE THE STRUCTURE: MOLECULAR REPLACEMENT        
@@ -252,11 +250,11 @@ REMARK 200
 REMARK 200 REMARK: NONE                                                         
 REMARK 280                                                                      
 REMARK 280 CRYSTAL                                                              
-REMARK 280 SOLVENT CONTENT, VS   (%): 45.00                                     
+REMARK 280 SOLVENT CONTENT, VS   (%): 45                                        
 REMARK 280 MATTHEWS COEFFICIENT, VM (ANGSTROMS**3/DA): 2.25                     
 REMARK 280                                                                      
-REMARK 280 CRYSTALLIZATION CONDITIONS: PROTEIN CONCENTRATION: 13.6 MG/ML, PH    
-REMARK 280  7.4                                                                 
+REMARK 280 CRYSTALLIZATION CONDITIONS: PROTEIN CONCENTRATION: 13.6              
+REMARK 280  MG/ML                                                               
 REMARK 290                                                                      
 REMARK 290 CRYSTALLOGRAPHIC SYMMETRY                                            
 REMARK 290 SYMMETRY OPERATORS FOR SPACE GROUP: P 21 21 21                       
@@ -385,76 +383,64 @@ REMARK 500    TYR A 179       53.72   -114.27
 REMARK 500    PRO A 254       35.91    -99.00                                   
 REMARK 500                                                                      
 REMARK 500 REMARK: NULL                                                         
-REMARK 525                                                                      
-REMARK 525 SOLVENT                                                              
-REMARK 525                                                                      
-REMARK 525 THE SOLVENT MOLECULES HAVE CHAIN IDENTIFIERS THAT                    
-REMARK 525 INDICATE THE POLYMER CHAIN WITH WHICH THEY ARE MOST                  
-REMARK 525 CLOSELY ASSOCIATED. THE REMARK LISTS ALL THE SOLVENT                 
-REMARK 525 MOLECULES WHICH ARE MORE THAN 5A AWAY FROM THE                       
-REMARK 525 NEAREST POLYMER CHAIN (M = MODEL NUMBER;                             
-REMARK 525 RES=RESIDUE NAME; C=CHAIN IDENTIFIER; SSEQ=SEQUENCE                  
-REMARK 525 NUMBER; I=INSERTION CODE):                                           
-REMARK 525                                                                      
-REMARK 525  M RES CSSEQI                                                        
-REMARK 525    HOH A2041        DISTANCE =  6.21 ANGSTROMS                       
-REMARK 525    HOH A2105        DISTANCE =  5.91 ANGSTROMS                       
-REMARK 525    HOH A2138        DISTANCE =  5.82 ANGSTROMS                       
-REMARK 525    HOH A2167        DISTANCE =  6.00 ANGSTROMS                       
-REMARK 525    HOH A2336        DISTANCE =  6.90 ANGSTROMS                       
-REMARK 525    HOH A2337        DISTANCE =  6.18 ANGSTROMS                       
 REMARK 600                                                                      
 REMARK 600 HETEROGEN                                                            
-REMARK 600                                                                      
 REMARK 600 3-(4,7-DICHLORO-1H-INDOL-3-YL)PROP-2-YN-1-OL (MFZ): ASTEX            
 REMARK 600  COMPOUND REGISTRY AT17833                                           
 REMARK 800                                                                      
 REMARK 800 SITE                                                                 
 REMARK 800 SITE_IDENTIFIER: AC1                                                 
 REMARK 800 EVIDENCE_CODE: SOFTWARE                                              
-REMARK 800 SITE_DESCRIPTION: BINDING SITE FOR RESIDUE MFZ A 1295                
+REMARK 800 SITE_DESCRIPTION: BINDING SITE FOR RESIDUE MFZ A1295                 
 REMARK 800                                                                      
 REMARK 800 SITE_IDENTIFIER: AC2                                                 
 REMARK 800 EVIDENCE_CODE: SOFTWARE                                              
-REMARK 800 SITE_DESCRIPTION: BINDING SITE FOR RESIDUE MFZ A 1296                
+REMARK 800 SITE_DESCRIPTION: BINDING SITE FOR RESIDUE MFZ A1296                 
 REMARK 900                                                                      
 REMARK 900 RELATED ENTRIES                                                      
 REMARK 900 RELATED ID: 5FP5   RELATED DB: PDB                                   
-REMARK 900 STRUCTURE OF CYCLIN-DEPENDENT KINASE 2 WITH SMALL- MOLECULE LIGAND   
-REMARK 900 4-FLUOROBENZOIC ACID (AT222) IN AN ALTERNATE BINDING SITE.           
+REMARK 900  STRUCTURE OF CYCLIN-DEPENDENT KINASE 2 WITH SMALL-                  
+REMARK 900  MOLECULE LIGAND 4-FLUOROBENZOIC ACID (AT222) IN AN                  
+REMARK 900  ALTERNATE BINDING SITE.                                             
 REMARK 900 RELATED ID: 5FPD   RELATED DB: PDB                                   
-REMARK 900 STRUCTURE OF HEAT SHOCK-RELATED 70KDA PROTEIN 2 WITH SMALL-MOLECULE  
-REMARK 900 LIGAND PYRAZINE-2-CARBOXAMIDE (AT513) IN AN ALTERNATE BINDING SITE.  
+REMARK 900  STRUCTURE OF HEAT SHOCK-RELATED 70KDA PROTEIN 2 WITH                
+REMARK 900  SMALL-MOLECULE LIGAND PYRAZINE-2-CARBOXAMIDE (AT513) IN             
+REMARK 900   AN ALTERNATE BINDING SITE.                                         
 REMARK 900 RELATED ID: 5FPE   RELATED DB: PDB                                   
-REMARK 900 STRUCTURE OF HEAT SHOCK-RELATED 70KDA PROTEIN 2 WITH SMALL-MOLECULE  
-REMARK 900 LIGAND 1H-1,2,4-TRIAZOL-3-AMINE ( AT485) IN AN ALTERNATE BINDING     
-REMARK 900 SITE.                                                                
+REMARK 900  STRUCTURE OF HEAT SHOCK-RELATED 70KDA PROTEIN 2 WITH                
+REMARK 900  SMALL-MOLECULE LIGAND 1H-1,2,4-TRIAZOL-3-AMINE (                    
+REMARK 900  AT485) IN AN ALTERNATE BINDING SITE.                                
 REMARK 900 RELATED ID: 5FPM   RELATED DB: PDB                                   
-REMARK 900 STRUCTURE OF HEAT SHOCK-RELATED 70KDA PROTEIN 2 WITH SMALL-MOLECULE  
-REMARK 900 LIGAND 5-PHENYL-1,3,4-OXADIAZOLE-2- THIOL (AT809) IN AN ALTERNATE    
-REMARK 900 BINDING SITE.                                                        
+REMARK 900  STRUCTURE OF HEAT SHOCK-RELATED 70KDA PROTEIN 2 WITH                
+REMARK 900  SMALL-MOLECULE LIGAND 5-PHENYL-1,3,4-OXADIAZOLE-2-                  
+REMARK 900  THIOL (AT809) IN AN ALTERNATE BINDING SITE.                         
 REMARK 900 RELATED ID: 5FPN   RELATED DB: PDB                                   
-REMARK 900 STRUCTURE OF HEAT SHOCK-RELATED 70KDA PROTEIN 2 WITH SMALL-MOLECULE  
-REMARK 900 LIGAND 3,5-DIMETHYL-1H-PYRAZOLE-4- CARBOXYLIC ACID (AT9084) IN AN    
-REMARK 900 ALTERNATE BINDING SITE.                                              
+REMARK 900  STRUCTURE OF HEAT SHOCK-RELATED 70KDA PROTEIN 2 WITH                
+REMARK 900  SMALL-MOLECULE LIGAND 3,5-DIMETHYL-1H-PYRAZOLE-4-                   
+REMARK 900  CARBOXYLIC ACID (AT9084) IN AN ALTERNATE BINDING SITE.              
 REMARK 900 RELATED ID: 5FPO   RELATED DB: PDB                                   
-REMARK 900 STRUCTURE OF BACTERIAL DNA LIGASE WITH SMALL-MOLECULE LIGAND 1H-     
-REMARK 900 INDAZOL-7-AMINE (AT4213) IN AN ALTERNATE BINDING SITE.               
+REMARK 900  STRUCTURE OF BACTERIAL DNA LIGASE WITH SMALL-MOLECULE               
+REMARK 900  LIGAND 1H-INDAZOL-7-AMINE (AT4213) IN AN ALTERNATE                  
+REMARK 900  BINDING SITE.                                                       
 REMARK 900 RELATED ID: 5FPR   RELATED DB: PDB                                   
-REMARK 900 STRUCTURE OF BACTERIAL DNA LIGASE WITH SMALL-MOLECULE LIGAND         
-REMARK 900 PYRIMIDIN-2-AMINE (AT371) IN AN ALTERNATE BINDING SITE.              
+REMARK 900  STRUCTURE OF BACTERIAL DNA LIGASE WITH SMALL-MOLECULE               
+REMARK 900  LIGAND PYRIMIDIN-2-AMINE (AT371) IN AN ALTERNATE                    
+REMARK 900  BINDING SITE.                                                       
 REMARK 900 RELATED ID: 5FPS   RELATED DB: PDB                                   
-REMARK 900 STRUCTURE OF HEPATITIS C VIRUS (HCV) FULL-LENGTH NS3 COMPLEX WITH    
-REMARK 900 SMALL-MOLECULE LIGAND 3-AMINOBENZENE-1,2 -DICARBOXYLIC ACID (AT1246) 
-REMARK 900 IN AN ALTERNATE BINDING SITE.                                        
+REMARK 900  STRUCTURE OF HEPATITIS C VIRUS (HCV) FULL-LENGTH NS3                
+REMARK 900  COMPLEX WITH SMALL-MOLECULE LIGAND 3-AMINOBENZENE-1,2               
+REMARK 900  -DICARBOXYLIC ACID (AT1246) IN AN ALTERNATE BINDING                 
+REMARK 900  SITE.                                                               
 REMARK 900 RELATED ID: 5FPT   RELATED DB: PDB                                   
-REMARK 900 STRUCTURE OF HEPATITIS C VIRUS (HCV) FULL-LENGTH NS3 COMPLEX WITH    
-REMARK 900 SMALL-MOLECULE LIGAND 2-(1-METHYL-1H- INDOL-3-YL)ACETIC ACID         
-REMARK 900 (AT3437) IN AN ALTERNATE BINDING SITE.                               
+REMARK 900  STRUCTURE OF HEPATITIS C VIRUS (HCV) FULL-LENGTH NS3                
+REMARK 900  COMPLEX WITH SMALL-MOLECULE LIGAND 2-(1-METHYL-1H-                  
+REMARK 900  INDOL-3-YL)ACETIC ACID (AT3437) IN AN ALTERNATE                     
+REMARK 900  BINDING SITE.                                                       
 REMARK 900 RELATED ID: 5FPY   RELATED DB: PDB                                   
-REMARK 900 STRUCTURE OF HEPATITIS C VIRUS (HCV) FULL-LENGTH NS3 COMPLEX WITH    
-REMARK 900 SMALL-MOLECULE LIGAND 5-BROMO-1-METHYL- 1H-INDOLE-2-CARBOXYLIC ACID  
-REMARK 900 (AT21457) IN AN ALTERNATE BINDING SITE.                              
+REMARK 900  STRUCTURE OF HEPATITIS C VIRUS (HCV) FULL-LENGTH NS3                
+REMARK 900  COMPLEX WITH SMALL-MOLECULE LIGAND 5-BROMO-1-METHYL-                
+REMARK 900  1H-INDOLE-2-CARBOXYLIC ACID (AT21457) IN AN ALTERNATE               
+REMARK 900   BINDING SITE.                                                      
 DBREF  5FP6 A    1   298  UNP    P24941   CDK2_HUMAN       1    298             
 SEQRES   1 A  298  MET GLU ASN PHE GLN LYS VAL GLU LYS ILE GLY GLU GLY          
 SEQRES   2 A  298  THR TYR GLY VAL VAL TYR LYS ALA ARG ASN LYS LEU THR          
@@ -482,7 +468,7 @@ SEQRES  23 A  298  GLN ASP VAL THR LYS PRO VAL PRO HIS LEU ARG LEU
 HET    MFZ  A1295      22                                                       
 HET    MFZ  A1296      22                                                       
 HETNAM     MFZ 3-(4,7-DICHLORO-1H-INDOL-3-YL)PROP-2-YN-1-OL                     
-FORMUL   2  MFZ    2(C11 H7 CL2 N O)                                            
+FORMUL   3  MFZ    2(C11 H7 CL2 N O)                                            
 FORMUL   4  HOH   *337(H2 O)                                                    
 HELIX    1   1 ASP A   38  VAL A   44  1                                   7    
 HELIX    2   2 PRO A   45  LEU A   58  1                                  14    
@@ -5298,5 +5284,5 @@ CONECT 2219 2206
 CONECT 2220 2207                                                                
 CONECT 2221 2211                                                                
 CONECT 2222 2212                                                                
-MASTER      423    0    2   13    8    0    5    6 2543    1   44   23          
+MASTER      410    0    2   13    8    0    5    6 2558    1   44   23          
 END                                                                             

@@ -19,13 +19,18 @@ SOURCE   9 EXPRESSION_SYSTEM_PLASMID: PGEX6P1
 KEYWDS    ALLOSTERIC, INHIBITOR, CELL CYCLE, TRANSFERASE                        
 EXPDTA    X-RAY DIFFRACTION                                                     
 AUTHOR    E.SCHONBRUNN,L.SUN                                                    
+REVDAT   2   14-JUN-23 8FOW    1       JRNL                                     
 REVDAT   1   31-MAY-23 8FOW    0                                                
-JRNL        AUTH   E.SCHONBRUNN,L.SUN                                           
-JRNL        TITL   DEVELOPMENT OF ALLOSTERIC, SELECTIVE CYCLIN-DEPENDENT KINASE 
-JRNL        TITL 2 2 (CDK2) INHIBITORS THAT ARE NEGATIVELY COOPERATIVE WITH     
-JRNL        TITL 3 CYCLIN BINDING AND SHOW POTENTIAL AS CONTRACEPTIVE AGENTS    
-JRNL        REF    TO BE PUBLISHED                                              
-JRNL        REFN                                                                
+JRNL        AUTH   E.B.FABER,L.SUN,J.TANG,E.ROBERTS,S.GANESHKUMAR,N.WANG,       
+JRNL        AUTH 2 D.RASMUSSEN,A.MAJUMDAR,L.E.HIRSCH,K.JOHN,A.YANG,H.KHALID,    
+JRNL        AUTH 3 J.E.HAWKINSON,N.M.LEVINSON,V.CHENNATHUKUZHI,D.A.HARKI,       
+JRNL        AUTH 4 E.SCHONBRUNN,G.I.GEORG                                       
+JRNL        TITL   DEVELOPMENT OF ALLOSTERIC AND SELECTIVE CDK2 INHIBITORS FOR  
+JRNL        TITL 2 CONTRACEPTION WITH NEGATIVE COOPERATIVITY TO CYCLIN BINDING. 
+JRNL        REF    NAT COMMUN                    V.  14  3213 2023              
+JRNL        REFN                   ESSN 2041-1723                               
+JRNL        PMID   37270540                                                     
+JRNL        DOI    10.1038/S41467-023-38732-X                                   
 REMARK   2                                                                      
 REMARK   2 RESOLUTION.    1.60 ANGSTROMS.                                       
 REMARK   3                                                                      

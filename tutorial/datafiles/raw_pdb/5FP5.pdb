@@ -21,7 +21,6 @@ KEYWDS    TRANSFERASE, KINASE, MITOSIS, CELL CYCLE, FRAGMENT SCREENING,
 KEYWDS   2 ALTERNATE BINDING SITE.                                              
 EXPDTA    X-RAY DIFFRACTION                                                     
 AUTHOR    H.JHOTI,R.F.LUDLOW,M.O'REILLY,H.K.SAINI,I.J.TICKLE,M.VERDONK          
-REVDAT   5   28-APR-21 5FP5    1       REMARK                                   
 REVDAT   4   28-AUG-19 5FP5    1       JRNL   REMARK LINK   ATOM                
 REVDAT   3   13-JAN-16 5FP5    1       JRNL   REMARK                            
 REVDAT   2   23-DEC-15 5FP5    1       JRNL                                     
@@ -230,7 +229,7 @@ REMARK 200  REJECTION CRITERIA  (SIGMA(I)) : -3.700
 REMARK 200                                                                      
 REMARK 200 OVERALL.                                                             
 REMARK 200  COMPLETENESS FOR RANGE     (%) : 93.1                               
-REMARK 200  DATA REDUNDANCY                : NULL                               
+REMARK 200  DATA REDUNDANCY                : 0.000                              
 REMARK 200  R MERGE                    (I) : NULL                               
 REMARK 200  R SYM                      (I) : NULL                               
 REMARK 200  <I/SIGMA(I)> FOR THE DATA SET  : NULL                               
