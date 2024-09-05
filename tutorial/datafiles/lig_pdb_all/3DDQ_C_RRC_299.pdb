@@ -1,0 +1,52 @@
+HETATM 8950  OAP RRC C 299     -34.327  17.853  35.294  1.00 22.79           O  
+ANISOU 8950  OAP RRC C 299     3025   2720   2912    174     70   -219       O  
+HETATM 8951  CAQ RRC C 299     -33.891  16.636  34.678  1.00 21.45           C  
+ANISOU 8951  CAQ RRC C 299     2805   2609   2734     23     16    -23       C  
+HETATM 8952  CAR RRC C 299     -34.715  16.362  33.425  1.00 17.12           C  
+ANISOU 8952  CAR RRC C 299     2326   2125   2052     15     68     13       C  
+HETATM 8953  CAK RRC C 299     -36.208  16.262  33.761  1.00 19.41           C  
+ANISOU 8953  CAK RRC C 299     2563   2413   2396     11    -54    -60       C  
+HETATM 8954  CAI RRC C 299     -37.079  15.725  32.629  1.00 17.84           C  
+ANISOU 8954  CAI RRC C 299     2442   2084   2251     10    -11     11       C  
+HETATM 8955  NAS RRC C 299     -34.571  17.549  32.592  1.00 19.51           N  
+ANISOU 8955  NAS RRC C 299     2371   2349   2691     18    -89    -79       N  
+HETATM 8956  CAT RRC C 299     -34.171  17.467  31.309  1.00 16.41           C  
+ANISOU 8956  CAT RRC C 299     2305   1879   2051     56    105   -102       C  
+HETATM 8957  NAU RRC C 299     -33.863  16.265  30.764  1.00 18.31           N  
+ANISOU 8957  NAU RRC C 299     2298   2342   2317    -12     -2     24       N  
+HETATM 8958  CAV RRC C 299     -33.463  16.232  29.473  1.00 18.07           C  
+ANISOU 8958  CAV RRC C 299     2296   2232   2334     20     16    -72       C  
+HETATM 8959  NAW RRC C 299     -33.108  15.207  28.746  1.00 17.69           N  
+ANISOU 8959  NAW RRC C 299     2243   2156   2322     10     29     -3       N  
+HETATM 8960  CAZ RRC C 299     -33.253  13.937  29.458  1.00 17.82           C  
+ANISOU 8960  CAZ RRC C 299     2331   2134   2303    -22     11      9       C  
+HETATM 8961  CAY RRC C 299     -34.522  13.166  29.041  1.00 16.04           C  
+ANISOU 8961  CAY RRC C 299     2120   1938   2037     -4   -130     -6       C  
+HETATM 8962  CBA RRC C 299     -32.052  13.214  30.106  1.00 16.30           C  
+ANISOU 8962  CBA RRC C 299     2089   1879   2224     -6    -24    104       C  
+HETATM 8963  CAX RRC C 299     -32.801  15.615  27.502  1.00 17.83           C  
+ANISOU 8963  CAX RRC C 299     2323   2148   2300     10    -25    -36       C  
+HETATM 8964  CAN RRC C 299     -33.351  17.369  28.700  1.00 17.18           C  
+ANISOU 8964  CAN RRC C 299     2276   2029   2221     17     -2    -41       C  
+HETATM 8965  NAO RRC C 299     -32.930  16.975  27.477  1.00 18.31           N  
+ANISOU 8965  NAO RRC C 299     2327   2282   2345     34     27     40       N  
+HETATM 8966  NAL RRC C 299     -34.077  18.601  30.577  1.00 17.54           N  
+ANISOU 8966  NAL RRC C 299     2216   2181   2266    -42    -40   -106       N  
+HETATM 8967  CAM RRC C 299     -33.678  18.584  29.288  1.00 18.31           C  
+ANISOU 8967  CAM RRC C 299     2318   2277   2360      0     -6    -71       C  
+HETATM 8968  NAJ RRC C 299     -33.577  19.720  28.566  1.00 17.73           N  
+ANISOU 8968  NAJ RRC C 299     2369   2059   2307    -23    -11    -22       N  
+HETATM 8969  CAD RRC C 299     -33.932  21.017  29.127  1.00 18.87           C  
+ANISOU 8969  CAD RRC C 299     2515   2216   2437     88     62     -6       C  
+HETATM 8970  CAE RRC C 299     -32.783  21.773  29.718  1.00 21.95           C  
+ANISOU 8970  CAE RRC C 299     2908   2615   2817    -87     -7    -86       C  
+HETATM 8971  CAG RRC C 299     -32.856  22.179  31.053  1.00 24.35           C  
+ANISOU 8971  CAG RRC C 299     3177   3074   2998    -85     12     -7       C  
+HETATM 8972  CAH RRC C 299     -31.803  22.896  31.623  1.00 24.55           C  
+ANISOU 8972  CAH RRC C 299     3179   3036   3110    -52    -64    -75       C  
+HETATM 8973  CAF RRC C 299     -30.694  23.208  30.837  1.00 22.93           C  
+ANISOU 8973  CAF RRC C 299     2934   2863   2913    -78     27    -92       C  
+HETATM 8974  CAC RRC C 299     -30.635  22.810  29.499  1.00 23.16           C  
+ANISOU 8974  CAC RRC C 299     2953   2866   2980    -52    -80    -37       C  
+HETATM 8975  CAB RRC C 299     -31.683  22.086  28.935  1.00 22.52           C  
+ANISOU 8975  CAB RRC C 299     2931   2783   2840     52     17    -22       C  
