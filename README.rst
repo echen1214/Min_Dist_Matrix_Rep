@@ -13,41 +13,27 @@ dist_analy
         :target: https://dist-analy.readthedocs.io/en/latest/?badge=latest
         :alt: Documentation Status
 
-
 .. image:: https://pyup.io/repos/github/echen1214/dist_analy/shield.svg
      :target: https://pyup.io/repos/github/echen1214/dist_analy/
      :alt: Updates
 
-
-
-Calculates distance matrices for a set of structures and run analyses that classify the conformational ensemble and identifies important interactions
-
-This package is still in development
+Calculates distance matrices for a set of structures and run analyses that \
+classify the conformational ensemble and identifies important interactions \
+within Jupyter notebooks. Accompanying GitHub for the paper \
+**Can Deep Learning Blind Docking Methods be used to Predict Allosteric Compounds?**
 
 * Free software: MIT license
-* Documentation: https://dist-analy.readthedocs.io.
-
 
 Features
 --------
--Gets PDBs
-
-* TODO
-
-Requirements
---------
-::
-
-  python
-  numpy
-  sklearn
-  mdtraj
-  biopython
-  prody
-  AlphaSpace2
+* Calculates shortest distance matrices on receptor conformations or ligand binding modes
+* Runs PCA and HDBSCAN on distance matrices
+* Calculates nSMD and accompanying histograms
+* Uses altair for interactive plots and py3Dmol for visualizing structures \
+  within the notebooks
 
 Installation
---------
+------------
 
 Download and install a `ClustalOmega <http://www.clustal.org/omega/>`_ binary into a local directory and symlink the binary to the command line.
 For example Mac users can do ::
@@ -66,7 +52,6 @@ Similarly, a Windows user can do ::
   mklink clustalo .\clustalo.exe
   set PATH=%PATH%;%cd%
 
-
 Create conda environment for this package ::
 
   conda create --name dist_analy python=3.9
@@ -82,6 +67,37 @@ This package is intended to be used with `Jupyter notebooks <https://jupyter.org
   pip install jupyterlab
   pip install notebook
   conda install -c conda-forge  nb_conda_kernels
+
+Tutorial
+--------
+
+You can run ``tutorial/Tutorial1_CDK2.ipynb`` with the data provided straight from the GitHub repository. This tutorial walks you \
+through the downloading, processing, and calculating the distance matrices of CDK2 structures. Then you perform downstream analyses \
+with PCA and HDBSCAN of the receptor-only and ligand-only plots, and nSMD calculations and histograms. 
+ 
+The self-/cross-docking benchmarking analyses can be found ``tutorial/Tutorial2_self_cross_docking.ipynb``. To run the analyses \
+first download the poses from the Zenodo database.
+
+Requirements
+------------
+::
+
+  python
+  numpy
+  scikit-learn
+  matplotlib
+  biopython
+  prody
+  py3Dmol
+  ipykernel
+  altair
+  rcsbsearchapi
+  anytree
+  pypdb
+  spyrmsd
+  meeko
+  AlphaSpace2
+  mdtraj
 
 Credits
 -------

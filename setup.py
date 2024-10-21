@@ -21,8 +21,6 @@ requirements = [
                 'pandas',
                 'scikit-learn==1.3.0',
                 'matplotlib',
-                'urllib3',
-                'pybel',
                 'colored',
                 'anytree',
                 'pypdb',
@@ -32,7 +30,8 @@ requirements = [
                 'rcsbsearchapi',
                 'altair',
                 'ipywidgets',
-                'anywidget'
+                'anywidget',
+                'rdkit'
 ]
 
 setup_requirements = ['pytest-runner', ]
