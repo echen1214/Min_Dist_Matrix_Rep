@@ -1,32 +1,36 @@
-==========
-dist_analy
-==========
+======================================================
+Minimum Distance Matrix Representation (MDMR) Platform
+======================================================
 
+.. image:: https://zenodo.org/badge/313663037.svg
+  :target: https://doi.org/10.5281/zenodo.13964938
 
-.. image:: https://img.shields.io/pypi/v/dist_analy.svg
-        :target: https://pypi.python.org/pypi/dist_analy
+.. .. image:: https://img.shields.io/pypi/v/dist_analy.svg
+..         :target: https://pypi.python.org/pypi/dist_analy
 
-.. image:: https://img.shields.io/travis/echen1214/dist_analy.svg
-        :target: https://travis-ci.com/echen1214/dist_analy
+.. .. image:: https://img.shields.io/travis/echen1214/dist_analy.svg
+..         :target: https://travis-ci.com/echen1214/dist_analy
 
-.. image:: https://readthedocs.org/projects/dist-analy/badge/?version=latest
-        :target: https://dist-analy.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
+.. .. image:: https://readthedocs.org/projects/dist-analy/badge/?version=latest
+..         :target: https://dist-analy.readthedocs.io/en/latest/?badge=latest
+..         :alt: Documentation Status
 
-.. image:: https://pyup.io/repos/github/echen1214/dist_analy/shield.svg
-     :target: https://pyup.io/repos/github/echen1214/dist_analy/
-     :alt: Updates
+.. .. image:: https://pyup.io/repos/github/echen1214/dist_analy/shield.svg
+..      :target: https://pyup.io/repos/github/echen1214/dist_analy/
+..      :alt: Updates
 
-Calculates distance matrices for a set of structures and run analyses that \
-classify the conformational ensemble and identifies important interactions \
-within Jupyter notebooks. Accompanying GitHub for the paper \
+The Minimum Distance Matrix Representation (MDMR) platform for use in within Jupyter notebooks \
+calculates distance matrices for a set of structures and run analyses that \
+classify the protein conformational and ligand binding mode ensembles. \
+Further analyses identifies important intra-protein interactions. \
+This is the accompanying GitHub for the paper \
 **Can Deep Learning Blind Docking Methods be used to Predict Allosteric Compounds?**
 
 * Free software: MIT license
 
 Features
 --------
-* Calculates shortest distance matrices on receptor conformations or ligand binding modes
+* Calculates minimum distance matrices on receptor conformations or ligand binding modes
 * Runs PCA and HDBSCAN on distance matrices
 * Calculates nSMD and accompanying histograms
 * Uses altair for interactive plots and py3Dmol for visualizing structures \
@@ -75,8 +79,9 @@ You can run ``tutorial/Tutorial1_CDK2.ipynb`` with the data provided straight fr
 through the downloading, processing, and calculating the distance matrices of CDK2 structures. Then you perform downstream analyses \
 with PCA and HDBSCAN of the receptor-only and ligand-only plots, and nSMD calculations and histograms. 
  
-The self-/cross-docking benchmarking analyses can be found ``tutorial/Tutorial2_self_cross_docking.ipynb``. To run the analyses \
-first download the poses from the Zenodo database.
+The self- and cross-docking benchmarking analyses can be found ``tutorial/Tutorial2_self_cross_docking.ipynb``. To run the analyses \
+first download and untar the poses ``zenodo_tar.tar.gz`` from the `Zenodo <https://doi.org/10.5281/zenodo.13964938>`_ database. The tutorial then performs the calculations of the main self- \
+and cross-docking results of the paper.
 
 Requirements
 ------------
