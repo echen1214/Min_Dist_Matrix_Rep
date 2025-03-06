@@ -10,6 +10,7 @@ from sklearn import decomposition
 from colored import fg, bg, attr
 from copy import copy
 from matplotlib.lines import Line2D
+from matplotlib.colors import ListedColormap
 from IPython.display import Markdown
 from IPython.display import display
 
@@ -446,10 +447,34 @@ def get_pca(feats: np.ndarray, cumsum: float = 0.8):
     proj_coords = a[:,sel_axis]
     return proj_coords, var_ratio[sel_axis], npy_pca
 
-def pca_hdbscan(proj_coords, var_ratio, hdbscan_args: dict = dict(), family_map: list = None, family: list = None, color_list: list=COLOR_LIST):
+def pca_hdbscan(proj_coords, var_ratio, hdbscan_args: dict = dict(), family_map: list = None, \
+                family: list = None, color_list: list=COLOR_LIST, plot_3d=False, plot_3d_args: dict = dict(),):
     hdb = skc.HDBSCAN(**hdbscan_args).fit(proj_coords)
-    pca_hdbscan_figure(proj_coords,hdb.labels_, hdb.probabilities_, var_ratio, family_map, family, color_list=color_list)
+    if plot_3d:
+        pca_hdbscan_3dfigure(proj_coords,hdb.labels_, hdb.probabilities_, var_ratio, color_list=color_list, \
+                            family_map=None, family=None,  resize_by_prob=False, plot_3d_args=plot_3d_args)
+    else:
+        pca_hdbscan_figure(proj_coords,hdb.labels_, hdb.probabilities_, var_ratio, family_map, family, color_list=color_list)
     return(hdb.labels_, hdb)
+
+def pca_hdbscan_3dfigure(a, labels: list, prob: list, var_ratio: list, family_map: list = None, \
+                         family: list = None, resize_by_prob=False, color_list=COLOR_LIST, \
+                         plot_3d_args: dict = dict()):
+    assert a.shape[1] >= 3 # check if at least 3D
+    fig = plt.figure(figsize=(8,6))
+    ax = fig.add_subplot(111, projection='3d')
+    ax.set_box_aspect(None, zoom=0.75)
+    x = a[:, 0]
+    y = a[:, 1]
+    z = a[:, 2]
+    cmap = ListedColormap(color_list)
+    ax.scatter(x, y, z, c=labels, cmap=cmap, marker='o', edgecolor="k")
+
+    ax.set_xlabel(f"PCA 1: {var_ratio[0]:.2f}", labelpad=8)
+    ax.set_ylabel(f"PCA 2: {var_ratio[1]:.2f}", labelpad=8)
+    ax.set_zlabel(f"PCA 3: {var_ratio[2]:.2f}", labelpad=8)
+    ax.view_init(**plot_3d_args)
+
 
 def pca_hdbscan_figure(a, labels: list, prob: list, var_ratio: list, \
                        family_map: list = None, family: list = None, \
