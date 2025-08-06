@@ -2,8 +2,8 @@
 Minimum Distance Matrix Representation (MDMR) Platform
 ======================================================
 
-.. image:: https://zenodo.org/badge/313663037.svg
-  :target: https://doi.org/10.5281/zenodo.13964938
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.13966515.svg
+  :target: https://doi.org/10.5281/zenodo.13966515
 
 .. .. image:: https://img.shields.io/pypi/v/dist_analy.svg
 ..         :target: https://pypi.python.org/pypi/dist_analy
@@ -19,12 +19,12 @@ Minimum Distance Matrix Representation (MDMR) Platform
 ..      :target: https://pyup.io/repos/github/echen1214/dist_analy/
 ..      :alt: Updates
 
-The Minimum Distance Matrix Representation (MDMR) platform for use in within Jupyter notebooks \
-calculates distance matrices for a set of structures and run analyses that \
+The Minimum Distance Matrix Representation (MDMR) platform for use in within Jupyter notebooks. \
+This method calculates distance matrices for a set of structures and run analyses that \
 classify the protein conformational and ligand binding mode ensembles. \
 Further analyses identifies important intra-protein interactions. \
 This is the accompanying GitHub for the paper \
-**Can Deep Learning Blind Docking Methods be used to Predict Allosteric Compounds?**
+`Can Deep Learning Blind Docking Methods be used to Predict Allosteric Compounds? <https://pubs.acs.org/doi/10.1021/acs.jcim.5c00331>`_
 
 * Free software: MIT license
 
@@ -35,10 +35,27 @@ Features
 * Calculates nSMD and accompanying histograms
 * Uses altair for interactive plots and py3Dmol for visualizing structures \
   within the notebooks
+* Code to re-run docking benchmarks as described in the paper
 
 Installation
 ------------
+Create conda environment for this package ::
 
+  conda create --name MDMR python=3.9
+  conda activate MDMR
+  conda install mdtraj -c conda-forge
+  git clone https://github.com/echen1214/Min_Dist_Matrix_Rep
+  cd Min_Dist_Matrix_Rep
+  pip install -e .
+
+This package is intended to be used with `Jupyter notebooks <https://jupyter.org/install>`_. You can use the conda environment you just created within the Jupyter notebook ::
+
+  pip install jupyterlab
+  pip install notebook
+  conda install -c conda-forge  nb_conda_kernels
+
+Optional
+--------
 Download and install a `ClustalOmega <http://www.clustal.org/omega/>`_ binary into a local directory and symlink the binary to the command line.
 For example Mac users can do ::
 
@@ -56,22 +73,6 @@ Similarly, a Windows user can do ::
   mklink clustalo .\clustalo.exe
   set PATH=%PATH%;%cd%
 
-Create conda environment for this package ::
-
-  conda create --name dist_analy python=3.9
-  conda activate dist_analy
-  conda install mdtraj -c conda-forge
-  git clone https://github.com/echen1214/dist_analy
-  cd dist_analy
-  pip install -e .
-  conda deactivate
-
-This package is intended to be used with `Jupyter notebooks <https://jupyter.org/install>`_. You can use the conda environment you just created within the Jupyter notebook ::
-
-  pip install jupyterlab
-  pip install notebook
-  conda install -c conda-forge  nb_conda_kernels
-
 Tutorial
 --------
 
@@ -88,6 +89,7 @@ Requirements
 ::
 
   python
+  mdtraj
   numpy
   scikit-learn
   matplotlib
@@ -102,7 +104,6 @@ Requirements
   spyrmsd
   meeko
   AlphaSpace2
-  mdtraj
 
 Credits
 -------
